@@ -1,0 +1,130 @@
+- name: Developer Tools
+  href: ./index.md
+  items:
+    - name: CPE Best Practices
+      href: ./cpe.md
+    - name: Copilot for Developers
+      href: ./gh-copilot/intro.md
+      items:
+        - name: GitHub Copilot Adoption and Value Realization
+          href: ./gh-copilot/upskill-intro.md
+          items:
+           - name: Datasheet
+             href: ./gh-copilot/adopt-copilot-datasheet.md
+           - name: Learning Path
+             href: ./gh-copilot/adopt-copilot-lp.md
+           - name: Delivery Guide
+             href: ./gh-copilot/adopt-copilot-deliveryguide.md
+        - name: Workshop - Agentic DevOps and Copilot Deep Dive
+          href: ./gh-copilot/upskill-intro.md
+          items:
+           - name: Datasheet
+             href: ./gh-copilot/ws-agentic-datasheet.md
+           - name: Learning Path
+             href: ./gh-copilot/ws-agentic-lp.md
+           - name: Delivery Guide
+             href: ./gh-copilot/ws-agentic-deliveryguide.md
+        - name: Workshop - GitHub - Copilot for Business Fundamentals
+          href: ./gh-copilot/upskill-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-copilot/ws-copilot-datasheet.md
+            - name: Learning Path
+              href: ./gh-copilot/ws-copilot-lp.md
+            - name: Delivery Guide
+              href: ./gh-copilot/ws-copilot-deliveryguide.md
+        - name: Proof of Concept for Zero to Agents Immersion
+          href: ./gh-copilot/z2a-immersion-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-copilot/z2a-immersion-datasheet.md
+            - name: Learning Path
+              href: ./gh-copilot/z2a-immersion-lp.md
+            - name: Delivery Guide
+              href: ./gh-copilot/z2a-immersion-deliveryguide.md
+        - name: Workshop - GitHub - Copilot for Business - Developer Training
+          href: ./gh-copilot/upskill-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-copilot/ws-id-copilot-datasheet.md
+            - name: Learning Path
+              href: ./gh-copilot/ws-id-copilot-lp.md
+            - name: Delivery Guide
+              href: ./gh-copilot/ws-id-copilot-deliveryguide.md
+        - name: Workshop - GitHub - Copilot for Business - Administration and Security Training
+          href: ./gh-copilot/upskill-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-copilot/ws-ia-copilot-datasheet.md
+            - name: Learning Path
+              href: ./gh-copilot/ws-ia-copilot-lp.md
+            - name: Delivery Guide
+              href: ./gh-copilot/ws-ia-copilot-deliveryguide.md
+        - name: Hackathon for GitHub Copilot
+          href: ./gh-copilot/hackathon-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-copilot/hackathon-datasheet.md
+            - name: Learning Path
+              href: ./gh-copilot/Hackathon-LP.md
+            - name: Delivery Guide
+              href: ./gh-copilot/hackathon-DG.md
+        - name: Retired - Proof of Concept for GitHub Copilot for Business
+          href: ./gh-copilot/poc-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-copilot/poc-copilot-datasheet.md
+            - name: Learning Path
+              href: ./gh-copilot/poc-copilot-lp.md
+            - name: Delivery Guide
+              href: ./gh-copilot/poc-copilot-deliveryguide.md
+        - name: Solution Optimization for GitHub Copilot
+          href: ./gh-copilot/solution-optimization-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-copilot/solution-optimization-datasheet.md
+            - name: Learning Path
+              href: ./gh-copilot/solution-optimization-lp.md
+            - name: Delivery Guide
+              href: ./gh-copilot/solution-optimization-deliveryguide.md
+            - name: Brainstorming Guide
+              href: ./gh-copilot/solution-optimization-brainstorming-guide.md
+        - name: Technical Update Briefing for GitHub Copilot
+          href: ./gh-copilot/tub-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-copilot/tub-copilot-datasheet.md
+            - name: Learning Path
+              href: ./gh-copilot/tub-copilot-lp.md
+            - name: Delivery Guide
+              href: ./gh-copilot/tub-copilot-deliveryguide.md
+    - name: GitHub Advanced Security Foundations
+      href: ./gh-security/intro.md
+      items:
+        - name: GitHub Advanced Security for GitHub Enterprise
+          href: ./gh-security/ghas-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-security/ghas-datasheet.md
+            - name: Delivery Guide
+              href: ./gh-security/ghas-deliveryguide.md
+            - name: Learning Path
+              href: ./gh-security/ghas-lp.md
+        - name: Workshop - GHAS on Azure DevOps - Getting Started
+          href: ./gh-security/ghazdo-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-security/ghazdo-datasheet.md
+            - name: Delivery Guide
+              href: ./gh-security/ghazdo-deliveryguide.md
+            - name: Learning Path
+              href: ./gh-security/ghazdo-lp.md
+        - name: Proof of Concept - GHAS on Azure DevOps
+          href: ./gh-security/poc-intro.md
+          items:
+            - name: Datasheet
+              href: ./gh-security/poc-ghazdo-datasheet.md
+            - name: Delivery Guide
+              href: ./gh-security/poc-ghazdo-deliveryguide.md
+            - name: Learning Path
+              href: ./gh-security/poc-ghazdo-lp.md

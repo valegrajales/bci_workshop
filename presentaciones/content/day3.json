@@ -1,0 +1,1052 @@
+{
+ "meta": {
+  "deck_title": "Arquitectura, seguridad y operación de agentes (L300)",
+  "day": 3,
+  "date_label": "Viernes 23 de octubre de 2026",
+  "filename": "BCI_Foundry_Dia3_L300_Produccion_Gobierno"
+ },
+ "slides": [
+  {
+   "layout": "title",
+   "title": "Microsoft AI Foundry BCI Training Day — Día 3",
+   "subtitle": "L300 · Arquitecturas avanzadas, seguridad y operación de agentes",
+   "meta": "Viernes 23 de octubre de 2026 · 09:00–13:00 Chile · Microsoft Chile + Teams",
+   "notes": "Bienvenida al tercer y último día del training. Hoy pasamos de construir agentes a operarlos como plataforma empresarial: búsqueda avanzada, protocolos de interoperabilidad, arquitectura, seguridad, gobierno y GenAIOps, cerrando con un workshop aplicado a un caso propio. La audiencia de hoy es más técnica y transversal: arquitectos, ingenieros de plataforma, seguridad, SRE/DevOps, gobierno e IA. El objetivo final es dejar una arquitectura objetivo validada y un backlog priorizado de decisiones y pruebas. Recordar que el contenido de hoy asume ya experiencia previa con agentes hospedados, APIM, MCP y evaluaciones vista en los días anteriores. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "agenda",
+   "title": "Agenda del Día 3",
+   "items": [
+    {
+     "time": "09:00–09:30",
+     "title": "AI Search avanzado",
+     "detail": "Vector, semantic, hybrid; calidad de retrieval"
+    },
+    {
+     "time": "09:30–10:10",
+     "title": "Protocolos y multiagente",
+     "detail": "MCP, A2A, patrones multiagente, diseño de orchestrator"
+    },
+    {
+     "time": "10:10–10:45",
+     "title": "Arquitectura empresarial",
+     "detail": "Hosted Agents, Session Gateway, AI Gateway, escalabilidad"
+    },
+    {
+     "time": "10:45–10:55",
+     "title": "Pausa",
+     "detail": "Café"
+    },
+    {
+     "time": "10:55–11:35",
+     "title": "Seguridad y gobierno",
+     "detail": "Seguridad de apps/agentes/tools, Responsible AI, red teaming"
+    },
+    {
+     "time": "11:35–12:05",
+     "title": "GenAIOps",
+     "detail": "Observabilidad, evaluaciones, CI/CD, operación"
+    },
+    {
+     "time": "12:05–12:40",
+     "title": "Workshop BCI",
+     "detail": "Architecture Decision Workshop sobre un caso propio"
+    },
+    {
+     "time": "12:40–13:00",
+     "title": "Cierre ejecutivo",
+     "detail": "Arquitectura objetivo, backlog, próximos pasos"
+    }
+   ],
+   "notes": "Recorremos la agenda completa de 240 minutos. La mañana combina tres bloques de profundización técnica (Search, protocolos/multiagente, arquitectura empresarial), una pausa, seguridad y gobierno, GenAIOps, y cerramos con un workshop aplicado y un cierre ejecutivo que conecta con los tres días. Pedimos a los arquitectos y responsables de seguridad que anoten preguntas específicas de su contexto para resolverlas en el workshop del cierre de la jornada. El ritmo es denso: cada módulo combina exposición corta con decisiones de arquitectura concretas, no solo teoría. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "cards",
+   "title": "Qué vimos en los Días 1 y 2",
+   "cards": [
+    {
+     "title": "Día 1 — Fundamentos",
+     "body": "Conceptos de Foundry, agentes, modelos y primeros casos de uso con hosted agents y memoria."
+    },
+    {
+     "title": "Día 2 — Desarrollo e integración",
+     "body": "Construcción de agentes, herramientas, RAG, semantic cache y evaluaciones iniciales."
+    },
+    {
+     "title": "Hilo conductor",
+     "body": "De 'tener un agente que funciona' a 'operar una plataforma de agentes segura y escalable'."
+    }
+   ],
+   "footer": "Hoy damos el salto de capacidades a plataforma empresarial.",
+   "notes": "Retomamos brevemente lo cubierto en los dos días anteriores sin repetir contenido: fundamentos de Foundry y agentes el primer día, desarrollo, integración, RAG y primeras evaluaciones el segundo. El hilo conductor de hoy es explícito: pasar de 'un agente que funciona en una demo' a 'una plataforma de agentes operable, segura y gobernada a escala'. Esto ayuda a la audiencia de arquitectos y seguridad a entender por qué el foco de hoy es arquitectura, identidad, protocolos, riesgos y operación, y no nuevamente construcción de agentes. Vale la pena preguntar a la sala qué decisión de arquitectura quedó pendiente de los días anteriores. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "bullets",
+   "title": "Objetivos y método del Día 3",
+   "bullets": [
+    "Dominar AI Search avanzado, MCP/A2A y patrones multiagente para decidir cuándo usarlos.",
+    "Diseñar una arquitectura empresarial con Hosted Agents, Session Gateway y AI Gateway/APIM.",
+    "Aplicar seguridad, Responsible AI, guardrails y red teaming a agentes y herramientas.",
+    "Operar con GenAIOps: evaluaciones como código, observabilidad y CI/CD.",
+    "Cerrar con una arquitectura objetivo y un backlog priorizado para un caso propio."
+   ],
+   "callout": "Método: profundización técnica + decisiones de arquitectura + threat modeling + taller aplicado.",
+   "notes": "Estos son los cinco objetivos de aprendizaje del día, alineados a los módulos de la agenda. El método no es solo exposición: cada bloque termina con una decisión de arquitectura o un control de seguridad que el grupo debe poder argumentar. El cierre del día es un workshop de decisiones de arquitectura sobre un caso bancario ficticio, seguido de un cierre ejecutivo que conecta con los tres días del training. Es un buen momento para preguntar a la audiencia qué rol cumple cada persona en su organización (arquitecto, seguridad, SRE, gobierno) para adaptar ejemplos durante el día. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "section",
+   "title": "AI Search avanzado",
+   "number": "1",
+   "subtitle": "Vector, semantic, hybrid y calidad de retrieval",
+   "duration": "30 min",
+   "notes": "Arrancamos con el módulo más técnico y corto del día: retrieval avanzado. La tesis central es que la calidad de un agente RAG depende tanto del modelo como de qué tan bien se recupera el contenido correcto. Vamos a repasar BM25/keyword, vector search, hybrid, semantic ranker y agentic retrieval, y cómo cada capa agrega valor distinto. También tocamos el aspecto de seguridad: el conocimiento conectado a un agente debe respetar permisos por usuario, no solo relevancia. Sugerido: Pablo. Fuente: docs-oficiales/azure-ai-search/hybrid-search-overview.md"
+  },
+  {
+   "layout": "grid",
+   "title": "Del keyword al conocimiento permission-aware",
+   "cells": [
+    {
+     "title": "BM25 / keyword",
+     "body": "Coincidencia léxica clásica; rápido y explicable, débil con sinónimos o lenguaje natural."
+    },
+    {
+     "title": "Vector search",
+     "body": "Similitud semántica por embeddings; captura intención, pero puede perder términos exactos."
+    },
+    {
+     "title": "Hybrid (RRF)",
+     "body": "Fusiona BM25 y vector en un solo ranking (Reciprocal Rank Fusion); mejor baseline general."
+    },
+    {
+     "title": "Semantic ranker",
+     "body": "Reordena el top-N del hybrid con un modelo de lenguaje; mejora relevancia percibida."
+    },
+    {
+     "title": "Agentic retrieval",
+     "body": "Un modelo planifica subconsultas y decide qué fuentes de conocimiento usar por pregunta."
+    },
+    {
+     "title": "Knowledge bases",
+     "body": "Capa gestionada (Foundry IQ) que expone contenido empresarial como conocimiento reutilizable y con permisos."
+    }
+   ],
+   "notes": "Este mapa resume la evolución de las técnicas de retrieval de Azure AI Search de menor a mayor sofisticación. Hybrid combina BM25 y vector mediante Reciprocal Rank Fusion, y suele ser el punto de partida recomendado. El semantic ranker añade una re-evaluación con modelo de lenguaje sobre los primeros resultados. Agentic retrieval va más allá: un modelo descompone la pregunta del usuario en subconsultas dirigidas a distintas fuentes de conocimiento antes de responder. Todo esto se apoya en knowledge bases gestionadas (Foundry IQ) que son 'permission-aware', es decir, respetan permisos del usuario final, no solo del índice. Sugerido: Pablo. Fuente: docs-oficiales/azure-ai-search/{hybrid-search-overview,vector-search-overview,search-get-started-semantic,search-get-started-agentic-retrieval}.md"
+  },
+  {
+   "layout": "bullets",
+   "title": "Hybrid search en la práctica",
+   "bullets": [
+    "RRF combina rankings de BM25 y vector sin necesitar normalizar los puntajes entre sí.",
+    "Hybrid no reemplaza un buen chunking ni metadata limpia: sigue siendo 'garbage in, garbage out'.",
+    "El semantic ranker reordena solo el top-N del hybrid; no reemplaza la recuperación inicial.",
+    "Buenas prácticas de chunking y metadata impactan más en la calidad que elegir un solo algoritmo.",
+    "La calidad de retrieval se valida con evaluadores de groundedness, no solo mirando resultados manualmente."
+   ],
+   "notes": "Este bloque es deliberadamente práctico: hybrid search por sí solo no es magia si el contenido está mal segmentado o sin metadata útil (fecha, tipo de documento, área). El semantic ranker opera sobre el top-N que ya entregó el hybrid, por lo que una mala recuperación inicial limita cuánto puede mejorar el reordenamiento. Para arquitectos y AI leads, el mensaje clave es: inviertan tiempo en la estrategia de indexación y en evaluar groundedness con datasets representativos, no solo en elegir el algoritmo de búsqueda. Esto conecta directamente con el módulo de GenAIOps que viene más adelante, donde se verán evaluadores específicos de RAG. Sugerido: Pablo. Fuente: docs-oficiales/azure-ai-search/hybrid-search-overview.md; search-get-started-semantic.md"
+  },
+  {
+   "layout": "layers",
+   "title": "Flujo de agentic retrieval",
+   "layers": [
+    {
+     "title": "Fuentes de datos empresariales",
+     "body": "Documentos, bases de conocimiento y APIs internas conectadas al índice."
+    },
+    {
+     "title": "Índice (texto, vectores, RBAC)",
+     "body": "Contenido indexado con permisos heredados, listo para hybrid y semantic search."
+    },
+    {
+     "title": "Agentic retrieval / knowledge base",
+     "body": "Un modelo planifica subconsultas y elige qué fuentes consultar según la pregunta."
+    },
+    {
+     "title": "Respuesta fundamentada al agente",
+     "body": "El agente recibe pasajes relevantes y permission-aware para construir su respuesta."
+    }
+   ],
+   "notes": "Esta capa visualiza de arriba hacia abajo cómo fluye una consulta en un escenario de agentic retrieval: desde las fuentes empresariales, pasando por el índice con permisos (RBAC, conexión keyless vía Entra ID en lugar de API keys), hasta la planificación de subconsultas y la respuesta final fundamentada que recibe el agente. El punto de seguridad es central para una audiencia de arquitectos y seguridad: las knowledge bases de Foundry IQ se diseñan para ser permission-aware, por lo que dos usuarios distintos pueden obtener resultados distintos del mismo índice. Vale la pena preguntar cómo gestionan hoy los permisos de los documentos que alimentarían un agente así. Sugerido: Pablo. Fuente: docs-oficiales/azure-ai-search/search-get-started-rbac.md; search-get-started-agentic-retrieval.md"
+  },
+  {
+   "layout": "table",
+   "title": "Calidad y seguridad del retrieval",
+   "columns": [
+    "Dimensión",
+    "Mecanismo",
+    "Beneficio"
+   ],
+   "rows": [
+    [
+     "Relevancia",
+     "Hybrid (BM25+vector) + semantic ranker",
+     "Mejor ranking que solo keyword o solo vector"
+    ],
+    [
+     "Consultas complejas",
+     "Agentic retrieval (planificación)",
+     "Descompone preguntas en subconsultas dirigidas"
+    ],
+    [
+     "Control de acceso",
+     "RBAC + Entra ID sin API keys",
+     "Knowledge bases permission-aware por usuario"
+    ],
+    [
+     "Evaluación",
+     "Métricas de groundedness y relevancia",
+     "Detecta degradación de calidad antes de producción"
+    ]
+   ],
+   "note": "Estas cuatro dimensiones son las que revisamos en cada ADR de retrieval.",
+   "notes": "Esta tabla resume las cuatro dimensiones que un arquitecto debería revisar al diseñar retrieval para un agente empresarial: relevancia (hybrid + semantic ranker), capacidad de resolver consultas complejas (agentic retrieval), control de acceso (RBAC con Entra ID en lugar de API keys) y evaluación continua de calidad mediante métricas de groundedness. Este mismo esquema de cuatro columnas se reutilizará más tarde en el workshop para evaluar otras decisiones de arquitectura. Para BCI, el punto de control de acceso es especialmente relevante si se conectan documentos con distintos niveles de sensibilidad al mismo agente. Sugerido: Pablo. Fuente: docs-oficiales/azure-ai-search/search-get-started-rbac.md; docs-oficiales/foundry/concepts/evaluation-overview.md"
+  },
+  {
+   "layout": "section",
+   "title": "Protocolos y multiagente",
+   "number": "2",
+   "subtitle": "MCP, A2A, patrones multiagente y diseño de orchestrator",
+   "duration": "40 min",
+   "notes": "Este módulo cubre cómo los agentes se conectan con herramientas (MCP), cómo se conectan entre sí (A2A) y cuándo conviene usar más de un agente en lugar de uno solo. Es un módulo denso porque mezcla protocolos de interoperabilidad con decisiones de diseño de orquestación. El objetivo no es memorizar nombres de patrones, sino poder argumentar cuándo NO conviene multiagente: la complejidad adicional tiene un costo en latencia, evaluación y debugging. Sugerido: Pablo y Valentina. Fuente: docs-oficiales/foundry/agents/how-to/tools/model-context-protocol.md; docs-oficiales/agent-framework/workflows/orchestrations.md"
+  },
+  {
+   "layout": "compare",
+   "title": "MCP y A2A: qué resuelve cada uno",
+   "left": {
+    "title": "MCP — Model Context Protocol",
+    "items": [
+     "Conecta un agente con herramientas y fuentes de datos externas.",
+     "Cliente-servidor sobre JSON-RPC; endpoints públicos o privados.",
+     "Se puede exponer y gobernar centralizadamente vía un AI Gateway.",
+     "Requiere autohospedar el servidor MCP (Foundry no lo aloja por ti)."
+    ]
+   },
+   "right": {
+    "title": "A2A — Agent2Agent",
+    "items": [
+     "Conecta un agente con otro agente para delegar una tarea completa.",
+     "Protocolo GA v1.0 (JSON-RPC, solo texto, sin streaming aún).",
+     "Reemplaza el patrón previo de 'Connected Agents' (agent-as-tool).",
+     "Soporta autenticación compartida o individual por usuario final."
+    ]
+   },
+   "verdict": "No compiten: MCP da acceso a herramientas y datos; A2A da acceso a otros agentes como colaboradores.",
+   "notes": "MCP y A2A resuelven problemas distintos y suelen convivir en la misma arquitectura. MCP estandariza cómo un agente llama herramientas y fuentes de datos externas, con endpoints que el equipo debe autohospedar y que pueden gobernarse centralizadamente a través de un AI Gateway. A2A estandariza cómo un agente delega una tarea completa a otro agente, y en su versión GA (v1.0) es JSON-RPC solo texto, sin streaming todavía; reemplaza el patrón previo de 'Connected Agents' donde un agente se exponía como herramienta de otro. Para BCI, esto habilita escenarios donde un agente orquestador delega en agentes especialistas (por ejemplo, documentos de comercio exterior) vía A2A, y cada uno usa sus propias herramientas vía MCP. Sugerido: Valentina. Fuente: docs-oficiales/foundry/agents/how-to/tools/{model-context-protocol,agent-to-agent}.md"
+  },
+  {
+   "layout": "bullets",
+   "title": "MCP y A2A como tools: auth y gobierno",
+   "bullets": [
+    "MCP: endpoints públicos o privados, agrupables en un Toolbox junto a otras herramientas del agente.",
+    "MCP: múltiples métodos de autenticación hacia el servidor; timeouts del orden de ~100 segundos por llamada.",
+    "A2A: autenticación compartida (misma identidad para todos los usuarios) o individual (por usuario final).",
+    "A2A: cada agente publicado obtiene una identidad Entra propia, clave para auditar quién hizo qué.",
+    "Ambos protocolos se pueden exponer y controlar centralizadamente a través de un AI Gateway (APIM)."
+   ],
+   "notes": "Al conectar un agente a MCP, el equipo de plataforma decide si el servidor es público o privado, qué método de autenticación usar, y puede agruparlo en un Toolbox junto a otras herramientas para simplificar la configuración del agente; además hay límites de tiempo de espera por llamada que conviene conocer al diseñar herramientas de larga duración. En A2A, la elección entre autenticación compartida o individual determina si todos los usuarios comparten el mismo contexto de acceso o si cada uno conserva sus propios permisos delegados. La identidad Entra por agente publicado es la base para auditoría y mínimo privilegio, tema que retomamos en el módulo de seguridad. Sugerido: Valentina. Fuente: docs-oficiales/foundry/agents/how-to/{tools/model-context-protocol,tools/agent-to-agent,mcp-authentication}.md; agents/concepts/agent-to-agent-authentication.md"
+  },
+  {
+   "layout": "grid",
+   "title": "Patrones multiagente (Agent Framework)",
+   "cells": [
+    {
+     "title": "Sequential",
+     "body": "Pipeline: cada agente procesa y pasa su salida al siguiente. Ideal para revisión por etapas."
+    },
+    {
+     "title": "Concurrent",
+     "body": "Varios agentes trabajan la misma entrada en paralelo; útil para perspectivas diversas o votación."
+    },
+    {
+     "title": "Handoff",
+     "body": "Los agentes se transfieren el control entre sí según el contexto; sin orquestador central."
+    },
+    {
+     "title": "Group Chat",
+     "body": "Un orquestador central elige quién habla; conversación compartida e iterativa."
+    },
+    {
+     "title": "Magentic",
+     "body": "Un manager planifica dinámicamente y coordina agentes especialistas en tareas abiertas y complejas."
+    },
+    {
+     "title": "Cuándo NO usar multiagente",
+     "body": "Si no hay especialización real, paralelismo o enrutamiento dinámico: un solo agente es más simple y barato."
+    }
+   ],
+   "notes": "Microsoft Agent Framework define cinco patrones de orquestación multiagente: sequential (pipeline), concurrent (paralelo), handoff (transferencia de control sin orquestador, topología malla, el agente receptor toma dueño total de la tarea), group chat (orquestador central que elige quién habla, topología estrella) y Magentic (inspirado en Magentic-One de AutoGen, un manager planifica y coordina dinámicamente agentes especialistas para tareas abiertas sin ruta de solución conocida de antemano). El sexto recuadro es la advertencia más importante para arquitectos: si la tarea no requiere especialización, paralelismo real o planificación dinámica, un solo agente bien diseñado es más simple, más barato y más fácil de evaluar que cualquier orquestación multiagente. Sugerido: Pablo. Fuente: docs-oficiales/agent-framework/workflows/orchestrations.md; orchestrations/{sequential,concurrent,handoff,group-chat,magentic}.md"
+  },
+  {
+   "layout": "process",
+   "title": "Diseño de un orchestrator",
+   "steps": [
+    {
+     "title": "Contrato de tareas",
+     "body": "Definir entradas, salidas y criterios de éxito de cada agente especialista."
+    },
+    {
+     "title": "Elegir el patrón",
+     "body": "Sequential, concurrent, handoff, group chat o Magentic según el problema real."
+    },
+    {
+     "title": "Reglas de control",
+     "body": "Definir reintentos, timeouts y condiciones de salida del flujo multiagente."
+    },
+    {
+     "title": "Trazabilidad por agente",
+     "body": "Instrumentar cada paso con tracing para poder depurar el flujo completo."
+    },
+    {
+     "title": "Evaluar extremo a extremo",
+     "body": "No solo cada agente: medir calidad y costo del flujo completo."
+    }
+   ],
+   "notes": "Este proceso de cinco pasos resume cómo diseñar un orchestrator en la práctica: primero un contrato claro de tareas por agente especialista, luego elegir el patrón de orquestación que mejor calce con el problema (no el más novedoso), definir reglas explícitas de reintentos y condiciones de salida para evitar loops costosos, instrumentar tracing por agente para poder depurar un flujo que puede anidar varias llamadas, y finalmente evaluar el resultado extremo a extremo y no solo agente por agente. Este proceso se retomará como insumo directo en el workshop del cierre de la jornada, cuando el grupo deba decidir el patrón de orquestación de su propio caso. Sugerido: Pablo. Fuente: docs-oficiales/agent-framework/workflows/orchestrations.md; docs-oficiales/foundry/observability/concepts/trace-agent-concept.md"
+  },
+  {
+   "layout": "table",
+   "title": "Gobierno de MCP/A2A vía AI Gateway",
+   "columns": [
+    "Dimensión",
+    "Control",
+    "Mecanismo"
+   ],
+   "rows": [
+    [
+     "Descubrimiento",
+     "Catálogo de servidores MCP",
+     "APIM expone y versiona el MCP como una API más"
+    ],
+    [
+     "Autenticación",
+     "OAuth2 hacia backends",
+     "Credential manager de APIM + validación JWT del cliente"
+    ],
+    [
+     "Identidad del agente",
+     "Entra Agent ID",
+     "Token con audiencia (audience) del recurso destino"
+    ],
+    [
+     "Auditoría",
+     "Logs centralizados",
+     "Métricas y eventos por consumidor en el gateway"
+    ]
+   ],
+   "note": "Patrón de referencia: exponer MCP detrás de APIM en vez de conectarlo directo desde cada agente.",
+   "notes": "Cuando una organización tiene varios equipos construyendo agentes, conviene centralizar el gobierno de MCP y A2A detrás de un AI Gateway en lugar de que cada equipo conecte sus agentes directo a cada servidor. Esto permite tratar el descubrimiento de servidores MCP como un catálogo versionado, delegar la autenticación OAuth2 hacia los backends al propio gateway (sin exponer credenciales al agente), validar tokens de los clientes antes de dejarlos pasar, y centralizar auditoría y métricas por consumidor. La identidad Entra del agente sigue siendo la que se valida en el token con la audiencia correcta del recurso destino. Esto se conecta directamente con el módulo de arquitectura empresarial que viene a continuación. Sugerido: Pablo. Fuente: repos/publico-samples/AI-Gateway/labs/model-context-protocol/README.MD (laboratorio público, referencia); docs-oficiales/foundry/agents/concepts/agent-identity.md"
+  },
+  {
+   "layout": "section",
+   "title": "Arquitectura empresarial",
+   "number": "3",
+   "subtitle": "Hosted Agents, Session Gateway, AI Gateway y escalabilidad",
+   "duration": "35 min",
+   "notes": "Este módulo arma el esqueleto de referencia que usaremos en el workshop del cierre de la jornada: desde el canal de entrada hasta el modelo, pasando por un AI Gateway, un Session Gateway opcional y el Hosted Agent con su identidad propia. La pregunta central para arquitectos es cómo escalar de decenas a miles de usuarios concurrentes sin perder aislamiento ni control de costo. Cerramos con una demo de los controles típicos de un AI Gateway. Sugerido: Valentina. Fuente: docs-oficiales/foundry/agents/concepts/{hosted-agents,networking-options}.md"
+  },
+  {
+   "layout": "layers",
+   "title": "Arquitectura de referencia empresarial",
+   "layers": [
+    {
+     "title": "Canal",
+     "body": "Web, app móvil, contact center o Teams; cada uno con su propio SLA de latencia."
+    },
+    {
+     "title": "AI Gateway (APIM)",
+     "body": "Autenticación de backends, límites por consumidor, cache semántico, logging."
+    },
+    {
+     "title": "Session Gateway (opcional)",
+     "body": "Multiplexa muchos usuarios sobre un pool acotado de sesiones del Hosted Agent."
+    },
+    {
+     "title": "Hosted Agent",
+     "body": "Identidad Entra propia, sesiones aisladas, estado persistente, observabilidad incorporada."
+    },
+    {
+     "title": "Modelos y herramientas",
+     "body": "AI Search, MCP, A2A y modelos de Azure OpenAI o partners/OSS."
+    }
+   ],
+   "notes": "Esta es la arquitectura de referencia de cinco capas que se repetirá durante todo el módulo: el canal de entrada, un AI Gateway (típicamente APIM) que centraliza autenticación, límites y cache, un Session Gateway opcional para multiplexar usuarios, el Hosted Agent con su propia identidad Entra y sesiones aisladas, y finalmente los modelos y herramientas (Search, MCP, A2A). No todas las organizaciones necesitan las cinco capas desde el día uno: el Session Gateway, por ejemplo, solo se justifica cuando la concurrencia esperada hace que una sesión 1:1 por usuario sea costosa de operar. Esta capa se retomará como plantilla directa en el canvas del workshop. Sugerido: Valentina. Fuente: docs-oficiales/foundry/agents/concepts/hosted-agents.md; agents/how-to/{isolate-sessions-per-user,multiplex-session-users,ai-gateway}.md"
+  },
+  {
+   "layout": "bullets",
+   "title": "Hosted Agents: identidad y aislamiento",
+   "bullets": [
+    "Contenedor con código propio (Agent Framework, LangGraph, Semantic Kernel); la plataforma escala y versiona.",
+    "Cada sesión corre en un sandbox aislado con estado persistente ($HOME, /files) y timeout configurable.",
+    "Antes de publicar, los agentes comparten identidad; al publicar, cada uno obtiene identidad Entra propia.",
+    "El intercambio de tokens hacia tools y otros agentes es automático: el desarrollador no maneja tokens.",
+    "Trazas OpenTelemetry habilitadas por defecto hacia Application Insights para cada ejecución."
+   ],
+   "notes": "Los Hosted Agents permiten traer código propio en un framework como Agent Framework, LangGraph o Semantic Kernel, y la plataforma se encarga de containerizar, escalar, aislar sesiones y versionar. Cada sesión corre en un sandbox aislado con almacenamiento persistente, lo que habilita flujos con estado real, no solo request-response. El punto de gobierno más importante es el ciclo de vida de la identidad: antes de publicar, todos los agentes de un proyecto comparten una sola identidad Entra para simplificar el desarrollo; al publicar, cada agente obtiene su propia identidad, habilitando aislamiento y auditoría independiente. El intercambio de tokens hacia servicios externos es manejado automáticamente por la plataforma en cuatro etapas. Sugerido: Valentina. Fuente: docs-oficiales/foundry/agents/concepts/{hosted-agents,agent-identity}.md"
+  },
+  {
+   "layout": "compare",
+   "title": "Sesión 1:1 vs multiplexado (Session Gateway)",
+   "left": {
+    "title": "Sesión 1:1 por usuario",
+    "items": [
+     "Cada usuario tiene su propia sesión de Hosted Agent.",
+     "Modelo simple de operar y de razonar sobre aislamiento.",
+     "El consumo de cómputo escala linealmente con usuarios activos.",
+     "Recomendado para baja o mediana concurrencia."
+    ]
+   },
+   "right": {
+    "title": "Multiplexado con Session Gateway",
+    "items": [
+     "Un servicio intermedio reutiliza un pool acotado de sesiones.",
+     "Un header de identidad de usuario delega el contexto por request.",
+     "Requiere un permiso RBAC dedicado para impersonar identidad de usuario.",
+     "Reduce costo de cómputo a gran escala, a cambio de más complejidad operativa."
+    ]
+   },
+   "verdict": "A mayor concurrencia esperada, el multiplexado reduce costo pero agrega una capa que hay que gobernar y observar.",
+   "notes": "Esta es una de las decisiones de arquitectura más relevantes del día. En el modelo 1:1, cada usuario tiene su propia sesión de Hosted Agent, lo cual es simple de razonar pero escala linealmente en costo de cómputo con la cantidad de usuarios activos. El patrón de Session Gateway introduce un servicio intermedio que multiplexa muchos usuarios sobre un número acotado de sesiones compartidas, usando un header de identidad de usuario para delegar el contexto correcto en cada request; esto requiere un permiso RBAC dedicado para impersonar identidad de usuario, que no viene en los roles integrados. Para BCI, con potencialmente miles de usuarios corporativos concurrentes, esta es exactamente la decisión que se evaluará en el workshop del cierre de la jornada. Sugerido: Valentina. Fuente: docs-oficiales/foundry/agents/how-to/{isolate-sessions-per-user,multiplex-session-users}.md"
+  },
+  {
+   "layout": "table",
+   "title": "AI Gateway / APIM: controles clave",
+   "columns": [
+    "Control",
+    "Qué resuelve",
+    "Capa"
+   ],
+   "rows": [
+    [
+     "Autenticación de backend",
+     "Sin llaves de modelo expuestas en el gateway",
+     "Managed identity"
+    ],
+    [
+     "Límite por consumidor",
+     "Cuotas de tokens por app o equipo",
+     "Rate limiting"
+    ],
+    [
+     "Cache semántico",
+     "Reduce latencia y costo en preguntas repetidas",
+     "Semantic cache"
+    ],
+    [
+     "Balanceo de carga",
+     "Distribuye tráfico entre backends o modelos",
+     "Load balancing"
+    ]
+   ],
+   "note": "Estos controles se gobiernan desde un único punto, sin tocar el código de cada agente.",
+   "notes": "Un AI Gateway como APIM centraliza cuatro controles que de otra forma cada equipo tendría que reimplementar: autenticación hacia los backends usando managed identity (sin llaves de modelo en el gateway ni en el agente), límites de tokens por consumidor o equipo, cache semántico para reducir latencia y costo en preguntas repetidas, y balanceo de carga entre múltiples backends o modelos (incluyendo degradación a un modelo más económico si se agota un presupuesto). Para una organización con múltiples equipos construyendo agentes, como sería el caso de BCI a mediano plazo, este patrón evita que cada equipo reinvente gobierno de acceso y costo de forma aislada. Sugerido: Valentina. Fuente: docs-oficiales/foundry/agents/how-to/ai-gateway.md; repos/publico-samples/apim-foundry-governance/README.md"
+  },
+  {
+   "layout": "demo",
+   "title": "Demo: AI Gateway / APIM en acción",
+   "scenario": "Panel de gobierno de un AI Gateway (APIM) frente a Azure OpenAI y modelos partner u OSS.",
+   "steps": [
+    "Un consumidor sin permiso intenta llamar a un modelo no autorizado y recibe un rechazo (403).",
+    "Un consumidor supera su cuota de tokens por minuto y recibe un rechazo por límite de tasa.",
+    "El presupuesto diario configurado se agota y el gateway degrada a un modelo más económico.",
+    "El tablero muestra métricas de tokens consumidos por consumidor y por modelo en tiempo real."
+   ],
+   "expected": "El equipo visualiza cómo gobernar acceso, costo y failover de modelos sin tocar el código del agente.",
+   "notes": "Esta demo usa un panel de gobierno construido sobre APIM como ejemplo ilustrativo de un AI Gateway empresarial: permisos de modelo por consumidor, límites de tasa de tokens, degradación automática a un modelo más económico cuando se agota un presupuesto diario, y un tablero de métricas de consumo por consumidor y modelo. El mensaje para la audiencia de plataforma y FinOps es que estos controles viven en el gateway, no en el código del agente, por lo que se pueden ajustar sin un nuevo despliegue. No se muestran cifras reales de BCI; los valores de cuota y presupuesto son ilustrativos. Conviene preguntar qué equipo sería el dueño natural de este gateway en la organización. Sugerido: Valentina. Fuente: repos/publico-samples/apim-foundry-governance/README.md (repositorio público de ejemplo)"
+  },
+  {
+   "layout": "section",
+   "title": "Seguridad y gobierno",
+   "number": "4",
+   "subtitle": "Seguridad de apps, agentes y tools; Responsible AI; red teaming",
+   "duration": "40 min",
+   "notes": "Este es el módulo más denso del día: amenazas específicas de agentes y herramientas, identidad y mínimo privilegio, guardrails y Content Safety en runtime, y red teaming como validación previa a producción. La idea central es que un agente con acceso a herramientas reales (transferencias, documentos, sistemas core) necesita un modelo de amenazas propio, distinto al de una aplicación web tradicional. Cerramos con threat modeling aplicado. Sugerido: Pablo. Fuente: docs-oficiales/foundry/guardrails/guardrails-overview.md; concepts/ai-red-teaming-agent.md"
+  },
+  {
+   "layout": "grid",
+   "title": "Amenazas propias de agentes y tools",
+   "cells": [
+    {
+     "title": "Prompt injection directo",
+     "body": "El propio usuario intenta manipular las instrucciones del agente."
+    },
+    {
+     "title": "Prompt injection indirecto",
+     "body": "Instrucciones maliciosas ocultas en un documento o página que el agente recupera."
+    },
+    {
+     "title": "Tool poisoning",
+     "body": "Una herramienta (MCP) externa devuelve resultados diseñados para engañar al agente."
+    },
+    {
+     "title": "Excessive agency",
+     "body": "El agente tiene permisos o autonomía mayores a los que su tarea realmente requiere."
+    },
+    {
+     "title": "Fuga de datos sensibles",
+     "body": "El agente expone en su respuesta o en logs datos que no debía revelar."
+    },
+    {
+     "title": "Desviación de la tarea",
+     "body": "El agente usa una herramienta de forma no alineada con la intención del usuario."
+    }
+   ],
+   "notes": "Estas seis amenazas son el punto de partida del modelo de amenazas de un agente empresarial. El prompt injection directo viene del propio usuario; el indirecto es más peligroso porque viaja oculto dentro de un documento o página que el agente recupera como parte de su contexto, sin que el usuario lo note. Tool poisoning ocurre cuando una herramienta externa (por ejemplo, un servidor MCP de terceros) devuelve resultados manipulados. Excessive agency y desviación de la tarea son problemas de diseño: el agente puede hacer más de lo que su tarea requiere, o usar una herramienta de forma no alineada con la intención real del usuario. Todas estas amenazas se mapean a controles concretos en la siguiente diapositiva. Sugerido: Pablo. Fuente: docs-oficiales/foundry/guardrails/{guardrails-overview,intervention-points,task-adherence}.md"
+  },
+  {
+   "layout": "table",
+   "title": "Amenazas vs controles",
+   "columns": [
+    "Amenaza",
+    "Control principal",
+    "Dónde se aplica"
+   ],
+   "rows": [
+    [
+     "Prompt injection directo/indirecto",
+     "Prompt Shields",
+     "Entrada del usuario y contenido recuperado"
+    ],
+    [
+     "Tool poisoning / excessive agency",
+     "Mínimo privilegio + aprobación humana",
+     "Identidad del agente y guardrails por tool"
+    ],
+    [
+     "Fuga de datos sensibles",
+     "Content Safety + enmascarado en logs",
+     "Salida del modelo y telemetría"
+    ],
+    [
+     "Desviación de la tarea",
+     "Task adherence API",
+     "Ejecución de herramientas del agente"
+    ]
+   ],
+   "note": "Cada amenaza debe tener un control, un punto de aplicación y un dueño explícito.",
+   "notes": "Esta tabla conecta cada amenaza del recuadro anterior con un control concreto y documentado: Prompt Shields para detectar intentos de jailbreak o inyección en el texto de entrada y en contenido recuperado; mínimo privilegio más aprobación humana para acciones de alto impacto en el caso de excessive agency o tool poisoning; Content Safety junto con enmascarado de datos sensibles en logs para fuga de datos; y la API de task adherence, que detecta cuándo el uso de una herramienta por parte del agente está desalineado, es prematuro o no intencionado respecto a la interacción del usuario. Este mapeo amenaza-control-dueño es exactamente el formato que se usará en el threat modeling del workshop. Sugerido: Pablo. Fuente: docs-oficiales/ai-services-content-safety/overview.md; docs-oficiales/foundry/guardrails/intervention-points.md"
+  },
+  {
+   "layout": "bullets",
+   "title": "Identidad y mínimo privilegio",
+   "bullets": [
+    "Cada agente publicado tiene una identidad Entra (service principal) distinta del usuario y de aplicaciones.",
+    "El token hacia el recurso destino usa el audience correcto; si está mal, falla aunque el RBAC esté bien.",
+    "Flujo delegado (on-behalf-of): el agente solo accede a lo que el usuario consintió, nunca más.",
+    "Flujo no delegado (client credentials): el agente actúa con autoridad propia, gobernado solo por sus propios roles.",
+    "Un guardrail de agente sobreescribe por completo el del modelo subyacente; no se combinan."
+   ],
+   "notes": "La identidad de agente (Entra Agent ID) es la base técnica del mínimo privilegio: cada agente publicado tiene su propio service principal, distinguible de identidades humanas o de aplicaciones, lo que permite asignar roles RBAC acotados y auditar accesos de forma independiente. Un detalle técnico importante para troubleshooting: un valor de audience incorrecto en el token produce fallas de autenticación aunque los roles estén bien asignados. El flujo delegado (on-behalf-of) limita al agente a lo que el usuario humano consintió; el flujo de client credentials le da al agente autoridad propia, gobernada solo por sus roles. Punto crítico para seguridad: un guardrail configurado a nivel de agente reemplaza por completo al del modelo, no se suman. Sugerido: Pablo. Fuente: docs-oficiales/foundry/agents/concepts/agent-identity.md; guardrails/guardrails-overview.md"
+  },
+  {
+   "layout": "process",
+   "title": "Threat modeling de un agente",
+   "steps": [
+    {
+     "title": "Mapear flujo",
+     "body": "Canal, identidad, sesión, agente, herramientas y datos involucrados en el caso."
+    },
+    {
+     "title": "Enumerar amenazas",
+     "body": "Por cada punto de intervención: entrada, herramienta, salida y memoria."
+    },
+    {
+     "title": "Priorizar",
+     "body": "Clasificar por impacto y probabilidad, no tratar todo como crítico."
+    },
+    {
+     "title": "Definir control",
+     "body": "Asignar control, punto de aplicación, dueño y fecha de revisión."
+    }
+   ],
+   "notes": "Este proceso de cuatro pasos es el que se aplicará literalmente en el workshop del cierre de la jornada sobre el caso ficticio. Primero se mapea el flujo completo (canal, identidad, sesión, agente, herramientas y datos), porque muchas amenazas solo aparecen al ver el flujo end-to-end y no un componente aislado. Luego se enumeran amenazas por cada punto de intervención del flujo (entrada del usuario, llamada a herramienta, salida del modelo, memoria persistida). Priorizar por impacto y probabilidad evita que el equipo trate cada amenaza como igualmente crítica. El paso final es el que más se olvida: cada amenaza necesita un control, un punto de aplicación, un dueño y una fecha de revisión, no solo quedar documentada. Sugerido: Pablo. Fuente: docs-oficiales/foundry/guardrails/intervention-points.md; concepts/ai-red-teaming-agent.md"
+  },
+  {
+   "layout": "compare",
+   "title": "Responsible AI: red teaming vs guardrails",
+   "left": {
+    "title": "Evaluación previa (red teaming)",
+    "items": [
+     "Ataques automatizados basados en PyRIT antes y después del despliegue.",
+     "Cubre categorías agentic: acciones prohibidas, fuga de datos, desviación de tarea.",
+     "Corre en la nube para mayor escala de combinaciones de ataque.",
+     "Requiere un agente ya desplegado y un entorno acotado ('purple')."
+    ]
+   },
+   "right": {
+    "title": "Guardrails en runtime",
+    "items": [
+     "Prompt Shields y Content Safety evalúan cada conversación en vivo.",
+     "El guardrail del agente sobreescribe por completo al del modelo.",
+     "Se aplican en cuatro puntos de intervención del flujo del agente.",
+     "Agregan una latencia adicional acotada por cada verificación."
+    ]
+   },
+   "verdict": "Red teaming valida antes y después del despliegue; los guardrails protegen cada conversación en producción.",
+   "notes": "Red teaming y guardrails son complementarios, no alternativos. El AI Red Teaming Agent de Foundry usa PyRIT para automatizar ataques, cubre categorías de riesgo propias de agentes (acciones prohibidas, fuga de datos sensibles, desviación de la tarea), y para estas categorías agentic requiere correr en la nube con un agente ya desplegado en un entorno acotado; un detalle operativo a validar con el equipo de plataforma es la disponibilidad regional de este servicio en la nube para la región de despliegue de BCI. Los guardrails, en cambio, operan en tiempo real sobre cada conversación en cuatro puntos de intervención del flujo, y es clave recordar que el guardrail de un agente sobreescribe completamente al del modelo subyacente, no se combinan. Sugerido: Pablo. Fuente: docs-oficiales/foundry/concepts/ai-red-teaming-agent.md; how-to/develop/run-ai-red-teaming-cloud.md; guardrails/intervention-points.md"
+  },
+  {
+   "layout": "section",
+   "title": "GenAIOps",
+   "number": "5",
+   "subtitle": "Observabilidad avanzada, evaluaciones, CI/CD y operación",
+   "duration": "30 min",
+   "notes": "GenAIOps es la disciplina que convierte 'el agente funciona en mi demo' en 'el agente se mantiene confiable en producción'. Cubrimos evaluadores built-in, evaluación continua sobre tráfico real, evaluaciones como código integradas en CI/CD como gate de calidad, y las señales de observabilidad y costo que un equipo de plataforma debería monitorear. Cerramos con una demo de un pipeline que corre una evaluación antes de promover una versión. Sugerido: Valentina. Fuente: docs-oficiales/foundry/concepts/{evaluation-overview,built-in-evaluators}.md"
+  },
+  {
+   "layout": "grid",
+   "title": "Evaluadores built-in por categoría",
+   "cells": [
+    {
+     "title": "Propósito general",
+     "body": "Coherencia, fluidez y calidad general de la respuesta del modelo."
+    },
+    {
+     "title": "Similitud textual",
+     "body": "Compara la respuesta contra una referencia esperada (ground truth)."
+    },
+    {
+     "title": "RAG",
+     "body": "Groundedness y relevancia de la respuesta respecto al contenido recuperado."
+    },
+    {
+     "title": "Riesgo y seguridad",
+     "body": "Contenido dañino, jailbreak y otras señales de Responsible AI."
+    },
+    {
+     "title": "Agentes",
+     "body": "Calidad de uso de herramientas (tool-use) y calidad de salida del agente."
+    },
+    {
+     "title": "Rúbricas y graders",
+     "body": "Criterios personalizados definidos por el equipo, incluyendo graders de Azure OpenAI."
+    }
+   ],
+   "notes": "Foundry ofrece una taxonomía amplia de evaluadores built-in que cubre desde calidad general del texto hasta evaluadores específicos de agentes. Los evaluadores de propósito general miden coherencia y fluidez; los de similitud textual comparan contra una respuesta de referencia; los de RAG miden groundedness y relevancia frente al contenido recuperado, conectando directamente con el módulo de AI Search de la mañana; los de riesgo y seguridad cubren contenido dañino y jailbreak; los evaluadores de agentes miden específicamente calidad de uso de herramientas, algo que no existe en evaluación de LLM tradicional; y las rúbricas permiten definir criterios propios del negocio cuando ningún evaluador built-in calza con el caso. Sugerido: Valentina. Fuente: docs-oficiales/foundry/concepts/built-in-evaluators.md"
+  },
+  {
+   "layout": "bullets",
+   "title": "Evaluación continua en producción",
+   "bullets": [
+    "La evaluación no termina antes del despliegue: debe correr de forma recurrente sobre tráfico real.",
+    "Un dataset representativo (no sintético ni trivial) es la base de cualquier evaluación confiable.",
+    "El tracing con OpenTelemetry correlaciona cada evaluación con la ejecución real que la originó.",
+    "Evaluar solo una vez antes de lanzar no detecta degradación por cambios de modelo, prompt o datos."
+   ],
+   "notes": "Un error común es tratar la evaluación como un paso único antes del lanzamiento. En producción, el comportamiento de un agente puede degradarse por cambios de modelo, actualizaciones de prompt, nuevas fuentes de datos o simplemente tráfico real distinto al dataset de prueba inicial. Por eso GenAIOps promueve evaluación recurrente sobre tráfico real, no solo pre-lanzamiento. El tracing basado en OpenTelemetry (generalmente disponible para agentes hospedados y de prompt) permite correlacionar cada resultado de evaluación con la traza de ejecución exacta que lo originó, facilitando la causa raíz cuando algo falla. Para un banco, esta disciplina es la que sostiene la confianza regulatoria en el tiempo, no solo el día del lanzamiento. Sugerido: Valentina. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md; concepts/evaluation-overview.md"
+  },
+  {
+   "layout": "process",
+   "title": "Evaluations as Code en CI/CD",
+   "steps": [
+    {
+     "title": "Inicializar",
+     "body": "azd ai agent init prepara el proyecto para el ciclo de vida del agente."
+    },
+    {
+     "title": "Desplegar",
+     "body": "azd provision + azd deploy publican el Hosted Agent en el entorno destino."
+    },
+    {
+     "title": "Generar dataset",
+     "body": "azd ai agent eval generate crea un dataset de evaluación inicial."
+    },
+    {
+     "title": "Ejecutar gate",
+     "body": "azd ai agent eval run corre evaluadores como control antes de promover."
+    },
+    {
+     "title": "Actualizar",
+     "body": "azd ai agent eval update / optimize con cada cambio relevante del agente."
+    }
+   ],
+   "notes": "Este flujo de cinco pasos con la extensión azd ai agent del Azure Developer CLI es el mecanismo concreto de 'evaluations as code': inicializar el proyecto, aprovisionar y desplegar el Hosted Agent, generar un dataset de evaluación (puede ser un dataset de humo autogenerado o uno propio con casos representativos), ejecutar la evaluación como un paso de pipeline que actúa como gate de calidad antes de promover una versión, y finalmente actualizar o incluso optimizar el agente con cada cambio relevante. Este flujo requiere el rol Foundry User sobre el recurso. En la práctica, esto significa que ningún cambio de prompt, modelo o herramienta se promueve a producción sin pasar por una evaluación automatizada. Sugerido: Valentina. Fuente: docs-oficiales/foundry/observability/how-to/azure-developer-cli-evaluation.md"
+  },
+  {
+   "layout": "demo",
+   "title": "Demo: evaluación como código en el pipeline",
+   "scenario": "Un pipeline de CI/CD ejecuta una evaluación automática antes de promover una nueva versión del agente.",
+   "steps": [
+    "azd ai agent eval generate crea un dataset de evaluación con casos representativos del dominio.",
+    "azd ai agent eval run ejecuta evaluadores de calidad y seguridad sobre el agente ya desplegado.",
+    "El resultado se compara contra el umbral de calidad definido como gate de la release.",
+    "Si el resultado no supera el umbral, el pipeline bloquea el despliegue y notifica al equipo dueño."
+   ],
+   "expected": "El equipo entiende cómo convertir una evaluación puntual en un control repetible del pipeline de CI/CD.",
+   "notes": "Esta demo conecta directamente el proceso anterior con un escenario de pipeline real: generar un dataset de evaluación, ejecutar los evaluadores sobre el agente desplegado, comparar el resultado contra un umbral definido como gate, y bloquear automáticamente el despliegue si no se cumple el umbral, notificando al equipo dueño del agente. El punto clave para SRE/DevOps y GenAIOps es que esto convierte la evaluación de un paso manual y ocasional en un control automatizado y repetible, igual que un test de integración en cualquier pipeline de software tradicional. No se muestran umbrales reales de BCI; son valores ilustrativos que cada equipo debe calibrar con su propio dataset. Sugerido: Valentina. Fuente: docs-oficiales/foundry/observability/how-to/azure-developer-cli-evaluation.md"
+  },
+  {
+   "layout": "table",
+   "title": "Observabilidad y FinOps",
+   "columns": [
+    "Señal",
+    "Qué mide",
+    "Dónde se ve"
+   ],
+   "rows": [
+    [
+     "Trazas OpenTelemetry",
+     "Pasos, llamadas a tools y latencia por ejecución",
+     "Application Insights"
+    ],
+    [
+     "Evaluación continua",
+     "Calidad y seguridad sobre tráfico real",
+     "Foundry + pipeline de CI/CD"
+    ],
+    [
+     "Consumo por sesión",
+     "CPU y memoria de Hosted Agents activos",
+     "Panel de costos del proyecto"
+    ],
+    [
+     "Métricas del AI Gateway",
+     "Tokens consumidos por consumidor y modelo",
+     "APIM / panel de administración"
+    ]
+   ],
+   "note": "Estas cuatro señales juntas forman el tablero mínimo de operación de la plataforma.",
+   "notes": "Este tablero resume las cuatro señales mínimas que un equipo de GenAIOps debería monitorear: trazas OpenTelemetry con pasos, llamadas a herramientas y latencia por ejecución en Application Insights; evaluación continua de calidad y seguridad corriendo sobre tráfico real, no solo en CI/CD; consumo de CPU y memoria por sesión activa de Hosted Agents, que es la base del modelo de costo de la plataforma; y métricas de tokens por consumidor y modelo desde el AI Gateway. Ninguna señal por sí sola es suficiente: calidad sin costo, o costo sin calidad, llevan a decisiones de arquitectura incompletas. Este mismo esquema se retoma en el workshop como la plantilla de SLOs del caso aplicado. Sugerido: Valentina. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md; concepts/manage-costs.md"
+  },
+  {
+   "layout": "section",
+   "title": "Workshop BCI: Architecture Decision Workshop",
+   "number": "6",
+   "subtitle": "Mapear decisiones, amenazas, SLOs y backlog sobre un caso propio",
+   "duration": "35 min",
+   "notes": "Este es el bloque aplicado del día: tomamos todo lo visto en los módulos anteriores y lo convertimos en decisiones concretas sobre un caso bancario ficticio, 'Austral Bank' (sin datos reales de BCI). El resultado esperado no es una arquitectura perfecta, sino un canvas de decisiones, un mapa de riesgos y un backlog priorizado que el equipo pueda seguir trabajando después del training. Facilitamos entre ambos para cubrir tanto arquitectura como seguridad. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md (mapa de módulos Día 3)"
+  },
+  {
+   "layout": "bullets",
+   "title": "Reglas del workshop y caso ficticio",
+   "bullets": [
+    "Caso ficticio: 'Austral Bank' — Asistente de Tesorería para clientes corporativos (FX, cash management, comex).",
+    "Trabajo en grupos de 4 a 6 personas, con un relator por grupo que documenta decisiones.",
+    "35 minutos en 5 pasos con tiempo definido cada uno; el facilitador avisa los cambios de paso.",
+    "El foco es la decisión y el supuesto detrás de ella, no un diagrama perfecto ni código.",
+    "Todo el contenido generado es ficticio y reutilizable como plantilla para cualquier caso real después del training."
+   ],
+   "notes": "Presentamos el caso ficticio que usará todo el workshop: 'Austral Bank', un banco inventado que quiere un asistente de tesorería para clientes corporativos, con necesidades de FX, cash management y comercio exterior, atendido por múltiples canales y con miles de usuarios corporativos potenciales. No se usa ningún dato real de BCI ni de otro cliente. Las reglas son simples: grupos de 4 a 6 personas, un relator que documenta, 35 minutos divididos en 5 pasos con tiempos acotados, y el foco puesto en la decisión y el supuesto detrás, no en un diagrama perfecto. El objetivo es que cada grupo salga con un canvas, un mapa de riesgos y un backlog que puedan adaptar a su propio contexto real después del training. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "table",
+   "title": "Canvas de arquitectura y decisiones",
+   "columns": [
+    "Dimensión",
+    "Decisión",
+    "Opciones",
+    "Criterio"
+   ],
+   "rows": [
+    [
+     "Canal",
+     "¿Qué canales entran al agente?",
+     "Web, app móvil, contact center, Teams",
+     "Volumen y SLA por canal"
+    ],
+    [
+     "Identidad",
+     "¿Cómo se autentica usuario y agente?",
+     "OBO delegado vs client-credentials",
+     "Sensibilidad del dato accedido"
+    ],
+    [
+     "Sesión",
+     "¿Sesión 1:1 o multiplexada?",
+     "Hosted Agent dedicado vs Session Gateway",
+     "Concurrencia esperada y costo"
+    ],
+    [
+     "Agente / modelo",
+     "¿Qué patrón de orquestación?",
+     "Single agent, sequential, handoff, group chat",
+     "Complejidad real de la tarea"
+    ],
+    [
+     "Tools / datos",
+     "¿Cómo se exponen herramientas y datos?",
+     "MCP directo vs vía AI Gateway",
+     "Gobierno y auditoría requerida"
+    ]
+   ],
+   "note": "Cada grupo completa 'decisión' y 'criterio' con su propio contexto antes de avanzar al siguiente paso.",
+   "notes": "Este es el canvas central del workshop: cinco dimensiones (canal, identidad, sesión, agente/modelo, tools/datos) que cubren exactamente lo visto en los módulos de protocolos y arquitectura empresarial de la mañana. Cada grupo debe completar la columna de decisión y de criterio con su propio contexto, usando las opciones como punto de partida, no como lista cerrada. La columna de criterio es la más importante: obliga a explicitar por qué se elige una opción (por ejemplo, 'concurrencia esperada y costo' para decidir entre Hosted Agent dedicado o Session Gateway), en vez de elegir por intuición. Este canvas es el mismo que se usará como plantilla reutilizable después del training. Sugerido: Pablo y Valentina. Fuente: docs-oficiales/foundry/agents/concepts/{hosted-agents,networking-options}.md; agents/how-to/{ai-gateway,multiplex-session-users}.md"
+  },
+  {
+   "layout": "process",
+   "title": "Pasos del workshop (35 min)",
+   "steps": [
+    {
+     "title": "Contexto",
+     "body": "5 min — Leer el caso Austral Bank y aclarar supuestos del grupo."
+    },
+    {
+     "title": "Canvas",
+     "body": "10 min — Completar canal, identidad, sesión, agente y tools/datos."
+    },
+    {
+     "title": "Amenazas",
+     "body": "8 min — Identificar 3 amenazas principales y su control propuesto."
+    },
+    {
+     "title": "SLOs y evaluación",
+     "body": "7 min — Definir SLOs, evaluaciones y señales de observabilidad."
+    },
+    {
+     "title": "Backlog",
+     "body": "5 min — Priorizar decisiones y experimentos en un backlog breve."
+    }
+   ],
+   "notes": "Este es el reloj del workshop: 5 minutos para leer el caso y alinear supuestos del grupo, 10 minutos para completar el canvas de decisiones de arquitectura, 8 minutos para identificar las tres amenazas más relevantes del caso y su control propuesto usando el proceso de threat modeling visto en la mañana, 7 minutos para definir SLOs y señales de observabilidad básicas, y 5 minutos finales para priorizar todo en un backlog corto. El facilitador debe avisar en voz alta cada cambio de paso para mantener el ritmo; es preferible un canvas incompleto pero con las columnas de criterio bien razonadas que uno completo pero superficial. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "compare",
+   "title": "Threat modeling: amenazas vs controles",
+   "left": {
+    "title": "Amenazas priorizadas (ejemplo)",
+    "items": [
+     "Prompt injection vía documentos adjuntos de comercio exterior.",
+     "Agente con permisos excesivos sobre cuentas corporativas.",
+     "Fuga de datos de clientes en logs de observabilidad.",
+     "Suplantación entre agentes (A2A) sin validar identidad correctamente."
+    ]
+   },
+   "right": {
+    "title": "Controles propuestos (ejemplo)",
+    "items": [
+     "Prompt Shields y Content Safety sobre el contenido recuperado.",
+     "RBAC de mínimo privilegio y aprobación humana para montos altos.",
+     "Enmascarado de datos sensibles en toda la telemetría.",
+     "Entra Agent ID con validación de audience en cada token A2A."
+    ]
+   },
+   "verdict": "Cada amenaza del canvas debe quedar mapeada a un control, un punto de aplicación y un dueño.",
+   "notes": "Este ejemplo ilustra el nivel de detalle esperado en el paso de amenazas del workshop, aplicando directamente el proceso de threat modeling del módulo de seguridad: mapear el flujo del caso Austral Bank, enumerar amenazas en los puntos de intervención relevantes (documentos adjuntos, permisos de cuenta, logs, comunicación entre agentes), y proponer un control concreto para cada una. Es solo un ejemplo de referencia; cada grupo debe generar sus propias tres amenazas priorizadas según su propio caso. Lo esencial es que ninguna amenaza quede sin control, punto de aplicación y dueño asignado antes de pasar al siguiente paso del workshop. Sugerido: Pablo y Valentina. Fuente: docs-oficiales/foundry/guardrails/intervention-points.md; agents/concepts/agent-to-agent-authentication.md"
+  },
+  {
+   "layout": "table",
+   "title": "Mapa de riesgos",
+   "columns": [
+    "Riesgo",
+    "Probabilidad",
+    "Impacto",
+    "Mitigación"
+   ],
+   "rows": [
+    [
+     "Prompt injection vía documento adjunto",
+     "Media",
+     "Alto",
+     "Prompt Shields + revisión humana de adjuntos"
+    ],
+    [
+     "Agente con permisos excesivos",
+     "Baja",
+     "Alto",
+     "RBAC mínimo privilegio + aprobación por monto"
+    ],
+    [
+     "Degradación silenciosa del retrieval",
+     "Media",
+     "Medio",
+     "Evaluación continua de groundedness"
+    ],
+    [
+     "Costo fuera de rango por mal dimensionamiento",
+     "Media",
+     "Medio",
+     "Límites y alertas en el AI Gateway"
+    ]
+   ],
+   "note": "Plantilla reutilizable: cada grupo la completa con sus propios riesgos antes de pasar al backlog.",
+   "notes": "Este mapa de riesgos convierte las amenazas identificadas en una vista de probabilidad e impacto, formato estándar para conversar con seguridad, gobierno y liderazgo ejecutivo. Los cuatro riesgos de ejemplo cubren seguridad (prompt injection, permisos excesivos), calidad (degradación silenciosa del retrieval, detectable solo con evaluación continua) y costo (dimensionamiento incorrecto del multiplexado). Cada grupo debe adaptar probabilidad e impacto a su propio contexto, no copiar el ejemplo literalmente. Este mapa, junto con el canvas de decisiones, es uno de los entregables formales del workshop que se presenta en el cierre ejecutivo. Sugerido: Pablo y Valentina. Fuente: docs-oficiales/foundry/guardrails/intervention-points.md; concepts/evaluation-overview.md"
+  },
+  {
+   "layout": "table",
+   "title": "SLOs, evaluaciones y observabilidad",
+   "columns": [
+    "Dimensión",
+    "Métrica u objetivo",
+    "Fuente"
+   ],
+   "rows": [
+    [
+     "Disponibilidad",
+     "SLO de éxito de sesión del Hosted Agent",
+     "Trazas OpenTelemetry"
+    ],
+    [
+     "Calidad",
+     "Evaluadores de groundedness y tool-use",
+     "Evaluación continua en CI/CD"
+    ],
+    [
+     "Seguridad",
+     "Tasa de bloqueo de Prompt Shields / Content Safety",
+     "Logs de guardrails"
+    ],
+    [
+     "Costo",
+     "Tokens y CPU/mem por sesión activa",
+     "AI Gateway + panel de costos"
+    ]
+   ],
+   "note": "Definir un objetivo numérico queda a criterio de cada grupo según su propio contexto.",
+   "notes": "Esta tabla es la plantilla de SLOs que cada grupo completa en el paso 4 del workshop, retomando directamente el tablero de observabilidad y FinOps visto en GenAIOps: disponibilidad medida por éxito de sesión del Hosted Agent, calidad medida por evaluadores de groundedness y de uso de herramientas, seguridad medida por tasa de bloqueo de Prompt Shields y Content Safety, y costo medido por tokens y consumo de cómputo por sesión activa. Deliberadamente no fijamos objetivos numéricos de ejemplo: cada grupo debe definir sus propios umbrales según su tolerancia al riesgo y su presupuesto, evitando copiar cifras que no se hayan validado con su propio tráfico. Sugerido: Pablo y Valentina. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md; concepts/{evaluation-overview,manage-costs}.md"
+  },
+  {
+   "layout": "bullets",
+   "title": "Cómo presentar resultados",
+   "bullets": [
+    "Cada grupo presenta en 90 segundos: decisión principal, supuesto crítico y primer experimento a correr.",
+    "Usar el canvas y el backlog como apoyo visual; no es necesario un diagrama elaborado.",
+    "Priorizar aprendizaje y claridad del razonamiento por sobre la perfección del resultado.",
+    "El facilitador anota amenazas o decisiones que se repiten entre grupos para el cierre ejecutivo."
+   ],
+   "notes": "Antes de pasar al backlog final, explicamos cómo será la puesta en común: cada grupo tiene 90 segundos para presentar su decisión principal de arquitectura, el supuesto más crítico detrás de ella, y el primer experimento o PoC que correrían para validarla. El canvas y el backlog sirven de apoyo visual directo, sin necesidad de preparar diapositivas adicionales. El criterio de éxito de la presentación no es un diagrama perfecto sino un razonamiento claro y defendible. Como facilitadores, tomamos nota de los patrones que se repiten entre grupos (mismas amenazas, mismas decisiones de sesión) porque esos patrones alimentan directamente el cierre ejecutivo del día. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "table",
+   "title": "Backlog de decisiones y experimentos",
+   "columns": [
+    "Ítem",
+    "Tipo",
+    "Prioridad",
+    "Dueño"
+   ],
+   "rows": [
+    [
+     "PoC Session Gateway con usuarios piloto",
+     "Experimento",
+     "Alta",
+     "Plataforma"
+    ],
+    [
+     "ADR: patrón de orquestación del asistente",
+     "Decisión",
+     "Alta",
+     "Arquitectura"
+    ],
+    [
+     "Políticas de Content Safety para adjuntos",
+     "Habilitador",
+     "Media",
+     "Seguridad"
+    ],
+    [
+     "Gate de evaluación en el pipeline de CI/CD",
+     "Habilitador",
+     "Media",
+     "GenAIOps"
+    ]
+   ],
+   "note": "Plantilla final: cada grupo prioriza su propio backlog de 3 a 5 ítems antes del cierre.",
+   "notes": "Este backlog es el entregable final y más accionable del workshop: una lista corta de ítems clasificados por tipo (decisión formal tipo ADR, experimento o PoC a correr, o habilitador de plataforma), con prioridad y un dueño sugerido. Los cuatro ejemplos cubren las cuatro áreas del día: arquitectura (Session Gateway), diseño de orquestación (ADR), seguridad (Content Safety) y GenAIOps (gate de evaluación en CI/CD). Cada grupo debe producir entre 3 y 5 ítems propios antes de la puesta en común. Este backlog, junto con el canvas y el mapa de riesgos, se retoma explícitamente en la próxima sección de cierre ejecutivo del training. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "section",
+   "title": "Cierre ejecutivo",
+   "number": "7",
+   "subtitle": "Arquitectura objetivo, backlog y próximos pasos",
+   "duration": "20 min",
+   "notes": "Cerramos el día y el training conectando el resultado del workshop con una vista ejecutiva: qué arquitectura objetivo y qué backlog se llevan los equipos, cuáles son los próximos pasos a 30/60/90 días, y un resumen de los tres días completos. El tono de este bloque es de síntesis y compromiso, no de contenido nuevo. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "stats",
+   "title": "Lo que se lleva cada grupo del workshop",
+   "stats": [
+    {
+     "value": "5",
+     "label": "decisiones de arquitectura mapeadas en el canvas"
+    },
+    {
+     "value": "3-5",
+     "label": "amenazas priorizadas con control y dueño asignado"
+    },
+    {
+     "value": "3-5",
+     "label": "ítems de backlog listos con tipo, prioridad y dueño"
+    },
+    {
+     "value": "1",
+     "label": "arquitectura objetivo de referencia para seguir iterando"
+    }
+   ],
+   "note": "Estos números son del propio ejercicio del workshop, no proyecciones ni compromisos de BCI.",
+   "notes": "Antes de pasar a los próximos pasos, dimensionamos lo que efectivamente se produjo en el workshop: cinco dimensiones de decisión cubiertas en el canvas, entre tres y cinco amenazas priorizadas con control y dueño, un backlog de tres a cinco ítems accionables, y una arquitectura objetivo de referencia que combina Hosted Agents, AI Gateway, Session Gateway donde corresponda, y los controles de seguridad y evaluación vistos durante el día. Es importante aclarar que estos números describen el ejercicio de hoy, no un compromiso real de BCI ni una proyección de esfuerzo; el valor de esta sesión es la calidad del razonamiento, no las cifras. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "process",
+   "title": "Próximos pasos: 30 / 60 / 90 días",
+   "steps": [
+    {
+     "title": "30 días",
+     "body": "Validar los ADRs clave del canvas y correr el PoC priorizado (p.ej. Session Gateway)."
+    },
+    {
+     "title": "60 días",
+     "body": "Habilitar AI Gateway con límites y cache, y evaluaciones como gate en CI/CD."
+    },
+    {
+     "title": "90 días",
+     "body": "Ampliar red teaming continuo y revisar SLOs de costo y calidad en producción."
+    }
+   ],
+   "notes": "Proponemos un horizonte de 30/60/90 días como punto de partida, no como plan cerrado: a 30 días, validar formalmente los ADRs más importantes del canvas (por ejemplo, sesión 1:1 vs Session Gateway) y correr el primer PoC priorizado por el backlog; a 60 días, habilitar un AI Gateway con límites por consumidor y cache semántico, además de un primer gate de evaluación automatizado en el pipeline de CI/CD; a 90 días, ampliar la cobertura de red teaming a un esquema continuo post-despliegue y revisar los SLOs de costo y calidad con datos reales de producción, no solo con el dataset inicial. Cada equipo debe ajustar estos plazos a su propia capacidad y gobierno interno. Sugerido: Pablo y Valentina. Fuente: docs-oficiales/foundry/how-to/develop/run-ai-red-teaming-cloud.md; observability/how-to/azure-developer-cli-evaluation.md"
+  },
+  {
+   "layout": "takeaway",
+   "title": "Los tres días en una idea por día",
+   "points": [
+    "Día 1: fundamentos de Foundry, agentes, modelos y primeros casos de uso.",
+    "Día 2: desarrollo e integración de agentes, herramientas, RAG y evaluaciones iniciales.",
+    "Día 3: arquitectura, seguridad y operación para escalar una plataforma de agentes en producción.",
+    "La plataforma está lista cuando gobierno, seguridad y evaluación maduran tanto como el agente mismo."
+   ],
+   "notes": "Cerramos con una síntesis de los tres días en una idea por día, pensada para quedar como resumen ejecutivo: el primer día sentó las bases conceptuales y los primeros casos de uso; el segundo día construyó capacidad técnica de desarrollo, integración, RAG y evaluación inicial; el tercer día, hoy, agregó la capa de arquitectura, seguridad y operación necesaria para escalar con confianza. El cuarto punto es el mensaje final del training completo: una plataforma de agentes no está lista para producción solo porque el agente responde bien en una demo, sino cuando el gobierno, la seguridad y la evaluación continua están igual de maduros que el agente mismo. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "resources",
+   "title": "Recursos públicos para seguir profundizando",
+   "links": [
+    {
+     "label": "Hosted agents — conceptos",
+     "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/hosted-agents"
+    },
+    {
+     "label": "Agent Framework — orquestaciones multiagente",
+     "url": "https://learn.microsoft.com/en-us/agent-framework/workflows/orchestrations/"
+    },
+    {
+     "label": "Azure AI Content Safety — overview",
+     "url": "https://learn.microsoft.com/en-us/azure/ai-services/content-safety/overview"
+    },
+    {
+     "label": "Azure AI Search — RBAC y Foundry IQ",
+     "url": "https://learn.microsoft.com/en-us/azure/search/search-get-started-rbac"
+    },
+    {
+     "label": "AI Gateway — laboratorios públicos (APIM)",
+     "url": "https://github.com/Azure-Samples/AI-Gateway"
+    },
+    {
+     "label": "AI Red Teaming Playground Labs",
+     "url": "https://github.com/microsoft/AI-Red-Teaming-Playground-Labs"
+    },
+    {
+     "label": "MCP for Beginners",
+     "url": "https://github.com/microsoft/mcp-for-beginners"
+    },
+    {
+     "label": "mslearn-ai-multi-agents (labs)",
+     "url": "https://github.com/MicrosoftLearning/mslearn-ai-multi-agents"
+    }
+   ],
+   "notes": "Dejamos una lista de recursos públicos para que cada persona siga profundizando según su rol: la documentación oficial de Hosted Agents y de las orquestaciones multiagente de Agent Framework, Content Safety y el inicio rápido de RBAC de Azure AI Search (que explica Foundry IQ), más cuatro repositorios públicos de laboratorios para practicar: AI Gateway sobre APIM, el playground de red teaming, el curso MCP for Beginners y los labs de multiagente de Microsoft Learning. Ninguno de estos enlaces apunta a material interno de Microsoft ni de BCI. Recomendamos a cada participante elegir uno o dos según su rol (arquitectura, seguridad o GenAIOps) y no intentar cubrir todos. Sugerido: Pablo y Valentina. Fuente: enlaces públicos citados en cada URL de esta diapositiva"
+  },
+  {
+   "layout": "closing",
+   "title": "Gracias — fin del Microsoft AI Foundry BCI Training Day",
+   "message": "De agentes que funcionan a una plataforma segura, gobernada y evaluable. El backlog de hoy es el punto de partida, no el final.",
+   "notes": "Cerramos los tres días de training agradeciendo la participación activa de todos los roles presentes: arquitectos, seguridad, plataforma, SRE y liderazgo de IA. El mensaje final resume el arco completo del training: pasamos de entender y construir agentes a diseñar una plataforma segura, gobernada y evaluable capaz de escalar en producción. El canvas, el mapa de riesgos y el backlog generados hoy no son un ejercicio aislado, sino el punto de partida real para las próximas decisiones de arquitectura de BCI. Quedamos disponibles para resolver dudas de seguimiento y para apoyar la validación de los primeros PoCs priorizados en el backlog. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+  }
+ ]
+}

@@ -1,0 +1,57 @@
+- name: AI Apps
+  href: index.md
+  items:
+  - name: Architecture Design and Review Session for AI Apps and Agents
+    href: ads-intro.md
+    items:
+      - name: Datasheet
+        href: ads-datasheet.md
+      - name: Delivery Guide
+        href: ads-deliveryguide.md
+      - name: Learning Path
+        href: ads-lp.md
+  - name: Workshop - Develop AI Apps and agents on azure
+    href: ./develop-ai-apps-and-agents-on-azure/ue-intro.md
+    items:
+      - name: Datasheet
+        href: ./develop-ai-apps-and-agents-on-azure/ue-datasheet.md
+      - name: Delivery Guide
+        href: ./develop-ai-apps-and-agents-on-azure/ue-deliveryguide.md
+      - name: Learning Path
+        href: ./develop-ai-apps-and-agents-on-azure/ue-lp.md
+  - name: Elevate your AI Apps & Agents with Hackathon
+    href: ai-hackathon-intro.md
+    items:
+      - name: Datasheet
+        href: ai-hackathon-datasheet.md
+      - name: Delivery Guide
+        href: ai-hackathon-deliveryguide.md
+      - name: Learning Path
+        href: ai-hackathon-lp.md
+  - name: Proof of Concept ​for ​AI Apps & Agents
+    href: poc-intro.md
+    items:
+      - name: Datasheet
+        href: poc-datasheet.md
+      - name: Delivery Guide
+        href: poc-deliveryguide.md
+      - name: Learning Path
+        href: poc-lp.md
+  - name: AI Production Readiness Assessement
+    href: assess-prod-intro.md
+    items:
+      - name: Datasheet
+        href: assess-prod-datasheet.md
+      - name: Delivery Guide
+        href: assess-prod-deliveryguide.md
+      - name: Learning Path
+        href: assess-prod-lp.md
+  - name: Solution Optimization for AI Apps & Agents
+    href: SolnOptimizationApps.md
+    items:
+      - name: Datasheet
+        href: SolnOptimizationApps-datasheet.md
+      - name: Delivery Guide
+        href: SolnOptimizationApps.md
+      - name: Learning Path
+        href: SolnOptimizationApps-lp.md

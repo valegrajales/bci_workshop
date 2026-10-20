@@ -1,0 +1,673 @@
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 1 
+ 
+AI-103 
+Azure AI App and Agent Developer 
+Trainer Preparation Guide 
+ 
+March 2026 
+ 
+Purpose 
+ 
+This document is for Microsoft Certified Trainers preparing to teach AI-103: Developing Azure AI Apps and 
+Agents. This course is designed for students who are planning to take the corresponding certification 
+exam, or students who are performing Azure AI App and Agent Developer tasks in their daily job. 
+ 
+Course description 
+ 
+AI-103: Developing Azure AI Apps and Agents is designed for software developers building production-
+ready AI solutions on Microsoft Azure. This course covers the full spectrum of development with Microsoft 
+Foundry—from deploying and optimizing generative AI models and implementing RAG pipelines, to 
+building autonomous agents with tool integration, multi-agent orchestration, and responsible AI 
+safeguards. Students also explore multimodal capabilities including vision, speech, natural language 
+analysis, and document/content extraction, learning to connect knowledge sources and external services 
+into intelligent agentic workflows. 
+ 
+Learning objectives 
+ 
+After completing this course, students will be able to: 
+• 
+Build generative AI applications using Microsoft Foundry, including RAG pipelines, prompt 
+optimization, and responsible AI practices 
+• 
+Develop AI agents that integrate tools, memory, MCP, and multi-agent orchestration using Azure 
+AI Agent Service and the Microsoft Agent Framework 
+• 
+Implement multimodal solutions that process and generate images, video, speech, and complex 
+documents 
+• 
+Apply text analysis and natural language solutions using Azure AI Language services and 
+generative AI capabilities in Foundry 
+• 
+Build information extraction and knowledge grounding pipelines using Azure AI Search, Content 
+Understanding, and document intelligence 
+ 
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 2 
+ 
+Azure AI App and Agent Developer role definition 
+ 
+Both the certification exam and the courseware are based on the Azure AI App and Agent Developer role.  
+Azure AI App and Agent Developers build, deploy, and manage AI solutions using Microsoft Azure. They 
+are responsible for developing generative AI applications, autonomous agents, and multimodal workflows 
+that leverage Microsoft Foundry and Azure AI services. Azure AI App and Agent Developers collaborate 
+with data scientists and software developers to integrate AI capabilities into production systems, ensuring 
+solutions are secure, scalable, and aligned with responsible AI principles. 
+ 
+Audience profile 
+ 
+This course is intended for software developers wanting to build AI infused applications that leverage 
+Microsoft Foundry. Topics in this course include developing generative AI apps, building AI agents, and 
+solutions that implement knowledge connections or tools in your agentic applications. This course also 
+covers multimodal capabilities and understanding of complex content. This course was designed for 
+software engineers concerned with building, managing and deploying AI solutions that leverage Microsoft 
+Foundry. They are familiar with Python and have knowledge on using APIs and SDKs to build agents and 
+generative AI solutions on Azure. 
+ 
+Audience prerequisites 
+ 
+Before attending this course, students should have: familiarity with Python programming; experience 
+using REST APIs and SDKs to build cloud-connected applications; foundational knowledge of Azure services 
+and the Azure portal; and an understanding of basic AI/ML concepts such as machine learning models and 
+inferencing. Prior experience with Azure AI services is helpful but not required. 
+ 
+Certification exam 
+ 
+The Microsoft Certified: Azure AI App and Agent Developer Associate Certification aligns with today’s 
+generative and agentic architectures for planning and managing AI resources in Microsoft Foundry, 
+building generative apps and multistep reasoning workflows, and developing production‑ready agents 
+with multi‑agent orchestration capabilities. Exam AI-103 beta available in April 2026; exam expected to go 
+live in June 2026. 
+The study areas for the certification exam related to this course are based on the Job Task Analysis (JTA) 
+that was conducted in March 2026. 
+Each study area has a percentage indicating the relative weight of the area on the exam. The higher the 
+percentage, the more questions a candidate is likely to see in that area.  
+To review the full objective domain the skills measured, review the AI-103 study guide. 
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 3 
+ 
+ 
+Study Area 
+Percentage 
+Plan and manage an Azure AI solution 
+25-30% 
+Implement generative AI and agentic solutions 
+30-35% 
+Implement computer vision solutions 
+15-20% 
+Implement text analysis solutions 
+10-15% 
+Implement information extraction solutions 
+10-15% 
+ 
+For exams related to non-Fundamental courses, candidates should have a minimum of six months of 
+hands-on experience working with Azure AI and Foundry (AI-103).  
+ 
+Prerequisite knowledge to teach this course 
+ 
+To successfully teach this course, instructors must have a solid working knowledge of Microsoft Azure AI 
+services and the Microsoft Foundry SDK. They should have practical experience developing and deploying 
+generative AI solutions, including RAG pipelines, AI agents, and multi-agent orchestration patterns. 
+Note: These guidelines are not inclusive of the requirements to become a Microsoft Certified Trainer 
+(MCT). 
+  
+Required materials to prepare for and teach this course 
+ 
+You need the following materials to prepare for and teach this course: 
+ 
+Resource 
+Description 
+Microsoft PowerPoint files 
+Download the  AI-103T00-ENU-PowerPoint.zip 
+from the MCT Download Center. 
+ 
+Change Log 
+Download the AI-103T00-ENU-ChangeLog.pdf 
+from the MCT Download Center. 
+Lab environment provided by your lab hosting 
+provider 
+Contact your lab hosting provider for instructions 
+on using their lab environment. 
+Lab instructions 
+The lab instructions are provided in the lab 
+environment and in the following Microsoft 
+Learning GitHub repositories: 
+LP1 (Foundry): mslearn-ai-studio 
+LP2 (Agents): mslearn-ai-agents 
+LP3 (Language and Speech): mslearn-ai-language 
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 4 
+ 
+LP4 (Vision and Info Extraction): mslearn-ai-vision, 
+mslearn-ai-information-extraction 
+Student training content 
+See the following section for a detailed breakdown 
+of each Learning Path covered in the course.  
+Microsoft Learn for Educators program 
+For educational institutions that deliver this 
+course, additional assets are available through the 
+Learning Download Center (LDC) for Educators. 
+ 
+ 
+Student training content 
+The student training content for this course is located in Microsoft Learn. The following table provides a 
+breakdown of each Learning Path, the modules covered in each, and the link to each LP in Microsoft 
+Learn. 
+The student training content includes links to additional reading material to help you prepare for specific 
+topic areas. 
+Learning Path  
+Online training in Microsoft Learn 
+Course Introduction 
+Slides only 
+Learning Path 1: 
+Develop generative AI apps with 
+Microsoft Foundry 
+Module 1: Plan and prepare to develop AI solutions on Azure 
+Module 2: Evaluate models with the Azure AI Foundry model 
+catalog 
+Module 3: Develop an AI app with the Microsoft Foundry SDK 
+Module 4: Optimize generative AI model performance 
+Module 5: Implement a responsible generative AI solution in 
+Microsoft Foundry 
+Learning Path 2: 
+Develop AI agents with Azure 
+Module 1: Develop AI agents with Microsoft Foundry and Visual 
+Studio Code 
+Module 2: Build an agent with custom tools 
+Module 3: Connect an agent to MCP tools 
+Module 4: Build knowledge-enhanced AI agents with Foundry 
+IQ 
+Module 5: Integrate your agent with M365 
+Module 6: Build agent-driven workflows using Microsoft 
+Foundry 
+Module 7: Develop an AI agent with the Microsoft Agent 
+Framework 
+Module 8: Orchestrate a multi-agent solution using the 
+Microsoft Agent Framework 
+Module 9: Discover Azure AI Agents with A2A 
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 5 
+ 
+Learning Path 3: 
+Develop language solutions with 
+Azure AI 
+Module 1: Analyze text with Azure AI Language 
+Module 2: Develop a text analysis agent with Language MCP 
+Module 3: Develop generative AI audio apps 
+Module 4: Create speech-enabled apps with Microsoft Foundry 
+Module 5: Develop a speech agent with Azure AI Speech MCP 
+Module 6: Develop a voice live agent 
+Module 7: Translate text and speech 
+Learning Path 4: 
+Extract insights from visual data on 
+Azure  
+Module 1: Generate images with AI 
+Module 2: Generate and edit video with AI 
+Module 3: Analyze media with Azure Content Understanding 
+Module 4: Develop a vision-enabled generative AI application 
+Module 5: Create a multimodal analysis solution with Azure 
+Content Understanding 
+Module 6: Create an Azure Content Understanding client 
+application 
+Module 7: Create a knowledge mining solution with Azure AI 
+Search 
+ 
+Preparation tasks  
+ 
+Instructors should complete the following tasks to prepare for teaching this course: 
+• 
+If you have previously taught this class, refer to the course’s Change Log. It provides detailed 
+information on how the course has changed over time. The Change Log is updated for each course 
+release. 
+• 
+Review all topics in the student training material in Microsoft Learn (see the link in the Required 
+Materials section above). You should be well-versed in every topic. If you have previously taught the 
+course and are comfortable with your knowledge of each topic, focus primarily on the new or updated 
+topics as outlined in the Change Log. 
+• 
+Review the PowerPoint slides. 
+• 
+Be able to speak to each of the talking points on the slides. Some slides include a graphic from 
+the associated Learn content for the topic. These graphics are provided on the slide so that 
+you can speak to them to help explain the key talking points in the topic. 
+• 
+The bulleted items on each slide should NOT be read verbatim to the students. The students 
+can read the slides themselves. Rather, the bullet points reflect the key information that you 
+should focus on when discussing each topic. You should use your experience as a subject 
+matter expert to explain the What, the Why, and the How of each topic. This is your 
+opportunity to provide a real value-add above and beyond the bulleted talking points.  
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 6 
+ 
+• 
+Review the Additional Reading links and other linked resources provided in the student training 
+material. It’s recommended that you present key points from this material to supplement the value-
+add you provide as an instructor. 
+• 
+As you prepare for the class, you should review each unit and determine which ones you want to 
+perform demonstrations of the corresponding product functionality. It’s up to you to decide which 
+product features you want to demonstrate to the class. You should use your experience to identify key 
+points during the demonstration process. This is an area where you should rely on your experience 
+as a subject matter expert to provide additional value-add to the students. 
+• 
+You should review each Knowledge Check (KC) question so that you know why the correct answer is 
+correct for each question. Students may challenge some of the questions, so you must be able to 
+address any of those concerns.  
+• 
+You should perform the labs yourself prior to class so that you become familiar with them and with 
+any of the difficult points in the lab exercises. This will prepare you for helping students in case they 
+get stuck.  
+ 
+Course timing 
+ 
+Daily agenda 
+Use the table format as presented below. Please make note of the following requirements: 
+• 
+The agenda items should be in the order in which they will be presented each day.  
+• 
+Define the total estimated time to complete each agenda item (for example, 30 minutes, 1 hour, 
+etc.).  
+• 
+Do NOT include start and end times (i.e. 8:00 am to 8:45 am). Not every instructor will start at the 
+same time, nor will they have the same breaks, lunch times, etc. Plus, hybrid and virtual courses 
+may not be taught in the same 8 am to 5 pm cadence as a traditional classroom course.  
+• 
+Do NOT include lunch and break times as they may vary from one course to the next, especially 
+with hybrid and virtual courses. Just include the modules, labs, and any other classroom 
+activities.>  
+ 
+The following agenda provides estimated times to complete each classroom activity. However, the 
+estimated times may vary depending on the background of your students, which may affect whether you 
+can move faster or slower through the course material. 
+Estimated times for each Module include the time to complete as part of a 4 day course: 
+• 
+The module’s PowerPoint slide deck presentation. 
+• 
+Any pre-defined product demonstrations. 
+• 
+Time to review Knowledge Check questions (see the section on Additional Timing Notes below).  
+• 
+Time to complete a classroom discussion activity if a Discussion slide is included in the module 
+slide deck. 
+For courses taught in a longer format such as part pf the Microsoft Learn for Educators (MSLE) program, 
+review the Design your syllabus section of the Educator Teaching Guide found on the Learning Download 
+Center.  
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 7 
+ 
+You should adjust the agenda accordingly based on any classroom activities that you personally created or 
+plan to deliver that are not included in the slides for this course. For example, if you plan to present: 
+• 
+ad-hoc demonstrations 
+• 
+review activities 
+• 
+classroom games 
+• 
+and so on… 
+ 
+Note: Each Learning Path/Module activity in the following agenda is the slide deck presentation for that 
+module.  
+The following table provides delivery specifications for a 4-day course. For courses taught in a longer 
+format such as part pf the MSLE program, review the Design your syllabus section of the Educator 
+Teaching Guide found on the Learning Download Center. 
+ 
+Day 
+Estimated 
+Time 
+Classroom activity 
+1 
+30 
+minutes 
+Module 1: Plan and prepare to develop AI solutions on Azure 
+ 
+60 
+minutes 
+Module 2: Evaluate models with the Azure AI Foundry model catalog 
+ 
+60 
+minutes 
+Lab: Model catalog and evaluation lab 
+ 
+60 
+minutes 
+Module 3: Develop an AI app with the Microsoft Foundry SDK 
+ 
+60 
+minutes 
+Lab: Foundry SDK app lab 
+ 
+60 
+minutes 
+Module 4: Optimize generative AI model performance (RAG and prompt 
+engineering) 
+ 
+60 
+minutes 
+Lab: RAG / optimization lab 
+ 
+30 
+minutes 
+Module 5: Implement a responsible generative AI solution in Microsoft Foundry 
+2 
+45 
+minutes 
+Module 1: Develop AI agents with Microsoft Foundry and Visual Studio Code 
+ 
+60 
+minutes 
+Lab: Core agent build lab 
+ 
+45 
+minutes 
+Module 2: Build an agent with custom tools 
+ 
+45 
+minutes 
+Lab: Tool integration lab 
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 8 
+ 
+ 
+30 
+minutes 
+Module 3: Connect an agent to MCP tools 
+ 
+45 
+minutes 
+Lab: MCP tools lab 
+ 
+30 
+minutes 
+Module 4: Build knowledge-enhanced AI agents with Foundry IQ (demo) 
+ 
+30 
+minutes 
+Module 5: Integrate your agent with M365 (demo) 
+ 
+45 
+minutes 
+Modules 6–8: Agent workflows, Agent Framework, and multi-agent orchestration 
+(overview) 
+ 
+45 
+minutes 
+Lab: Orchestrated multi-agent lab 
+ 
+15 
+minutes 
+Module 9: Discover Azure AI Agents with A2A (awareness) 
+3 
+45 
+minutes 
+Module 1: Analyze text with Azure AI Language 
+ 
+60 
+minutes 
+Lab: Text analysis lab 
+ 
+45 
+minutes 
+Module 2: Develop a text analysis agent with Language MCP 
+ 
+45 
+minutes 
+Lab: Text analysis agent lab 
+ 
+30 
+minutes 
+Module 3: Develop generative AI audio apps 
+ 
+45 
+minutes 
+Module 4: Create speech-enabled apps with Microsoft Foundry 
+ 
+45 
+minutes 
+Lab: Speech app lab 
+ 
+30 
+minutes 
+Module 5: Develop a speech agent with Azure AI Speech MCP (lab/demo) 
+ 
+20 
+minutes 
+Module 6: Develop a voice live agent (demo) 
+ 
+30 
+minutes 
+Module 7: Translate text and speech 
+ 
+30 
+minutes 
+Lab: Translation lab 
+4 
+30 
+minutes 
+Module 1 (LP4): Generate images with AI 
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 9 
+ 
+ 
+45 
+minutes 
+Lab: Image generation lab 
+ 
+30 
+minutes 
+Module 2 (LP4): Generate and edit video with AI (demo) 
+ 
+45 
+minutes 
+Module 3 (LP4): Analyze media with Azure Content Understanding 
+ 
+45 
+minutes 
+Lab: Content Understanding media lab 
+ 
+30 
+minutes 
+Module 4 (LP4): Develop a vision-enabled generative AI application 
+ 
+45 
+minutes 
+Modules 1–2 (LP4): Create multimodal analysis solutions with Azure Content 
+Understanding 
+ 
+45 
+minutes 
+Lab: Content Understanding extraction lab 
+ 
+30 
+minutes 
+Modules 3–4 (LP4): Knowledge mining with Azure AI Search and document 
+intelligence 
+ 
+45 
+minutes 
+Lab: AI Search and ingestion pipeline lab 
+ 
+30 
+minutes 
+Course wrap-up, exam prep guidance, and next steps 
+ 
+ 
+ 
+Additional timing notes - Knowledge check questions 
+Knowledge check (KC) questions are provided throughout the course to check the student’s knowledge of 
+the material that was covered. Instructors can use these KC questions in several ways:   
+• 
+Conduct a formal classroom exercise in which you go through the questions in a module before 
+moving on to the next module.  
+• 
+Sprinkle the questions into the content as you cover the related material for a module  
+• 
+Let the students review the questions after class as a daily homework assignment. You can set 
+aside time at the start of each day to answer any questions they have regarding the prior day’s 
+questions. This may be the most feasible option given the tight time constraints that most classes 
+work under. 
+It will be left up to each instructor to determine how they want to incorporate the KC questions into their 
+class.  
+If you provide students with time to review the KC questions at the end of specific topics and at the end of 
+each module, you should provide a couple of minutes per question, along with a few extra minutes per 
+question to respond to student questions or challenges concerning certain questions they may not 
+understand or whose answers they disagree with. This may add an extra 15 to 30 minutes to complete 
+each module. 
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 10 
+ 
+ 
+Additional timing notes – Classroom discussions 
+This course includes two types of classroom discussion questions: 
+• 
+Discussion questions that are interspersed throughout modules (i.e. a slide that asks a discussion 
+question on a product feature. For example: “Do you see your organization implementing this 
+feature? Why or why not?”) 
+ 
+You should plan on 5-10 minutes for each of these discussion slides. 
+ 
+• 
+A slide at the end of each learning path slide deck that asks students to discuss what they learned 
+in the LP (the final module in each LP is titled Learning Path Review and only contains the 
+discussion slide; this module is a classroom activity and is not associated with a Learn module).  
+ 
+Each LP Review slide asks the following questions: “What are your key takeaways from this 
+Learning Path? What are the key features discussed in this Learning Path that you foresee 
+implementing at your organization?” 
+ 
+You should plan on 10-15 minutes to discuss the review slide in the final module of each Learning 
+Path slide deck. 
+Labs 
+ 
+NOTE: Labs will be available on 4/3/26 
+The labs must be completed within the lab environment provided by your lab hosting provider. Detailed, 
+step-by-step instructions are provided for each lab and presented as part of the UI experience within your 
+lab environment.  
+At the time the courses were released, the lab instruction had been thoroughly tested and the lab steps 
+were 100% accurate. However, given the nature of Microsoft’s cloud products and the fact that Microsoft 
+releases UI updates on a regular basis, it’s possible that at some point in time, the UI for a given feature 
+may change so that it no longer matches the lab instruction. 
+If students encounter lab steps that don’t accurately reflect the UI, they’ll have to work through the UI to 
+determine what needs to be done. Typically, UI changes are quite subtle, so hopefully you don’t find 
+yourself in a situation where a feature was completely overhauled.  
+However, if you do run into major UI changes, challenge your students to work through it, and only offer 
+help if they definitely need it. Product UI changes will be part of their daily life in today’s cloud-centric 
+world. As IT/Pros, they must learn how to work through such situations.  
+One thing Microsoft does ask of you is that if you run into situations such as this where lab instructions no 
+longer match the corresponding UI, please document the issue in the course’s GitHub repository. This will 
+help Microsoft’s World-Wide Learning team update the lab instructions to keep them as up to date as 
+possible. For information on how to submit an issue, please see GitHub User Guide for MCTs. 
+ 
+Potential lab issues 
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 11 
+ 
+This section identifies lab exercises in which students have run into problems in the past due to the 
+complexity of the lab and/or the students lack of prerequisite background knowledge.  
+ 
+Lab and Exercise 
+Task 
+Description 
+Lab TBD, Exercise TBD 
+TBD 
+Task TBD 
+TBD 
+No known issues at this time. 
+Lab TBD, Exercise TBD 
+TBD 
+Task TBD 
+TBD 
+No known issues at this time. 
+Lab TBD, Exercise TBD 
+TBD 
+Task TBD 
+TBD 
+No known issues at this time. 
+And so on…. 
+ 
+ 
+ 
+ 
+Portal, Cloud Shell, PowerShell, and the CLI 
+The lab instructions are written to use the Cloud Shell.  The Cloud Shell automatically connects to Azure 
+and provides access to PowerShell and the CLI.  
+If you would rather have students use PowerShell or the CLI locally, you can use these links.  
+• 
+Install Azure PowerShell on Windows with PowerShellGet  
+• 
+Install Azure CLI on Windows 
+ 
+Tips and tricks for teaching AI-103 
+AI-103 is a new course launching in March 2026. As such, no instructor tips and tricks are available yet. 
+This section will be updated with practical guidance based on trainer feedback collected over the coming 
+months. If you have tips or insights to share following your first delivery, please reach out to the course 
+team. 
+Common product misconceptions 
+ 
+Azure AI Foundry vs. Microsoft Foundry: naming and portal experience 
+Azure AI Foundry is the previous name for what is now called Microsoft Foundry. All course content has 
+been developed for the new Microsoft Foundry experience. 
+External documentation: Much of the existing Microsoft documentation still refers to “Azure AI Foundry” 
+or describes the classic portal experience. When sharing links or reference material with students, verify 
+that the content reflects the new Microsoft Foundry interface rather than the classic version, as 
+navigation, terminology, and available features may differ significantly. 
+In the portal: When students open the Microsoft Foundry portal, they may be prompted to switch 
+between the classic and the new portal experience. Students should always select and work in the new 
+
+Trainer Preparation Guide: AI-103 
+                   March 2026 
+Page 12 
+ 
+portal experience when following course labs and exercises. Instructors should confirm this at the start of 
+each lab session to avoid confusion caused by interface differences. 
+Evolving from AI-102 
+AI-103 is the successor to AI-102: Designing and Implementing a Microsoft Azure AI Solution. If you have 
+experience teaching AI-102, much of that preparation will carry over. The core Azure AI services covered 
+in AI-102—including language, vision, and document intelligence—remain in AI-103 and are covered in 
+Learning Paths 3, 4, and 5. Your existing knowledge of those service APIs, lab patterns, and common 
+student questions will be directly applicable. 
+The key additions in AI-103 are Learning Paths 1 and 2, which introduce Microsoft Foundry as the 
+development platform and cover generative AI and agentic solution development using the Azure AI 
+Foundry SDK and Azure AI Agent Service. Trainers new to these topics should prioritize hands-on time with 
+Microsoft Foundry and the agent development labs before delivery. AI-102 instructors who are already 
+comfortable with the language and vision modules can focus their preparation on these new Foundry and 
+agent-focused learning paths. 
+Real-world use cases 
+The idea behind this section is to demonstrate to students how various features in the course are 
+implemented in the real world. In other words, take the students from concepts covered in the training to 
+actual scenarios involving course features. 
+ 
+Feedback 
+In this course, we have provided a framework for you to work with. Take time to prepare and think about 
+the value that only an instructor can bring to training. We hope to partner with you to provide an 
+exceptional student experience, and we welcome your feedback.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

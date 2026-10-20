@@ -1,0 +1,848 @@
+{
+ "meta": {
+  "deck_title": "Agentes y RAG con Microsoft Foundry y Azure AI Search (L200)",
+  "day": 2,
+  "date_label": "Jueves 22 de octubre de 2026",
+  "filename": "BCI_Foundry_Dia2_L200_Agentes_RAG"
+ },
+ "slides": [
+  {
+   "layout": "title",
+   "title": "Agentes y RAG con Microsoft Foundry y Azure AI Search (L200)",
+   "subtitle": "Día 2 · Taller técnico: arquitectura, tools, MCP y RAG para agentes empresariales",
+   "meta": "Jueves 22 de octubre de 2026 · 09:00–13:00 (Chile) · Microsoft Chile + Teams",
+   "notes": "Bienvenida al día 2. Ayer vimos los fundamentos de Foundry; hoy pasamos a construir: arquitectura de agentes, tools confiables, MCP, RAG con Azure AI Search y observabilidad, cerrando con un laboratorio pro-code. El público ya tiene experiencia con Foundry hosted agents, APIM/AI Gateway, MCP, semantic cache, Content Safety y evaluaciones, así que vamos a profundizar en diseño y buenas prácticas, no en conceptos básicos. Sugerido: presentar a Pablo y Valentina, repasar la agenda y pedir que todos tengan su entorno de laboratorio listo desde ahora para no perder tiempo más tarde. Mencionar que todos los escenarios de hoy son bancarios ficticios, sin datos reales de BCI. Fuente: MATERIALS_INDEX.md (§2 Día 2)."
+  },
+  {
+   "layout": "agenda",
+   "title": "Agenda del día 2",
+   "items": [
+    {
+     "time": "09:00–09:40",
+     "title": "Arquitectura y runtime",
+     "detail": "Foundry agents, Agent Framework, hosting"
+    },
+    {
+     "time": "09:40–10:20",
+     "title": "Tools e integración",
+     "detail": "Function calling, contratos, MCP"
+    },
+    {
+     "time": "10:20–11:05",
+     "title": "RAG y Azure AI Search",
+     "detail": "Patrones RAG, indexación, retrieval híbrido"
+    },
+    {
+     "time": "11:05–11:15",
+     "title": "Pausa",
+     "detail": "Café y networking"
+    },
+    {
+     "time": "11:15–11:45",
+     "title": "Observabilidad y ciclo de vida",
+     "detail": "Tracing, debugging, evaluación"
+    },
+    {
+     "time": "11:45–12:40",
+     "title": "Laboratorio pro-code",
+     "detail": "Agente con grounding y herramienta propia"
+    },
+    {
+     "time": "12:40–13:00",
+     "title": "Preguntas y cierre",
+     "detail": "Checklist de preparación y adelanto del día 3"
+    }
+   ],
+   "notes": "Recorrer la agenda en voz alta y anclarla a los resultados del día: una arquitectura de referencia, un patrón RAG con criterios de calidad y seguridad, y un agente instrumentado con una tool propia. Avisar que el laboratorio pro-code es la parte más larga (55 minutos) y que conviene dejar dudas de implementación para ese momento. La pausa de 10 minutos es corta a propósito: sugerir que los conectados por Teams aprovechen para revisar su entorno de laboratorio. Sugerido: mostrar el checklist de prerequisitos (nivel día 1, Python o .NET básico, APIs, Azure) y confirmar que todos pueden acceder a su proyecto de Foundry antes de seguir. Fuente: MATERIALS_INDEX.md (§2 Día 2), instrucciones del taller."
+  },
+  {
+   "layout": "compare",
+   "title": "De los fundamentos a construir agentes",
+   "left": {
+    "title": "Repaso: Día 1 (L100)",
+    "items": [
+     "Foundry: catálogo de modelos, deployments y SDK",
+     "Servicios de IA: Language, Vision, Document Intelligence",
+     "Primer agente con tools básicas y RAG introductorio",
+     "Evaluación y Content Safety como hábito desde el inicio"
+    ]
+   },
+   "right": {
+    "title": "Objetivos: Día 2 (L200)",
+    "items": [
+     "Diseñar la arquitectura de un agente empresarial en Foundry",
+     "Conectar tools confiables, MCP y Azure AI Search",
+     "Construir un patrón RAG con criterios de calidad y seguridad",
+     "Instrumentar el agente y dejarlo listo para producción"
+    ]
+   },
+   "verdict": "Hoy pasamos de un agente que responde a un agente que se puede operar, auditar y escalar.",
+   "notes": "Conectar explícitamente con el día 1: quienes ya construyen con Foundry hosted agents, APIM/AI Gateway, MCP, semantic cache y memoria de notas van a reconocer varios conceptos, pero hoy los llevamos a nivel de diseño de producción. Preguntar al grupo qué parte de su arquitectura actual les genera más dudas (tools, RAG, observabilidad) para calibrar énfasis durante el día. Sugerido: pedir que levanten la mano quienes ya tienen un agente con tools en producción, para adaptar el ritmo de la primera hora. Remarcar que el objetivo final del día es salir con una arquitectura de referencia y un checklist de preparación para producción, no solo demos aisladas. Fuente: contexto del taller (agenda y prerequisitos L200)."
+  },
+  {
+   "layout": "section",
+   "title": "Arquitectura y runtime",
+   "number": "1",
+   "subtitle": "Agentes en Foundry, Microsoft Agent Framework y opciones de hosting",
+   "duration": "40 min · Pablo",
+   "notes": "Abrir el primer bloque explicando que la decisión de arquitectura condiciona todo lo demás: qué tan rápido iteran, cuánto control tienen sobre el runtime y qué tan fácil es llevar el agente a producción. Vamos a ver los tres tipos de agente en Foundry, la arquitectura interna de un hosted agent, los protocolos disponibles y dónde encaja Microsoft Agent Framework. Sugerido: preguntar si alguien ya desplegó un hosted agent y qué framework usó, para conectar la teoría con su experiencia real. Cerrar la introducción aclarando que todo lo que viene aplica tanto si programan en Python como en .NET, y que el laboratorio de hoy va a usar Python como lenguaje principal. Fuente: MATERIALS_INDEX.md (§2 Día 2, módulo 1)."
+  },
+  {
+   "layout": "bullets",
+   "title": "Tres formas de construir un agente en Foundry",
+   "bullets": [
+    "Prompt-based: instrucciones y tools declarativas en el portal, ideal para iterar rápido",
+    "Voice-based: prompt agent optimizado para conversación hablada en tiempo real",
+    "Hosted: tu propio código en contenedor, con cualquier framework o código propio",
+    "Foundry asigna identidad Entra y endpoint dedicado a cada agente automáticamente",
+    "La elección depende de cuánto control de runtime y cómputo necesita tu caso de uso"
+   ],
+   "callout": "Para equipos pro-code que ya usan Agent Framework, el hosted agent es el camino natural a producción.",
+   "notes": "Explicar los tres tipos de agente como un espectro: prompt-based para iterar rápido desde el portal, voice-based como variante optimizada para audio en tiempo real, y hosted para cuando el equipo quiere control total del código y del runtime. Insistir en que un hosted agent puede usar cualquier framework, incluyendo Agent Framework, LangGraph o código propio sin framework. Sugerido: mostrar en el portal de Foundry la pantalla de creación de agente y señalar dónde se elige cada tipo. Mencionar que Foundry crea automáticamente una identidad Entra ID y un endpoint dedicado para cada agente, lo que simplifica la gobernanza de permisos. Fuente: docs-oficiales/foundry/agents/concepts/hosted-agents.md, docs-oficiales/foundry/agents/concepts/development-lifecycle.md."
+  },
+  {
+   "layout": "layers",
+   "title": "Cómo se arma un hosted agent",
+   "layers": [
+    {
+     "title": "Endpoint y protocolo",
+     "body": "Responses, Invocations, Invocations WebSocket o Activity, autenticado con Microsoft Entra ID"
+    },
+    {
+     "title": "Identidad del agente",
+     "body": "Entra ID dedicado por agente, creado automáticamente al desplegar"
+    },
+    {
+     "title": "Sandbox por sesión",
+     "body": "VM aislada con sistema de archivos persistente, scale-to-zero con reanudación de estado"
+    },
+    {
+     "title": "Tu código",
+     "body": "Orquestación, framework elegido y lógica de negocio dentro del contenedor"
+    },
+    {
+     "title": "Modelos, Toolbox y servicios",
+     "body": "El sandbox llama a modelos de Foundry, al endpoint de Toolbox y a tus servicios de Azure"
+    }
+   ],
+   "notes": "Recorrer las capas de abajo hacia arriba o de arriba hacia abajo, según cómo se vea mejor en pantalla, explicando que cada hosted agent corre en un sandbox aislado por sesión, con un sistema de archivos persistente para mantener estado entre invocaciones y capacidad de escalar a cero cuando no hay tráfico. La identidad Entra del agente es distinta de la identidad administrada del proyecto: una es para runtime, la otra para operaciones de infraestructura. Sugerido: dibujar en el pizarrón o compartir pantalla con el diagrama de arquitectura de referencia del taller y pedir que identifiquen dónde encajaría su propio agente de normativa interna. Fuente: docs-oficiales/foundry/agents/concepts/hosted-agents.md, docs-oficiales/foundry/agents/concepts/hosted-agent-contract.md."
+  },
+  {
+   "layout": "compare",
+   "title": "Prompt-based agent vs. hosted agent",
+   "left": {
+    "title": "Prompt-based agent",
+    "items": [
+     "Se configura en el portal con instrucciones y tools declarativas",
+     "Foundry controla el runtime completo",
+     "Rápido de iterar, menos control de cómputo y protocolo"
+    ]
+   },
+   "right": {
+    "title": "Hosted agent",
+    "items": [
+     "Es tu código en contenedor, con el framework que elijas",
+     "Controlas cómputo, memoria y protocolos expuestos",
+     "Soporta cargas con estado y trabajo de larga duración"
+    ]
+   },
+   "verdict": "Usa hosted cuando necesites tu framework, protocolos custom o cómputo controlado; prompt-based para iterar rápido.",
+   "notes": "Este contraste ayuda a que cada equipo decida con criterio, no por moda. Prompt-based agents son ideales para prototipar o para casos donde el portal alcanza; hosted agents son la opción cuando el equipo ya tiene código, necesita un framework específico, o requiere control fino de recursos y protocolos. Sugerido: pedir ejemplos de los propios asistentes sobre qué tipo de agente tienen hoy en mente para su banco (por ejemplo, un asistente de políticas internas) y discutir en grupo cuál encaja mejor. Aclarar que se puede empezar prompt-based y migrar a hosted cuando el caso de uso lo requiera, sin perder el trabajo de diseño de instrucciones y tools. Fuente: docs-oficiales/foundry/agents/concepts/development-lifecycle.md, docs-oficiales/foundry/agents/concepts/hosted-agents.md."
+  },
+  {
+   "layout": "process",
+   "title": "Elige el protocolo correcto",
+   "steps": [
+    {
+     "title": "Responses",
+     "body": "Conversación, RAG o tools; Foundry administra historial y streaming"
+    },
+    {
+     "title": "Invocations",
+     "body": "Webhooks o payloads propios: JSON arbitrario de entrada y salida"
+    },
+    {
+     "title": "Invocations WebSocket",
+     "body": "Voz en tiempo real con streaming bidireccional"
+    },
+    {
+     "title": "Activity / A2A",
+     "body": "Publicación en Teams/M365 (bridge automático) o delegación entre agentes"
+    }
+   ],
+   "notes": "Un hosted agent no tiene un único protocolo: Foundry ofrece varios según el canal. Responses es el punto de partida recomendado para la mayoría de los casos conversacionales o RAG. Invocations sirve para integraciones tipo webhook con payloads propios, por ejemplo procesos batch. Invocations WebSocket habilita voz en tiempo real. Activity conecta de forma automática con Teams y M365, y A2A permite que un agente delegue trabajo en otro agente. Sugerido: preguntar qué canal usarían para un asistente de normativa interna (probablemente Responses o Activity vía Teams) y para un proceso de validación de documentos en lote (Invocations). Fuente: docs-oficiales/foundry/agents/concepts/hosted-agents.md, docs-oficiales/foundry/agents/concepts/hosted-agent-contract.md."
+  },
+  {
+   "layout": "stats",
+   "title": "Microsoft Agent Framework en una vista",
+   "stats": [
+    {
+     "value": "Agents",
+     "label": "LLM + instrucciones + tools + MCP, con sesión y middleware"
+    },
+    {
+     "value": "Harness",
+     "label": "Agente con planificación y aprobación de tools incorporadas"
+    },
+    {
+     "value": "Workflows",
+     "label": "Grafos explícitos para coordinar agentes y funciones"
+    },
+    {
+     "value": "Hosting",
+     "label": "El mismo código corre local o como hosted agent en Foundry"
+    }
+   ],
+   "note": "Sucesor directo de AutoGen y Semantic Kernel: agentes simples con estado, tipos y telemetría de nivel empresarial.",
+   "notes": "Microsoft Agent Framework combina lo mejor de AutoGen (abstracciones simples para agentes) y Semantic Kernel (estado de sesión, tipado fuerte, middleware, telemetría de nivel empresarial), y agrega workflows basados en grafos para coordinación explícita entre varios agentes y funciones. La decisión entre usar un agente o un workflow depende de la tarea: agente para algo abierto o conversacional con uso autónomo de tools, workflow cuando los pasos y el control son explícitos o hay varios agentes coordinados. Sugerido: mostrar el repositorio de samples oficial (01-get-started, 02-agents, 04-hosting) y explicar que el mismo código de agente se puede desplegar luego como hosted agent sin reescribirlo. Fuente: docs-oficiales/agent-framework/overview.md, docs-oficiales/agent-framework/hosting/foundry-hosted-agent.md."
+  },
+  {
+   "layout": "demo",
+   "title": "Demo: un agente hosted con una tool propia",
+   "scenario": "Asistente interno de un banco que responde sobre política de gastos y llama una function tool para calcular el límite vigente",
+   "steps": [
+    "Mostrar el agente de Agent Framework corriendo como hosted agent en Foundry",
+    "El usuario pregunta por su límite de gastos de viaje",
+    "El modelo decide llamar a la function tool 'consultar_limite_gastos'",
+    "La tool devuelve el dato y el agente arma la respuesta final con la fuente"
+   ],
+   "expected": "El modelo elige la tool correcta, ejecuta la función y responde con el dato correcto citando el origen",
+   "notes": "Esta demo cierra el bloque de arquitectura mostrando el ciclo completo: un hosted agent construido con Agent Framework recibe una pregunta, decide invocar una function tool ficticia de política de gastos, y devuelve una respuesta trazable. El objetivo es que el grupo vea en vivo lo que discutimos en las láminas anteriores: identidad, endpoint, sandbox y ejecución de tool. Sugerido: aprovechar para mostrar brevemente el portal de Foundry donde se ve el agente desplegado, su identidad y el log de la invocación, sin entrar todavía en trazas detalladas (eso viene en observabilidad). Aclarar que el escenario y los datos son ficticios. Fuente: docs-oficiales/foundry/agents/how-to/tools/function-calling.md, docs-oficiales/agent-framework/agents/tools.md, repos/publico-samples/agent-framework (02-agents)."
+  },
+  {
+   "layout": "section",
+   "title": "Tools e integración",
+   "number": "2",
+   "subtitle": "Diseño confiable de tools, function calling y MCP",
+   "duration": "40 min · Ambos",
+   "notes": "Segundo bloque: tools. Un agente sin tools confiables es solo un chatbot; con tools mal diseñadas, es un riesgo operativo. Vamos a ver cómo describir una tool para que el modelo la use bien, qué contratos de confiabilidad y seguridad aplicar, y cómo Model Context Protocol (MCP) permite reutilizar tools entre agentes y equipos. Valentina abre con integración y protocolos, Pablo cierra con el diseño de tools confiables. Sugerido: preguntar qué tools ya tienen conectadas a sus agentes hoy (APIs internas, bases de datos, otros sistemas) para ambientar el resto del bloque con ejemplos reales del grupo. Fuente: MATERIALS_INDEX.md (§2 Día 2, módulo 2)."
+  },
+  {
+   "layout": "bullets",
+   "title": "Diseñar una tool que un modelo pueda usar bien",
+   "bullets": [
+    "Describe claramente qué hace la tool y cuándo usarla en la instrucción del agente",
+    "Define un esquema JSON estricto: nombre, parámetros y cuáles son obligatorios",
+    "Usa tool_choice (auto, required, none) para controlar cuándo se invoca",
+    "Los runs expiran a los 10 minutos: para tareas largas devuelve un estado y sondea",
+    "Trata argumentos y resultados de la tool como entrada no confiable"
+   ],
+   "callout": "Una tool mal descrita es la causa más común de que el modelo no la llame o la use mal.",
+   "notes": "El function calling depende de que el modelo entienda, solo por la descripción, para qué sirve cada tool y qué parámetros espera. Insistir en que el esquema JSON debe marcar bien los campos obligatorios y evitar ambigüedad en los nombres. tool_choice permite forzar, impedir o dejar libre la decisión de invocar una tool, útil para flujos determinísticos. El límite de 10 minutos por run es real y afecta tools lentas: para operaciones largas conviene devolver un estado intermedio y sondear después. Sugerido: mostrar un ejemplo de descripción de tool ambigua versus una bien escrita y discutir por qué una falla más seguido. Fuente: docs-oficiales/foundry/agents/how-to/tools/function-calling.md, docs-oficiales/foundry/agents/concepts/tool-best-practice.md."
+  },
+  {
+   "layout": "cards",
+   "title": "Contratos de tools: 4 reglas no negociables",
+   "cards": [
+    {
+     "title": "Idempotencia",
+     "body": "Usa una idempotency key en operaciones externas para que un reintento no duplique el efecto"
+    },
+    {
+     "title": "Timeouts y reintentos",
+     "body": "Define un timeout corto y una política de reintento; devuelve un estado si la operación sigue corriendo"
+    },
+    {
+     "title": "Manejo de errores",
+     "body": "Nunca expongas trazas internas; devuelve un error claro que el modelo pueda explicar al usuario"
+    },
+    {
+     "title": "Mínimo privilegio",
+     "body": "La identidad que ejecuta la tool solo debe acceder a lo que esa tool necesita, nada más"
+    }
+   ],
+   "footer": "Estas reglas aplican igual a function calling, MCP y tools de Toolbox.",
+   "notes": "Estas cuatro reglas vienen directo de las guías de diseño de tools y de resiliencia de hosted agents, y son las que más previenen incidentes en producción. La idempotencia importa especialmente cuando el modelo puede reintentar una llamada por timeout: una idempotency key evita, por ejemplo, duplicar una solicitud de crédito ficticia. Mínimo privilegio significa que la identidad de la tool no debería poder, por ejemplo, borrar registros si solo necesita leerlos. Sugerido: pedir que cada equipo piense en una tool de su propio caso de uso y valide mentalmente si cumple las cuatro reglas, como ejercicio rápido de diseño. Fuente: docs-oficiales/foundry/agents/concepts/tool-best-practice.md, docs-oficiales/foundry/agents/concepts/long-running-agent-resilience.md."
+  },
+  {
+   "layout": "bullets",
+   "title": "Model Context Protocol (MCP), en breve",
+   "bullets": [
+    "Estándar abierto para que una app exponga tools y contexto a un modelo",
+    "Un agente Foundry se conecta a un servidor MCP como una tool más",
+    "Toolbox expone un único endpoint compatible con MCP para reutilizar tools entre agentes",
+    "Puedes construir tu propio servidor MCP, por ejemplo con Azure Functions",
+    "El mismo servidor MCP sirve a Foundry, Agent Framework o cualquier runtime compatible"
+   ],
+   "notes": "MCP resuelve un problema concreto: evitar reconstruir la misma integración (por ejemplo, consulta de normativa o de estado de una solicitud) para cada agente o framework distinto. Un servidor MCP expone un catálogo de tools con descripción y esquema, y cualquier cliente compatible (Foundry, Agent Framework, LangGraph) puede descubrirlas y usarlas. Toolbox agrega una capa de gobierno: autenticación, aprobación y logging centralizados sobre ese mismo endpoint MCP. Sugerido: dibujar el flujo agente -> MCP -> sistema interno y comparar con una integración tradicional de API para mostrar la ganancia de reutilización. Fuente: docs-oficiales/foundry/mcp/get-started.md, docs-oficiales/foundry/agents/how-to/tools/model-context-protocol.md, docs-oficiales/foundry/agents/concepts/toolbox-overview.md."
+  },
+  {
+   "layout": "compare",
+   "title": "Servidor MCP local vs. remoto",
+   "left": {
+    "title": "Servidor MCP local",
+    "items": [
+     "Corre en tu máquina o contenedor de desarrollo",
+     "Ideal para iterar rápido y depurar",
+     "No apto para producción multiusuario"
+    ]
+   },
+   "right": {
+    "title": "Servidor MCP remoto",
+    "items": [
+     "Endpoint público o privado con subred dedicada",
+     "Gobernado por Foundry: autenticación, approval y logging centralizados",
+     "Puede registrarse en un catálogo de tools de la organización"
+    ]
+   },
+   "verdict": "Empieza local para prototipar; migra a remoto con autenticación y approval antes de exponerlo a usuarios reales.",
+   "notes": "Durante el prototipado conviene correr el servidor MCP local, para iterar rápido sin preocuparse por redes ni certificados. Para producción, Foundry soporta endpoints MCP públicos o privados; los privados usan Azure Container Apps con una subred dedicada e ingreso solo interno, apropiado para datos sensibles de un banco. La migración de local a remoto agrega autenticación (claves, OAuth o identidad Entra), control de aprobación para operaciones riesgosas, y logging de cada llamada. Sugerido: mostrar en pantalla la configuración de 'allowed_tools' y 'require_approval' para dejar claro que no todo servidor remoto expone todas sus tools por defecto. Fuente: docs-oficiales/foundry/mcp/get-started.md, docs-oficiales/foundry/mcp/security-best-practices.md, docs-oficiales/foundry/mcp/build-your-own-mcp-server.md."
+  },
+  {
+   "layout": "code",
+   "language": "python",
+   "code": "from azure.ai.projects.models import MCPTool\n\ntool = MCPTool(\n    server_label=\"normativa-interna\",\n    server_url=\"https://mcp.ejemplo-banco.net/mcp\",\n    require_approval=\"always\",\n)\n\nagent = PromptAgentDefinition(\n    model=MODEL_DEPLOYMENT,\n    instructions=\"Usa la tool MCP para consultar normativa.\",\n    tools=[tool],\n)",
+   "caption": "Declarar un servidor MCP remoto como tool de un agente Foundry (Python)",
+   "title": "Un servidor MCP como tool, en código",
+   "notes": "Este snippet resume lo que acabamos de explicar en texto: declarar un MCPTool con su server_label, su server_url y la política de aprobación. require_approval='always' obliga a que un humano confirme cada llamada, buena práctica cuando la tool puede escribir datos o acceder a información sensible; para tools de solo lectura de bajo riesgo se puede relajar. El server_url del ejemplo es ficticio, nunca apunta a un sistema real de BCI. Sugerido: pedir que el grupo identifique en el código dónde cambiarían el nombre y la URL para su propio caso (por ejemplo, un servidor MCP de consulta de estado de solicitud). Fuente: docs-oficiales/foundry/agents/how-to/tools/model-context-protocol.md, docs-oficiales/foundry/mcp/security-best-practices.md."
+  },
+  {
+   "layout": "table",
+   "title": "Cómo se autentica un servidor MCP",
+   "columns": [
+    "Modelo",
+    "Cuándo usarlo"
+   ],
+   "rows": [
+    [
+     "Sin autenticación",
+     "Solo pruebas o servidores públicos sin datos sensibles"
+    ],
+    [
+     "Header de clave",
+     "Credenciales simples, por ejemplo un token de sistema externo"
+    ],
+    [
+     "OAuth (app propia o de Foundry)",
+     "Flujo estándar con consentimiento, bueno para SaaS de terceros"
+    ],
+    [
+     "Passthrough de identidad Entra",
+     "El usuario final conserva sus propios permisos de punta a punta"
+    ],
+    [
+     "Identidad administrada del proyecto",
+     "Acceso de la plataforma a recursos propios de Foundry"
+    ]
+   ],
+   "note": "Elige siempre el modelo que preserve mínimo privilegio y trazabilidad por usuario.",
+   "notes": "No existe un único modelo de autenticación para MCP; Foundry soporta varios según el servidor y el caso de uso. Passthrough de identidad Entra es el más adecuado cuando la respuesta debe respetar los permisos del usuario que pregunta, por ejemplo un asistente de normativa que no debería mostrar políticas de un área a la que el usuario no tiene acceso. Sugerido: relacionar esta tabla con el recorte de seguridad que vamos a ver en el módulo de RAG, porque el mismo principio de 'responder según permisos del usuario' aplica tanto a tools MCP como a retrieval sobre un índice. Preguntar qué modelo de autenticación usan hoy en sus integraciones internas. Fuente: docs-oficiales/foundry/mcp/get-started.md, docs-oficiales/foundry/mcp/security-best-practices.md."
+  },
+  {
+   "layout": "section",
+   "title": "RAG y Azure AI Search",
+   "number": "3",
+   "subtitle": "De la búsqueda simple al retrieval agéntico",
+   "duration": "45 min · Pablo",
+   "notes": "Tercer bloque, el más largo de la mañana: RAG y Azure AI Search. Vamos a recorrer la evolución del patrón RAG, cómo se arma un índice híbrido, qué es Foundry IQ y el retrieval agéntico, cómo medimos calidad y cómo pensamos la seguridad cuando el contenido recuperado puede venir de documentos no confiables. Sugerido: preguntar si alguien ya evaluó la calidad de un RAG en producción y qué métrica usó, para conectar con la parte de evaluación más adelante en el bloque. Recordar que todo ejemplo de este bloque usa normativa interna ficticia, nunca documentos reales de BCI. Fuente: MATERIALS_INDEX.md (§2 Día 2, módulo 3)."
+  },
+  {
+   "layout": "process",
+   "title": "La evolución del patrón RAG",
+   "steps": [
+    {
+     "title": "RAG clásico",
+     "body": "Una consulta, un índice, pasajes pegados directo al prompt"
+    },
+    {
+     "title": "Búsqueda híbrida",
+     "body": "Keyword y vector combinados y reordenados con ranking semántico"
+    },
+    {
+     "title": "Retrieval agéntico",
+     "body": "El modelo planifica subconsultas en paralelo y arma la respuesta con citas"
+    },
+    {
+     "title": "Foundry IQ",
+     "body": "Base de conocimiento multi-fuente con permisos y retrieval agéntico administrados"
+    }
+   ],
+   "notes": "RAG no es una sola técnica, es una familia que fue madurando. El RAG clásico hace una consulta y pega los pasajes al prompt; la búsqueda híbrida mejora la precisión combinando texto y vectores con ranking semántico; el retrieval agéntico deja que el propio modelo decida qué y cuántas subconsultas lanzar, en paralelo, devolviendo datos estructurados con citas. Foundry IQ es la capa administrada que orquesta todo esto sobre múltiples fuentes de conocimiento con permisos por usuario. Sugerido: ubicar en qué escalón está hoy el RAG que cada equipo tiene en mente y qué ganaría al subir un escalón. Fuente: docs-oficiales/foundry/concepts/retrieval-augmented-generation.md, docs-oficiales/foundry/agents/concepts/what-is-foundry-iq.md, docs-oficiales/architecture-center-ai/ai-ml/guide/rag/rag-agentic.md."
+  },
+  {
+   "layout": "layers",
+   "title": "De documentos a respuestas: el pipeline de indexación",
+   "layers": [
+    {
+     "title": "Preparación y chunking",
+     "body": "Dividir documentos en fragmentos manejables antes de indexar"
+    },
+    {
+     "title": "Embeddings",
+     "body": "Generar vectores por fragmento para habilitar búsqueda semántica"
+    },
+    {
+     "title": "Índice híbrido",
+     "body": "Campos de texto y de vector conviven en el mismo índice de Azure AI Search"
+    },
+    {
+     "title": "Ranking",
+     "body": "BM25 y similitud vectorial se combinan; ranking semántico opcional"
+    },
+    {
+     "title": "Filtros y seguridad",
+     "body": "Filtros de negocio y recorte de seguridad por documento antes de responder"
+    }
+   ],
+   "notes": "Este pipeline es la base técnica de cualquier RAG serio. El chunking define cuánta información entra en cada fragmento y afecta directamente la calidad de la respuesta; fragmentos muy grandes diluyen la relevancia, muy chicos pierden contexto. Los embeddings habilitan la búsqueda semántica, que se combina con búsqueda por palabras clave en un mismo índice híbrido. El ranking final puede incluir un paso de ranking semántico que reordena con comprensión de lenguaje. Los filtros de seguridad se aplican antes de que el documento llegue al modelo, no después. Sugerido: mostrar un ejemplo de índice con campos mixtos (texto, vector, metadatos de seguridad) en el portal de Azure AI Search. Fuente: docs-oficiales/azure-ai-search/vector-search-overview.md, docs-oficiales/azure-ai-search/hybrid-search-overview.md."
+  },
+  {
+   "layout": "bullets",
+   "title": "Búsqueda híbrida, en detalle",
+   "bullets": [
+    "Una sola consulta combina el parámetro search (texto) y vectorQueries (vector)",
+    "BM25 para texto y HNSW/eKNN para vectores se fusionan con Reciprocal Rank Fusion",
+    "El ranking semántico (queryType=semantic) reordena con comprensión de lenguaje",
+    "Los filtros aplican sobre campos de texto o numéricos durante la búsqueda",
+    "Vector search está disponible en todas las regiones y niveles del servicio"
+   ],
+   "notes": "La búsqueda híbrida no requiere dos consultas separadas: un solo request a Azure AI Search lleva tanto el texto de búsqueda como el o los vectores de consulta, y el motor combina los resultados con Reciprocal Rank Fusion, un método que fusiona rankings de distintas señales sin necesitar que estén en la misma escala. El ranking semántico es un paso opcional adicional que usa comprensión de lenguaje para reordenar los mejores candidatos. Sugerido: mostrar en el portal una consulta híbrida real contra un índice de ejemplo y comparar el orden de resultados con y sin ranking semántico activado. Fuente: docs-oficiales/azure-ai-search/hybrid-search-overview.md, docs-oficiales/azure-ai-search/vector-search-overview.md, docs-oficiales/azure-ai-search/search-get-started-semantic.md."
+  },
+  {
+   "layout": "grid",
+   "title": "Foundry IQ: conocimiento administrado para agentes",
+   "cells": [
+    {
+     "title": "Knowledge base",
+     "body": "Orquesta el retrieval agéntico con un nivel de esfuerzo de razonamiento configurable"
+    },
+    {
+     "title": "Knowledge sources",
+     "body": "Conecta Blob, SharePoint, OneLake o la web como fuentes de un mismo conocimiento"
+    },
+    {
+     "title": "Permisos por usuario",
+     "body": "Sincroniza ACLs y etiquetas de Purview; responde según la identidad de quien pregunta"
+    },
+    {
+     "title": "Reutilizable",
+     "body": "Una knowledge base puede servir a varios agentes distintos sin duplicar configuración"
+    }
+   ],
+   "notes": "Foundry IQ (preview) es la evolución gerenciada de lo que veníamos armando manualmente con Azure AI Search: en vez de que cada agente tenga su propia configuración de índice, una knowledge base centraliza fuentes, reglas de retrieval agéntico y permisos. La sincronización de ACLs y etiquetas de Purview permite que la misma pregunta devuelva distinta información según quién la hace, algo clave para un banco con áreas con distintos niveles de acceso. Sugerido: diferenciar Foundry IQ de Fabric IQ (datos de Fabric/OneLake) y Work IQ (señales de M365), que resuelven problemas relacionados pero distintos. Marcar explícitamente que es preview. Fuente: docs-oficiales/foundry/agents/concepts/what-is-foundry-iq.md."
+  },
+  {
+   "layout": "compare",
+   "title": "Retrieval clásico vs. retrieval agéntico",
+   "left": {
+    "title": "Retrieval clásico",
+    "items": [
+     "Una consulta, un disparo al índice",
+     "El desarrollador arma las subconsultas a mano",
+     "Respuesta basada en el primer conjunto de pasajes"
+    ]
+   },
+   "right": {
+    "title": "Retrieval agéntico",
+    "items": [
+     "El modelo descompone la pregunta en subconsultas paralelas",
+     "Incluye contexto de la conversación para preguntas de seguimiento",
+     "Devuelve datos estructurados con citas y metadatos de ejecución"
+    ]
+   },
+   "verdict": "El retrieval agéntico mejora cobertura y trazabilidad, a costa de más latencia y llamadas al modelo.",
+   "notes": "Vale la pena ser honestos sobre el trade-off: el retrieval agéntico no es gratis, agrega llamadas al modelo para planificar subconsultas y por lo tanto más latencia y costo de tokens, pero mejora notablemente la cobertura en preguntas complejas o de seguimiento. Para preguntas simples y de alto volumen, el retrieval clásico o la búsqueda híbrida sin capa agéntica puede ser suficiente y más económico. Sugerido: proponer un ejercicio mental: una pregunta simple de normativa ('¿cuál es el horario de atención?') versus una compuesta ('¿qué documentos necesito para un crédito hipotecario si ya tengo una cuenta de ahorro?'), y discutir cuál se beneficia más de retrieval agéntico. Fuente: docs-oficiales/foundry/concepts/retrieval-augmented-generation.md, docs-oficiales/architecture-center-ai/ai-ml/guide/rag/rag-agentic.md."
+  },
+  {
+   "layout": "table",
+   "title": "Cómo medimos la calidad de un RAG",
+   "columns": [
+    "Métrica",
+    "Qué responde",
+    "Evaluador en Foundry"
+   ],
+   "rows": [
+    [
+     "Groundedness",
+     "¿La respuesta usa solo el contexto recuperado?",
+     "Groundedness / Groundedness Pro"
+    ],
+    [
+     "Completeness",
+     "¿Se respondió toda la pregunta?",
+     "Response Completeness"
+    ],
+    [
+     "Relevance",
+     "¿El contexto recuperado es pertinente?",
+     "Retrieval / Relevance"
+    ],
+    [
+     "Ataque indirecto",
+     "¿El modelo siguió una instrucción oculta en un documento?",
+     "Indirect Attack (XPIA)"
+    ]
+   ],
+   "note": "Combina Retrieval + Groundedness + Relevance + seguridad de contenido como línea base para cualquier RAG.",
+   "notes": "La calidad de un RAG no se mide solo mirando si 'la respuesta suena bien'; Foundry ofrece evaluadores específicos para cada dimensión. Groundedness verifica que la respuesta no invente datos fuera del contexto recuperado, con una variante Pro que da un veredicto binario basado en Content Safety. Completeness y Relevance evalúan si se usó bien el contexto disponible. El evaluador de ataque indirecto (XPIA) es clave para RAG porque mide si el modelo cayó en una instrucción maliciosa escondida en un documento recuperado. Sugerido: mostrar brevemente el flujo de evaluación en el portal de Foundry (elegir unidad, elegir evaluadores, correr, revisar). Fuente: docs-oficiales/foundry/concepts/evaluation-overview.md, docs-oficiales/foundry/concepts/built-in-evaluators.md, docs-oficiales/architecture-center-ai/ai-ml/guide/rag/rag-llm-evaluation-phase.md."
+  },
+  {
+   "layout": "bullets",
+   "title": "Seguridad en RAG: el documento también es una superficie de ataque",
+   "bullets": [
+    "Trata todo contenido recuperado como entrada no confiable, igual que una tool",
+    "Aplica recorte de seguridad (security trimming) a nivel de documento en el índice",
+    "Prefiere Microsoft Entra ID sobre claves de API para producción",
+    "Un documento puede contener instrucciones ocultas de prompt injection",
+    "Audita y registra qué se recuperó y qué se le mostró al modelo"
+   ],
+   "notes": "Un punto que se suele subestimar: los documentos indexados no son neutrales, pueden contener texto diseñado (o contaminado) para manipular al modelo, lo que se conoce como prompt injection indirecta. Por eso el contenido recuperado debe tratarse con la misma desconfianza que la salida de una tool externa. El recorte de seguridad (security trimming) asegura que un usuario solo reciba fragmentos de documentos a los que tiene permiso de acceder, aplicado en el momento de la consulta, no después. Sugerido: conectar esto con la tabla de autenticación MCP vista antes, remarcando que preferir identidad Entra sobre claves de API es un patrón que se repite en todo el taller. Fuente: docs-oficiales/foundry/concepts/retrieval-augmented-generation.md, docs-oficiales/foundry/mcp/security-best-practices.md, docs-oficiales/foundry/agents/concepts/what-is-foundry-iq.md."
+  },
+  {
+   "layout": "demo",
+   "title": "Demo: retrieval sobre un índice de normativa",
+   "scenario": "Un agente responde preguntas de un empleado bancario sobre normativa interna ficticia usando un índice de Azure AI Search",
+   "steps": [
+    "Mostrar el índice con campos de texto, vector y metadatos de seguridad",
+    "Hacer una pregunta ambigua que requiere dos subconsultas",
+    "Ver cómo el retrieval agéntico arma las subconsultas en paralelo",
+    "Revisar las citas devueltas y el fragmento exacto usado"
+   ],
+   "expected": "La respuesta llega con citas verificables y sin exponer documentos fuera del permiso del usuario simulado",
+   "notes": "Esta demo conecta todo el bloque de RAG: índice híbrido, retrieval agéntico, citas y seguridad. Se usa una pregunta deliberadamente ambigua para que el grupo vea cómo el modelo decide dividirla en subconsultas y las ejecuta en paralelo contra el índice. Al revisar las citas, mostrar que cada afirmación de la respuesta se puede rastrear hasta un fragmento específico del documento fuente. Sugerido: simular dos usuarios con distintos niveles de permiso y mostrar que la misma pregunta devuelve información distinta según el recorte de seguridad aplicado. Todo el contenido del índice es normativa ficticia creada para el taller. Fuente: docs-oficiales/foundry/agents/concepts/what-is-foundry-iq.md, docs-oficiales/azure-ai-search/hybrid-search-overview.md, repos/publico-samples/azure-search-python-samples."
+  },
+  {
+   "layout": "section",
+   "title": "Observabilidad y ciclo de vida",
+   "number": "5",
+   "subtitle": "De trazas a decisiones: depurar, evaluar y pasar a producción",
+   "duration": "30 min · Valentina",
+   "notes": "Después de la pausa, cerramos la parte teórica con observabilidad: cómo saber qué hizo realmente el agente, cómo depurar una falla y cómo decidir con datos si está listo para producción. Esto conecta directo con el laboratorio de hoy, donde cada equipo va a inspeccionar la traza de su propio agente. Sugerido: preguntar cómo depuran hoy un agente cuando algo sale mal, si usan logs sueltos o alguna herramienta de tracing, para calibrar cuánto detalle dar sobre OpenTelemetry. Remarcar que este bloque es corto (30 minutos) porque se practica en profundidad durante el laboratorio pro-code. Fuente: MATERIALS_INDEX.md (§2 Día 2, módulo 5)."
+  },
+  {
+   "layout": "process",
+   "title": "Cómo viaja una traza en Foundry",
+   "steps": [
+    {
+     "title": "Instrumentación",
+     "body": "El agente (o Agent Framework) emite spans con convenciones OpenTelemetry GenAI"
+    },
+    {
+     "title": "Exportación",
+     "body": "Las trazas salen por OTLP hacia Application Insights u otro backend"
+    },
+    {
+     "title": "Almacenamiento",
+     "body": "Azure Monitor guarda spans anidados: invoke_agent, execute_tool, plan"
+    },
+    {
+     "title": "Análisis",
+     "body": "Portal de Foundry o Application Insights para inspeccionar paso a paso"
+    }
+   ],
+   "notes": "Tracing en Foundry está construido sobre OpenTelemetry y las convenciones semánticas de GenAI, un estándar que también adoptan Agent Framework, LangChain, LangGraph y el SDK de OpenAI Agents, lo que facilita correlacionar trazas entre distintos componentes. Cada ejecución genera spans anidados: invoke_agent envuelve toda la corrida, execute_tool registra cada llamada a una tool con sus argumentos y resultado, y hay spans específicos para workflows y memoria. Todo esto se exporta por OTLP y normalmente se almacena en Application Insights. Sugerido: mostrar en el portal de Foundry una traza real y señalar los distintos niveles de spans. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
+  },
+  {
+   "layout": "bullets",
+   "title": "Qué registrar (y qué nunca registrar) en una traza",
+   "bullets": [
+    "Registra entradas, salidas, llamadas a tools, tokens y latencias de cada paso",
+    "Cada tool call guarda sus argumentos y su resultado como atributos del span",
+    "Redacta secretos, credenciales y datos personales antes de que lleguen a la traza",
+    "Trata los datos de traza con los mismos controles de acceso que un log de producción",
+    "Correlaciona el ID de la corrida de evaluación con la traza para analizar todo junto"
+   ],
+   "notes": "La traza es una herramienta de diagnóstico, pero también un dato sensible: si una tool recibe un número de cuenta o un dato personal como argumento, ese valor puede terminar en el span si no se redacta antes. La recomendación es tratar la telemetría con los mismos controles de acceso que cualquier log de producción, nunca como un espacio 'libre' para depurar sin cuidado. Correlacionar el ID de una corrida de evaluación con su traza permite, por ejemplo, entender por qué un evaluador de groundedness marcó una respuesta como mala, viendo exactamente qué contexto se recuperó. Sugerido: pedir ejemplos de datos que nunca deberían aparecer en una traza en el contexto bancario (números de cuenta, RUT, montos). Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
+  },
+  {
+   "layout": "demo",
+   "title": "Demo: inspeccionar una traza y diagnosticar una falla",
+   "scenario": "El agente de normativa responde mal una consulta; usamos la traza para encontrar dónde se rompió el razonamiento",
+   "steps": [
+    "Abrir la traza de la corrida fallida en el portal de Foundry",
+    "Bajar al span execute_tool y revisar argumentos y resultado",
+    "Detectar que el retrieval no devolvió el fragmento correcto",
+    "Confirmar la causa con los logs del hosted agent"
+   ],
+   "expected": "Identificamos si la falla fue de retrieval, de la tool o del modelo, con evidencia concreta de la traza",
+   "notes": "Esta es la segunda de las tres demos obligatorias del día y muestra el flujo real de depuración: no adivinamos qué pasó, bajamos span por span hasta encontrar la causa raíz. En este caso el error viene del retrieval, no del modelo ni de la tool, algo que solo se puede confirmar mirando qué contexto llegó exactamente al prompt. Sugerido: aprovechar para mostrar también los comandos de diagnóstico de hosted agents (logs del contenedor, eventos de arranque) como complemento a la traza, porque algunas fallas no quedan en el span sino en el runtime del contenedor. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/debug-hosted-agent.md."
+  },
+  {
+   "layout": "cards",
+   "title": "Diagnóstico rápido de un hosted agent",
+   "cards": [
+    {
+     "title": "No responde",
+     "body": "Revisa logs del contenedor: eventos de arranque, crashes y reinicios antes de mirar el modelo"
+    },
+    {
+     "title": "Latencia alta",
+     "body": "Separa tiempo de arranque del contenedor, latencia del modelo y tiempo de la tool"
+    },
+    {
+     "title": "Error de autenticación",
+     "body": "Confirma la identidad Entra del agente y los permisos sobre el recurso que falla"
+    },
+    {
+     "title": "No llama a la tool",
+     "body": "Revisa que la tool esté adjunta al agente y que su descripción sea clara"
+    }
+   ],
+   "notes": "Estas cuatro categorías cubren la gran mayoría de los problemas que aparecen al operar un hosted agent en el día a día. Antes de sospechar del modelo conviene descartar lo básico: ¿arrancó bien el contenedor?, ¿hay errores de autenticación por identidad o permisos faltantes?, ¿la tool está realmente adjunta y bien descrita? Separar la latencia por etapa (arranque, modelo, tool) evita optimizar lo que no es el cuello de botella real. Sugerido: relacionar 'no llama a la tool' con la lámina de diseño de tools del módulo 2, mostrando que muchos problemas de observabilidad en realidad se originan en un mal diseño previo de la tool. Fuente: docs-oficiales/foundry/agents/how-to/debug-hosted-agent.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
+  },
+  {
+   "layout": "table",
+   "title": "Evaluar antes y después de publicar",
+   "columns": [
+    "Nivel",
+    "Qué mide",
+    "Ejemplos de evaluador"
+   ],
+   "rows": [
+    [
+     "Turn",
+     "Calidad de una respuesta puntual",
+     "Groundedness, Relevance, Coherence"
+    ],
+    [
+     "Conversation",
+     "Resultado de toda la interacción",
+     "Task Completion, Task Adherence"
+    ],
+    [
+     "Tool use",
+     "Si el agente usó bien sus tools",
+     "Tool Call Accuracy, Tool Selection"
+    ]
+   ],
+   "note": "Corre evaluaciones en desarrollo, en CI/CD y de forma recurrente sobre tráfico real.",
+   "notes": "La evaluación no es un paso único antes de publicar, es un proceso continuo con tres niveles distintos. A nivel de turno medimos la calidad de una respuesta individual; a nivel de conversación, si el agente cumplió la tarea completa a lo largo de varios turnos; y a nivel de uso de tools, si eligió y llamó correctamente las herramientas disponibles. Foundry permite correr estos evaluadores en desarrollo, integrarlos a CI/CD para detectar regresiones antes de publicar una nueva versión, y también de forma recurrente sobre tráfico real ya en producción. Sugerido: conectar esta tabla con los evaluadores de RAG vistos en el módulo anterior, mostrando que ambos conjuntos se combinan para un agente que hace RAG con tools. Fuente: docs-oficiales/foundry/concepts/evaluation-overview.md, docs-oficiales/foundry/concepts/built-in-evaluators.md."
+  },
+  {
+   "layout": "process",
+   "title": "De la idea al agente en producción",
+   "steps": [
+    {
+     "title": "Crear y probar",
+     "body": "Elige el tipo de agente e itera en el playground o en código"
+    },
+    {
+     "title": "Agregar tools y datos",
+     "body": "Conecta retrieval y acciones; valida cada tool antes de guardar"
+    },
+    {
+     "title": "Versionar",
+     "body": "Guarda cambios como versiones inmutables, comparables y reversibles"
+    },
+    {
+     "title": "Trazar y evaluar",
+     "body": "Confirma comportamiento con trazas y evaluaciones repetibles"
+    },
+    {
+     "title": "Publicar y monitorear",
+     "body": "Publica un endpoint estable y sigue la calidad en producción"
+    }
+   ],
+   "notes": "Este es el ciclo de vida completo que venimos armando en capítulos a lo largo del día: crear y probar, agregar tools y datos, versionar, trazar y evaluar, publicar y monitorear. La versión es inmutable una vez guardada, lo que permite comparar configuración, salidas y definición YAML entre versiones, y hacer rollback si una nueva versión empeora resultados. El patrón recomendado en código es 'get-or-create': buscar el agente por nombre y crearlo solo si no existe, tratando un 404 posterior como señal de que fue borrado, nunca como motivo para reintentar en loop. Sugerido: usar este slide como puente directo al laboratorio, donde el grupo va a recorrer varias de estas etapas en código. Fuente: docs-oficiales/foundry/agents/concepts/development-lifecycle.md."
+  },
+  {
+   "layout": "section",
+   "title": "Laboratorio pro-code",
+   "number": "6",
+   "subtitle": "Agente pro-code con grounding y herramientas",
+   "duration": "55 min · Ambos",
+   "notes": "Llegamos a la parte práctica más larga del día. El objetivo es que cada persona (o pareja) construya, de punta a punta, un agente pro-code en Python que combine grounding con Azure AI Search, una tool propia, y termine revisando su traza. El escenario es un asistente de normativa interna ficticio, pensado para no depender de ningún dato real de BCI. Sugerido: explicar la mecánica del laboratorio (starter code provisto, pasos incrementales, ayuda disponible de Pablo y Valentina) y aclarar que quien prefiera .NET tiene una alternativa abierta, aunque el soporte en vivo se va a enfocar en Python. Fuente: MATERIALS_INDEX.md (§2 Día 2, laboratorio), repos/publico-workshops/foundry-hosted-agents-workshop."
+  },
+  {
+   "layout": "lab",
+   "title": "Visión general del laboratorio",
+   "objective": "Construir un agente pro-code en Python que responda con grounding de Azure AI Search y use una tool propia, con traza visible",
+   "time": "55 min",
+   "steps": [
+    "Escenario: asistente de normativa interna ficticio de un banco, sin datos reales de BCI",
+    "Partimos de un proyecto inicial con Agent Framework ya configurado",
+    "Sumamos retrieval, una tool personalizada y revisamos la traza final",
+    "Python es el lenguaje principal; hay una alternativa .NET para quien la prefiera"
+   ],
+   "deliverables": [
+    "Agente funcionando con respuesta grounded y una tool",
+    "Al menos una traza completa inspeccionada",
+    "Checklist de diseño y observabilidad completado"
+   ],
+   "repoUrl": "https://github.com/microsoft-foundry/foundry-samples",
+   "notes": "Este slide da el panorama completo antes de arrancar: qué vamos a construir, cuánto tiempo hay y qué se espera entregar al final. El starter code deriva de los samples públicos de hosted agents con Agent Framework; cada participante trabaja sobre su propia copia. Sugerido: mostrar la estructura de carpetas del proyecto inicial (agente, tools, configuración) antes de que empiecen a escribir código, para que no pierdan tiempo orientándose. Recordar que la alternativa en .NET sigue el mismo flujo de tareas pero con otro starter; mencionarla solo brevemente porque el soporte en vivo del taller está pensado para Python. Fuente: repos/publico-workshops/foundry-hosted-agents-workshop (travel_assistant, adaptado), repos/microsoftlearning-labs/mslearn-ai-agents (Consolidated C0-C4)."
+  },
+  {
+   "layout": "lab",
+   "title": "Preparación del entorno",
+   "objective": "Dejar el entorno de desarrollo listo para iterar sin fricción durante el resto del laboratorio",
+   "time": "10 min",
+   "steps": [
+    "Clonar o abrir tu copia del proyecto inicial del laboratorio",
+    "Crear y activar un entorno virtual de Python e instalar agent-framework",
+    "Configurar el endpoint del proyecto de Foundry y el modelo deployado en el .env",
+    "Confirmar la conexión a tu índice de Azure AI Search de normativa ficticia",
+    "Correr el agente base sin tools para validar que responde"
+   ],
+   "deliverables": [
+    "Entorno con dependencias instaladas",
+    "Agente base respondiendo sin errores"
+   ],
+   "notes": "Diez minutos bien usados acá ahorran frustraciones después: casi todos los bloqueos del laboratorio vienen de variables de entorno mal configuradas o permisos faltantes sobre el proyecto de Foundry. Sugerido: circular activamente durante este paso para destrabar a quien tenga problemas de conexión antes de que el resto avance a las tareas de código. Validar el agente base sin tools primero es clave: si falla acá, el problema es de entorno, no de lógica de negocio, y conviene resolverlo antes de seguir. Fuente: repos/publico-workshops/foundry-hosted-agents-workshop, docs-oficiales/foundry/agents/concepts/development-lifecycle.md."
+  },
+  {
+   "layout": "lab",
+   "title": "Tareas 1 y 2: agente pro-code con grounding",
+   "objective": "Construir el agente base en Python e integrar Azure AI Search para que responda con grounding de normativa interna",
+   "time": "20 min",
+   "steps": [
+    "Definir el agente con Agent Framework: modelo, instrucciones y sesión",
+    "Conectar el índice de Azure AI Search como fuente de grounding",
+    "Probar una pregunta simple y una pregunta que requiera dos subconsultas",
+    "Revisar que la respuesta incluya una cita al fragmento usado"
+   ],
+   "deliverables": [
+    "Agente que responde con contexto recuperado del índice",
+    "Al menos una respuesta con cita verificable"
+   ],
+   "notes": "Estas dos tareas van juntas porque construir el agente y conectar el grounding son, en la práctica, el mismo paso: no tiene sentido validar el agente sin datos reales de contexto. Insistir en que prueben con una pregunta simple primero, para confirmar que el grounding funciona, y luego con una más compuesta, para ver el comportamiento del retrieval agéntico. Sugerido: si alguien termina antes, proponerle que pruebe con una pregunta fuera del alcance de la normativa indexada y observe cómo responde el agente (debería evitar inventar, no alucinar una respuesta). Fuente: docs-oficiales/foundry/concepts/retrieval-augmented-generation.md, docs-oficiales/agent-framework/agents/tools.md, repos/publico-samples/azure-search-python-samples."
+  },
+  {
+   "layout": "lab",
+   "title": "Tarea 3: implementar y probar una tool propia",
+   "objective": "Agregar una function tool que consulte el estado de una solicitud ficticia y validar que el agente la use correctamente",
+   "time": "15 min",
+   "steps": [
+    "Definir el esquema JSON de la tool: nombre, parámetros y campos obligatorios",
+    "Implementar la función que devuelve un estado de solicitud ficticio",
+    "Adjuntar la tool al agente junto con el índice de grounding",
+    "Probar una pregunta que debería disparar la tool y otra que no debería"
+   ],
+   "deliverables": [
+    "Tool implementada y adjunta al agente",
+    "Evidencia de al menos una llamada exitosa a la tool"
+   ],
+   "notes": "Esta tarea aplica directo las reglas de diseño de tools del módulo 2: descripción clara, esquema estricto y manejo de errores. Probar también una pregunta que no debería disparar la tool ayuda a detectar descripciones ambiguas que hacen que el modelo la llame de más o de menos. Sugerido: pedir que, si les sobra tiempo, agreguen una validación simple de parámetros dentro de la función (por ejemplo, rechazar un número de solicitud con formato inválido) para practicar manejo de errores devuelto al modelo. Recordar que el dato de 'estado de solicitud' es completamente ficticio. Fuente: docs-oficiales/foundry/agents/how-to/tools/function-calling.md, docs-oficiales/foundry/agents/concepts/tool-best-practice.md."
+  },
+  {
+   "layout": "lab",
+   "title": "Tarea 4: trazas, diagnóstico y criterios de éxito",
+   "objective": "Inspeccionar la traza de una ejecución completa, diagnosticar un caso fallido provisto y validar contra el checklist de éxito",
+   "time": "10 min",
+   "steps": [
+    "Ejecutar un caso de prueba y abrir su traza en el portal de Foundry",
+    "Ubicar los spans de retrieval y de la tool dentro de la traza",
+    "Diagnosticar el caso fallido provisto por el equipo instructor",
+    "Validar tu agente contra el checklist: responde, cita fuente, usa la tool, sin errores en traza"
+   ],
+   "deliverables": [
+    "Traza completa inspeccionada y explicada",
+    "Diagnóstico del caso fallido provisto",
+    "Checklist de éxito completado"
+   ],
+   "notes": "Cerramos el laboratorio con la misma práctica de diagnóstico que vimos en la demo de observabilidad, pero ahora sobre la propia traza de cada equipo. El caso fallido provisto está diseñado a propósito (por ejemplo, una pregunta fuera del índice o una tool con un parámetro mal formado) para practicar diagnóstico sin depender de que algo salga mal por azar. Si alguien no logra terminar las tres tareas anteriores, puede usar este tiempo para completar lo pendiente; lo mínimo esperable es un agente que responda y una traza revisada. Troubleshooting común: si no aparecen spans de tool, revisar que la tool esté realmente adjunta; si el grounding no trae resultados, revisar la conexión al índice. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/debug-hosted-agent.md."
+  },
+  {
+   "layout": "takeaway",
+   "title": "Lo que nos llevamos del día 2",
+   "points": [
+    "Una arquitectura de referencia para un agente empresarial: hosted agent, Agent Framework, tools y MCP",
+    "Un patrón RAG funcionando con criterios de calidad y seguridad definidos, no solo conectado a un índice",
+    "Un agente instrumentado: trazas legibles y una tool propia probada de punta a punta",
+    "Un checklist de diseño, observabilidad y preparación aplicable a tu próximo agente"
+   ],
+   "notes": "Resumir el día conectando cada punto con el momento del taller donde se construyó: la arquitectura de referencia viene del módulo 1, el patrón RAG con calidad y seguridad del módulo 3, el agente instrumentado del laboratorio. Sugerido: pedir a dos o tres personas que compartan en una frase qué se llevan del día, para cerrar con la voz del grupo y no solo la del instructor. Aprovechar para recordar que todo el material (starter code, slides, checklist) queda disponible para revisar después del taller. Fuente: contexto del taller (outcomes y deliverables del día 2)."
+  },
+  {
+   "layout": "table",
+   "title": "Checklist de preparación para producción",
+   "columns": [
+    "Área",
+    "Qué revisar antes de publicar"
+   ],
+   "rows": [
+    [
+     "Arquitectura",
+     "¿Protocolo y hosting balancean control y velocidad?"
+    ],
+    [
+     "Tools",
+     "¿Cada tool es idempotente, con timeout y mínimo privilegio?"
+    ],
+    [
+     "MCP",
+     "¿Hay allow-list, approval y logging para operaciones sensibles?"
+    ],
+    [
+     "RAG",
+     "¿El índice filtra por seguridad con el ranking adecuado?"
+    ],
+    [
+     "Calidad",
+     "¿Corres Groundedness y Relevance antes de publicar?"
+    ],
+    [
+     "Observabilidad",
+     "¿Las trazas llegan a App Insights sin datos sensibles?"
+    ]
+   ],
+   "note": "Usa esta checklist como gate antes de mover un agente de prototipo a piloto con usuarios reales.",
+   "notes": "Este checklist resume en seis preguntas todo lo que cubrimos hoy, y está pensado para usarse literalmente como gate de revisión antes de un piloto con usuarios reales. Sugerido: entregar este checklist como parte del material editable del taller, para que cada equipo lo adapte a su propio proceso de revisión interna. Proponer como ejercicio final que cada equipo marque, con honestidad, en qué estado está su propio agente hoy respecto a estas seis áreas, y qué harían primero la semana que viene. Fuente: síntesis de los módulos 1 a 6 del día 2 (arquitectura, tools, RAG, observabilidad, laboratorio)."
+  },
+  {
+   "layout": "cards",
+   "title": "Un adelanto del día 3",
+   "cards": [
+    {
+     "title": "Seguridad y gobernanza",
+     "body": "Content Safety avanzado, Purview, políticas de datos e identidad a escala"
+    },
+    {
+     "title": "Multiagente y orquestación",
+     "body": "Patrones de colaboración entre agentes y workflows más complejos"
+    },
+    {
+     "title": "Operación a escala",
+     "body": "Resiliencia, límites y gestión del ciclo de vida de múltiples agentes"
+    }
+   ],
+   "footer": "Día 3 es L300: foco en gobernanza, seguridad avanzada y operación de agentes a escala en producción.",
+   "notes": "Cerramos con un adelanto para generar expectativa sobre el día 3, que sube un nivel desde L200 hacia L300: gobernanza, seguridad avanzada y operación de agentes a escala, con menos foco en construir desde cero y más en operar y gobernar lo que ya se construyó hoy. Sugerido: mencionar que varias de las preguntas abiertas de hoy sobre seguridad y multiagente se retoman mañana con más profundidad, para que quienes tengan dudas pendientes sepan que no se pierden, solo se postergan. Fuente: contexto del taller (estructura de tres días, nivel L100, L200 y L300)."
+  },
+  {
+   "layout": "resources",
+   "title": "Para seguir explorando",
+   "links": [
+    {
+     "label": "Microsoft Agent Framework: overview",
+     "url": "https://learn.microsoft.com/en-us/agent-framework/overview/"
+    },
+    {
+     "label": "Hosted agents en Microsoft Foundry",
+     "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/hosted-agents"
+    },
+    {
+     "label": "Model Context Protocol en Foundry",
+     "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/tools/model-context-protocol"
+    },
+    {
+     "label": "Búsqueda híbrida en Azure AI Search",
+     "url": "https://learn.microsoft.com/en-us/azure/search/hybrid-search-overview"
+    },
+    {
+     "label": "Foundry IQ: conocimiento administrado",
+     "url": "https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/what-is-foundry-iq"
+    },
+    {
+     "label": "Tracing de agentes (OpenTelemetry)",
+     "url": "https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept"
+    },
+    {
+     "label": "Evaluación de agentes en Foundry",
+     "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-overview"
+    },
+    {
+     "label": "Repo público: samples de hosted agents",
+     "url": "https://github.com/microsoft-foundry/foundry-samples"
+    }
+   ],
+   "notes": "Estos enlaces son todos públicos y quedan como referencia para seguir profundizando después del taller, sin depender de material interno de Microsoft. Sugerido: leer en voz alta solo dos o tres destacados (Agent Framework overview y el repo de samples) y dejar el resto para que cada quien explore según su interés. Recordar que el material editable del taller (slides, starter code y checklist) se comparte aparte, por canal interno del programa, y no está en esta lista pública. Fuente: docs-oficiales (rutas citadas en cada lámina del día), repos/publico-workshops/foundry-hosted-agents-workshop."
+  },
+  {
+   "layout": "closing",
+   "title": "Gracias, nos vemos mañana",
+   "message": "Día 3 profundiza en seguridad, gobernanza y operación a escala. Traigan sus preguntas sobre este laboratorio.",
+   "notes": "Cierre del día 2. Agradecer la energía del grupo durante un día técnico largo y recordarles que el laboratorio de hoy es la base directa para las discusiones de seguridad y gobernanza del día 3. Sugerido: dejar un canal abierto (chat de Teams o correo del equipo de Microsoft) para preguntas que surjan al revisar el material por su cuenta antes de mañana. Confirmar horario y modalidad del día 3 (09:00 a 13:00, mismo formato híbrido Microsoft Chile y Teams) y despedirse agradeciendo la participación activa durante el laboratorio pro-code. Fuente: contexto del taller (agenda general de los tres días)."
+  }
+ ]
+}

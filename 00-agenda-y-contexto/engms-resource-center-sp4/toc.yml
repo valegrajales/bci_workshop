@@ -1,0 +1,7 @@
+- name: Ubiquitous Innovation
+  href: ./index.md
+  items:
+    - name: AI Apps and Platform
+      href: Ubiquitous_Innovation_VBD.md
+    - name: Developer Tools
+      href: ./03-dev-tools/index.md

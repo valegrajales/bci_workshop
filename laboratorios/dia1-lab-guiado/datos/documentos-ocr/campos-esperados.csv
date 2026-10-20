@@ -1,0 +1,58 @@
+﻿documento,modelo_recomendado,campo_o_clave,etiqueta_en_documento,valor_esperado,nota
+01-factura,prebuilt-invoice,VendorName,Encabezado,Suministros Pacífico SpA,"Puede devolverse en mayúsculas, como en el documento"
+01-factura,prebuilt-invoice,VendorTaxId,R.U.T. (recuadro),76.111.222-3,RUT ficticio
+01-factura,prebuilt-invoice,VendorAddress,Dirección del proveedor,"Calle Ficticia 123, Oficina 4, Santiago, Chile",Revisar separación en calle / comuna
+01-factura,prebuilt-invoice,InvoiceId,N°,F-000458,
+01-factura,prebuilt-invoice,InvoiceDate,Fecha de emisión,2026-10-05,El formato del documento es dd-mm-aaaa; la API devuelve fecha ISO. Verifica que no invierta día y mes
+01-factura,prebuilt-invoice,DueDate,Fecha de vencimiento,2026-11-04,Ídem
+01-factura,prebuilt-invoice,PaymentTerm,Condición de pago,30 días,Puede no extraerse (campo opcional)
+01-factura,prebuilt-invoice,PurchaseOrder,Orden de compra,OC-2026-0731,
+01-factura,prebuilt-invoice,CustomerName,Señor(es),AUSTRAL BANK S.A.,
+01-factura,prebuilt-invoice,CustomerTaxId,R.U.T. del cliente,99.888.777-6,RUT ficticio
+01-factura,prebuilt-invoice,CustomerAddress,Dirección del cliente,"Avenida Ficticia 1000, Santiago",
+01-factura,prebuilt-invoice,SubTotal,Monto neto,$1.000.000,"Verifica cómo representa la API los montos en CLP (separador de miles con punto, sin decimales)"
+01-factura,prebuilt-invoice,TotalTax,IVA (19%),$190.000,Ídem
+01-factura,prebuilt-invoice,InvoiceTotal,TOTAL,$1.190.000,Debe cumplir: SubTotal + TotalTax = InvoiceTotal
+01-factura,prebuilt-invoice,Items (cantidad de líneas),Tabla de detalle,5,"Revisa descripción, cantidad, precio unitario y monto por línea"
+01-factura,prebuilt-invoice,Items[1],"PAP-001 · Papel bond carta, resma 500 hojas",40 × $4.500 = $180.000,
+01-factura,prebuilt-invoice,Items[2],TON-014 · Tóner láser negro compatible,6 × $38.000 = $228.000,
+01-factura,prebuilt-invoice,Items[3],"ARC-120 · Archivador de palanca, tamaño oficio",50 × $3.200 = $160.000,
+01-factura,prebuilt-invoice,Items[4],SIL-300 · Silla ergonómica de oficina,4 × $98.000 = $392.000,
+01-factura,prebuilt-invoice,Items[5],SRV-001 · Servicio de despacho e instalación,1 × $40.000 = $40.000,
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,N° de solicitud,SOL-2026-004512,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Fecha de solicitud,15-10-2026,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Sucursal,Sucursal Ficticia Centro,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Nombre completo,Camila Andrea Ejemplo Prueba,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,RUT,12.345.678-5,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Fecha de nacimiento,14-03-1988,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Estado civil,Soltera,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Nacionalidad,Chilena,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Dirección,"Calle Ficticia 456, Depto 78, Comuna de Ejemplo",Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Teléfono,+56 9 0000 0000,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Correo electrónico,camila.ejemplo@correo.example,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Empleador,Servicios Demo Ltda.,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Cargo,Analista de Operaciones,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Antigüedad laboral,4 años,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Renta líquida mensual,$1.450.000,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Monto solicitado,$6.000.000,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Plazo,36 meses,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Destino del crédito,Remodelación de vivienda,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Par clave-valor,Cuota mensual estimada,$198.000,Se espera detectar la mayoría; no necesariamente todos
+02-solicitud-credito,Layout + keyValuePairs,Selection mark,Tipo de contrato: Indefinido,selected,Layout detecta casillas (selected / unselected)
+02-solicitud-credito,Layout + keyValuePairs,Selection mark,Tipo de contrato: Plazo fijo / Honorarios,unselected,
+02-solicitud-credito,Layout + keyValuePairs,Selection mark,Declaro que la información ... es verídica,selected,
+02-solicitud-credito,Layout + keyValuePairs,Selection mark,Autorizo la consulta de mis antecedentes comerciales,selected,
+02-solicitud-credito,Layout + keyValuePairs,Selection mark,Deseo recibir ofertas comerciales ...,unselected,
+02-solicitud-credito,Layout + keyValuePairs,Tabla,Obligaciones vigentes (4 columnas),2 filas con datos + 1 fila vacía,Revisa que la tabla se reconozca como tabla
+02-solicitud-credito,Layout + keyValuePairs,Tabla: fila,Obligaciones vigentes,Banco Demo | Tarjeta de crédito | $350.000 | $45.000,
+02-solicitud-credito,Layout + keyValuePairs,Tabla: fila,Obligaciones vigentes,Financiera Ejemplo | Crédito automotriz | $4.800.000 | $160.000,
+03-comprobante-compra,prebuilt-receipt,MerchantName,Encabezado,Café Austral Express,Puede devolverse en mayúsculas
+03-comprobante-compra,prebuilt-receipt,MerchantAddress,Dirección,"Av. Ficticia 321, Local 2, Santiago",
+03-comprobante-compra,prebuilt-receipt,TransactionDate,Fecha,2026-10-17,
+03-comprobante-compra,prebuilt-receipt,TransactionTime,Hora,12:42:00,
+03-comprobante-compra,prebuilt-receipt,Subtotal,SUBTOTAL (neto),$12.353,Puede no extraerse
+03-comprobante-compra,prebuilt-receipt,TotalTax,IVA 19% incluido,$2.347,
+03-comprobante-compra,prebuilt-receipt,Total,TOTAL,$14.700,Campo clave; debe cumplir: suma de ítems = Total
+03-comprobante-compra,prebuilt-receipt,Items,2 × Café americano grande,$5.600,
+03-comprobante-compra,prebuilt-receipt,Items,1 × Sándwich ave palta,$5.900,
+03-comprobante-compra,prebuilt-receipt,Items,1 × Jugo natural naranja,$3.200,

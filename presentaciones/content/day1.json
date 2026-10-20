@@ -1,0 +1,865 @@
+{
+ "meta": {
+  "deck_title": "Microsoft Foundry: fundamentos y servicios de IA (L100)",
+  "day": 1,
+  "date_label": "Miércoles 21 de octubre de 2026",
+  "filename": "BCI_Foundry_Dia1_L100_Fundamentos"
+ },
+ "slides": [
+  {
+   "layout": "title",
+   "title": "Microsoft Foundry: fundamentos y servicios de IA",
+   "subtitle": "L100 · Día 1 del AI Foundry BCI Training Day",
+   "meta": "Miércoles 21 de octubre de 2026 · 09:00–13:00 (Chile) · Microsoft Chile + Teams",
+   "notes": "Bienvenida al Día 1 del AI Foundry Training Day para BCI. Mostrar que BCI y Microsoft comparten la portada (logo de BCI) y presentarse (Pablo Braconi y Valentina Grajales, Microsoft CSAs), explicar la modalidad híbrida (sala en Microsoft Chile y Teams) y confirmar que hoy es un nivel L100: no se requiere experiencia previa con Foundry. Mencionar que el grupo es heterogéneo (desarrolladores, arquitectos, data/AI engineers, DevOps y gobierno), así que el día combina conceptos, demos y un laboratorio guiado al final. Sugerido: usar los primeros 2 minutos para que cada mesa diga en una frase qué espera del día; ayuda a calibrar el nivel de profundidad de las próximas 4 horas. Fuente: MATERIALS_INDEX.md"
+  },
+  {
+   "layout": "cards",
+   "title": "Quiénes somos y cómo trabajamos",
+   "cards": [
+    {
+     "title": "Pablo Braconi",
+     "body": "Microsoft Customer Success (CSA). Presenta la plataforma Foundry, el catálogo de modelos y acompaña el laboratorio."
+    },
+    {
+     "title": "Valentina Grajales",
+     "body": "Microsoft Customer Success (CSA). Presenta el contexto y los fundamentos de IA generativa y acompaña el laboratorio."
+    },
+    {
+     "title": "Cómo trabajamos",
+     "body": "Modalidad híbrida: sala en Microsoft Chile y Teams. Puedes preguntar en cualquier momento, por voz o por el chat."
+    }
+   ],
+   "footer": "BCI y Microsoft · AI Foundry Training Day · 21, 22 y 23 de octubre de 2026",
+   "notes": "Presentar al equipo y la dinámica de los tres días. Pablo Braconi y Valentina Grajales son los trainers de Microsoft: Valentina conduce el Módulo 1 (contexto y fundamentos) y Pablo el Módulo 2 (plataforma y catálogo de modelos); ambos acompañan el laboratorio. Recordar que el taller es híbrido (sala en Microsoft Chile y Teams) y que las preguntas pueden hacerse en voz alta o por el chat de Teams, donde habrá una persona monitoreando. Mencionar la progresión de los tres días: L100 fundamentos hoy, L200 agentes y RAG mañana, L300 producción y gobierno el viernes. Sugerido: invitar a presentarse a quien esté en sala con una frase (rol y qué espera del taller); sirve para calibrar el nivel. Fuente: MATERIALS_INDEX.md; README.md (raíz del material)"
+  },
+  {
+   "layout": "agenda",
+   "title": "Agenda del Día 1",
+   "items": [
+    {
+     "time": "09:00–09:30",
+     "title": "Presentación de apertura",
+     "detail": "Bienvenida, equipos y contexto del programa"
+    },
+    {
+     "time": "09:30–09:45",
+     "title": "Contexto y fundamentos",
+     "detail": "IA generativa, Microsoft Foundry y responsabilidades compartidas"
+    },
+    {
+     "time": "09:45–10:15",
+     "title": "Plataforma Foundry",
+     "detail": "Recursos, portal, catálogo de modelos y deployments"
+    },
+    {
+     "time": "10:15–10:55",
+     "title": "Azure AI Services",
+     "detail": "Panorama de servicios y demo de Document Intelligence"
+    },
+    {
+     "time": "10:55–11:30",
+     "title": "Agentes y conocimiento",
+     "detail": "Foundry Agent Service, tools, RAG y MCP"
+    },
+    {
+     "time": "11:30–11:40",
+     "title": "Pausa",
+     "detail": "Café y networking"
+    },
+    {
+     "time": "11:40–12:45",
+     "title": "Laboratorio guiado",
+     "detail": "Entorno, primer agente y OCR con Document Intelligence"
+    },
+    {
+     "time": "12:45–13:00",
+     "title": "Preguntas y cierre",
+     "detail": "Resumen, próximos pasos y adelanto del Día 2"
+    }
+   ],
+   "notes": "Recorrer la agenda en voz alta mostrando el reloj: abrimos con una presentación de 30 a 40 minutos (bienvenida, equipos y contexto del programa), seguimos con los fundamentos conceptuales (Valentina) y la plataforma y el catálogo de modelos (Pablo), luego Azure AI Services con una demo en vivo de Document Intelligence, y cerramos la parte teórica con agentes y conocimiento antes de la pausa. Después viene el laboratorio guiado de 65 minutos en tres bloques: preparación del entorno, primer agente y OCR con Document Intelligence. Aclarar que no hay laboratorio de voz: el tiempo se usa en dejar el entorno listo, que también sirve para el Día 2. Sugerido: remarcar que el Día 2 profundiza en desarrollo de agentes con código y RAG con Azure AI Search, y el Día 3 en arquitectura, seguridad y operación. Si la presentación de apertura se extiende, el margen se toma del Módulo 1. Fuente: MATERIALS_INDEX.md (§1 Día 1); laboratorios\\dia1-lab-guiado\\README.md (§3 Cronograma)"
+  },
+  {
+   "layout": "cards",
+   "title": "Objetivos del Día 1",
+   "cards": [
+    {
+     "title": "Mapa conceptual",
+     "body": "Entender qué es Microsoft Foundry, sus componentes principales y cómo se relacionan entre sí."
+    },
+    {
+     "title": "Criterios de elección",
+     "body": "Tener criterios iniciales para elegir servicios, modelos y patrones (prompting, RAG, fine-tuning) según el caso de uso."
+    },
+    {
+     "title": "Primer agente",
+     "body": "Terminar el día con un agente configurado y validado en Microsoft Foundry, con una experiencia práctica guiada."
+    }
+   ],
+   "footer": "Nivel L100 · No se requiere experiencia previa con Foundry",
+   "notes": "Explicar los tres resultados esperados del día: (1) un mapa mental de la plataforma para no perderse entre tantos nombres nuevos (Foundry, Agent Service, Foundry IQ, Toolbox); (2) criterios prácticos para decidir cuándo usar un modelo, un Azure AI Service o un patrón como RAG o fine-tuning; y (3) una experiencia concreta: salir con un agente propio ya configurado. Dejar claro que no se espera dominio técnico profundo todavía, eso vendrá en los Días 2 y 3. Sugerido: pedir que anoten una pregunta que quieran resolver hoy y revisarla en el cierre. Fuente: MATERIALS_INDEX.md (§1 Día 1, columna Outcomes)"
+  },
+  {
+   "layout": "section",
+   "title": "Presentación de apertura",
+   "number": "00",
+   "subtitle": "Bienvenida, presentación de los equipos y contexto del programa",
+   "duration": "30–40 min",
+   "notes": "Espacio reservado para la presentación de apertura, de 30 a 40 minutos (09:00–09:30 en la agenda; puede llegar hasta las 09:40). El contenido y quién presenta están por confirmar con el organizador del taller: la idea es que BCI y Microsoft den contexto del programa y de los objetivos del negocio antes de entrar en lo técnico. Si la presentación dura 40 minutos, el margen se toma del Módulo 1 (contexto y fundamentos), que se reduce a 5-10 minutos porque parte del contexto ya habrá quedado cubierto; no se recorta ni el laboratorio ni la demo de Document Intelligence. Sugerido: cronometrar la apertura y avisar a quien presente cuándo quedan 5 minutos. Fuente: MATERIALS_INDEX.md (§1 Día 1); agenda acordada con el organizador (por confirmar)"
+  },
+  {
+   "layout": "section",
+   "title": "Módulo 1 · Contexto y fundamentos",
+   "number": "1",
+   "subtitle": "IA generativa, Microsoft Foundry y responsabilidades compartidas",
+   "duration": "15 min",
+   "notes": "Abrir el primer módulo (a cargo de Valentina). El objetivo de estos 15 minutos es nivelar conceptos: qué cambió con la IA generativa, qué es Microsoft Foundry a grandes rasgos y cómo se reparten las responsabilidades entre los distintos roles presentes en la sala (desarrollo, arquitectura, datos, DevOps y gobierno). No se entra todavía en detalle técnico de la plataforma; eso es el Módulo 2. Sugerido: mantener el ritmo rápido, es un módulo de contexto, no de profundidad; dejar las preguntas técnicas para los módulos siguientes. Fuente: MATERIALS_INDEX.md (§1, fila Contexto y fundamentos)"
+  },
+  {
+   "layout": "bullets",
+   "title": "¿Qué cambió con la IA generativa?",
+   "bullets": [
+    "Modelos de lenguaje y multimodales generan texto, imágenes y código a partir de instrucciones en lenguaje natural.",
+    "El foco pasó de modelos puntuales a agentes que razonan, usan herramientas y acceden a datos propios.",
+    "Microsoft Foundry unifica modelos, agentes y herramientas en una plataforma con gobierno y observabilidad integrados.",
+    "Oportunidad en banca: asistentes internos, automatización de documentos y atención aumentada, con supervisión humana."
+   ],
+   "callout": "La pregunta ya no es “¿puede generar texto?” sino “¿puede razonar, actuar y responder con datos confiables?”.",
+   "notes": "Contextualizar brevemente la evolución: de modelos que solo completan texto a sistemas que razonan, llaman herramientas y se conectan a datos corporativos. Usar ejemplos ficticios de banca (nunca datos reales de BCI): un asistente que responde sobre políticas internas, o que resume una llamada de atención al cliente. Mencionar que Microsoft Foundry es la respuesta de Microsoft a esta complejidad: una plataforma única para modelos, agentes y herramientas, en vez de servicios sueltos. Sugerido: preguntar a la sala qué casos de uso de IA generativa ya probaron, aunque sea informalmente, para calibrar el resto del módulo. Fuente: docs-oficiales\\foundry\\what-is-foundry.md"
+  },
+  {
+   "layout": "grid",
+   "title": "Microsoft Foundry en una vista",
+   "cells": [
+    {
+     "title": "Agentes",
+     "body": "Agentes declarativos (prompt agents), agentes de voz y agentes hosteados con tu propio código."
+    },
+    {
+     "title": "Modelos",
+     "body": "Catálogo con miles de modelos de Microsoft, OpenAI, Anthropic, Meta y otros proveedores."
+    },
+    {
+     "title": "Tools y conocimiento",
+     "body": "Herramientas, memoria y recuperación de datos propios a través del Foundry Toolbox."
+    },
+    {
+     "title": "Plataforma empresarial",
+     "body": "Observabilidad, RBAC, redes privadas y políticas, todo bajo un mismo recurso de Azure."
+    }
+   ],
+   "notes": "Presentar los cuatro bloques que forman Microsoft Foundry según la documentación oficial: agentes, modelos, tools/conocimiento y capacidades empresariales. La idea es que la sala se lleve una grilla mental simple: 'todo lo que antes eran servicios separados ahora vive bajo un mismo paraguas'. No hace falta profundizar en cada celda todavía, eso se retoma en los módulos 2, 3 y 4 del día. Sugerido: usar esta diapositiva como 'mapa' al que se puede volver mentalmente cuando se presenten Foundry IQ, Toolbox o Agent Service más adelante. Fuente: docs-oficiales\\foundry\\what-is-foundry.md (tabla 'What you can build')"
+  },
+  {
+   "layout": "compare",
+   "title": "La evolución de la plataforma",
+   "left": {
+    "title": "Antes (Azure AI Studio / hub)",
+    "items": [
+     "Hub + recurso de Azure OpenAI + Azure AI Services por separado",
+     "Agentes vía Assistants API (v0.5/v1)",
+     "Múltiples SDKs y endpoints (azure-ai-inference, azure-ai-ml...)"
+    ]
+   },
+   "right": {
+    "title": "Ahora (Microsoft Foundry)",
+    "items": [
+     "Un recurso Foundry con proyectos, RBAC y redes unificados",
+     "Agentes vía Responses API (Agents v2), rutas estables /openai/v1/",
+     "Un cliente de proyecto unificado (azure-ai-projects 2.x) + SDK de OpenAI"
+    ]
+   },
+   "verdict": "Mismo objetivo, menos piezas que administrar: un namespace, un modelo de permisos, una forma de observar.",
+   "notes": "Para quienes ya vieron Azure AI Studio o Azure OpenAI Service antes, esta diapositiva ubica qué cambió. Lo importante no es memorizar nombres, sino entender la dirección: consolidación. Menos recursos de Azure que administrar, un solo modelo de permisos y una API de agentes más moderna (Responses API) en reemplazo de Assistants API. Si alguien en la sala ya tiene proyectos en el portal clásico, aclarar que siguen siendo accesibles (hub-based projects en Foundry classic) pero que las inversiones nuevas van al portal nuevo. Sugerido: no entrar en detalle de migración hoy, es contenido de Día 2/3. Fuente: docs-oficiales\\foundry\\what-is-foundry.md (sección 'Evolution of Foundry')"
+  },
+  {
+   "layout": "bullets",
+   "title": "Quién hace qué en la plataforma",
+   "bullets": [
+    "Developers y arquitectos: eligen modelos, diseñan agentes y construyen la lógica de la aplicación.",
+    "Data/AI engineers: preparan datos, conectan fuentes de conocimiento y ajustan la recuperación (RAG).",
+    "DevOps: automatizan despliegues, observabilidad y ciclo de vida de agentes y modelos.",
+    "Gobierno y seguridad: definen guardrails, RBAC, redes y políticas de IA responsable."
+   ],
+   "callout": "Foundry da el andamiaje técnico; la responsabilidad del uso correcto sigue siendo de cada equipo.",
+   "notes": "Cerrar el módulo 1 conectando los roles presentes en la sala (desarrollo, arquitectura, datos, DevOps, gobierno) con responsabilidades concretas sobre la plataforma. Esto ayuda a que cada persona identifique, durante el resto del día, qué partes le van a resultar más relevantes: por ejemplo, quienes vienen de gobierno van a prestar más atención a guardrails y RBAC, mientras que los data/AI engineers se van a enfocar en RAG y Foundry IQ. Sugerido: invitar a que cada persona piense en qué rol se identifica más mientras avanza el día, y cerrar el módulo abriendo paso a Pablo para la plataforma Foundry en detalle. Fuente: docs-oficiales\\foundry\\guardrails\\guardrails-overview.md; docs-oficiales\\foundry\\agents\\overview.md (Enterprise capabilities)"
+  },
+  {
+   "layout": "section",
+   "title": "Módulo 2 · Plataforma Foundry",
+   "number": "2",
+   "subtitle": "Del recurso Foundry al primer modelo desplegado",
+   "duration": "30 min",
+   "notes": "Pablo toma el módulo 2. Ahora sí se entra en la plataforma concreta: cómo se organiza un proyecto Foundry, cómo se recorre el portal, cómo se elige un modelo del catálogo y qué significa 'deployment type'. También se compara Responses API con Chat Completions y se repasan las tres formas de mejorar un modelo (prompting, RAG, fine-tuning). Es el módulo más denso del día en términos técnicos. Sugerido: avisar que habrá dos demos en vivo (portal y catálogo+playground), así la sala sabe que puede guardar preguntas de detalle para esos momentos. Fuente: MATERIALS_INDEX.md (§1, fila Plataforma Foundry)"
+  },
+  {
+   "layout": "layers",
+   "title": "Cómo se organiza un proyecto Foundry",
+   "layers": [
+    {
+     "title": "Portal, SDKs, CLI y VS Code",
+     "body": "Superficies para construir: portal web, SDKs (Python, C#, JS, Java), Azure Developer CLI y extensión de VS Code."
+    },
+    {
+     "title": "Recurso Foundry",
+     "body": "Un único recurso de Azure con RBAC, redes y políticas compartidas para todos los proyectos."
+    },
+    {
+     "title": "Proyectos",
+     "body": "Espacios de trabajo dentro del recurso: cada equipo o caso de uso puede tener su propio proyecto."
+    },
+    {
+     "title": "Modelos, agentes y tools",
+     "body": "Deployments de modelos, agentes (prompt o hosted) y herramientas conectadas, con observabilidad integrada."
+    }
+   ],
+   "notes": "Explicar el modelo de recursos de arriba hacia abajo: primero las superficies de desarrollo que se eligen según el perfil (portal para prototipar, SDK para integrarlo a una app, CLI para automatizar, VS Code para quienes prefieren el editor). Debajo, un recurso Foundry agrupa RBAC y red para toda la organización, y dentro de ese recurso viven uno o más proyectos (por ejemplo, un proyecto de entrenamiento y otro de producción). En la base están los artefactos concretos: modelos desplegados, agentes y tools. Sugerido: dibujar esta pirámide en el pizarrón si la sala lo pide, ayuda mucho a fijar el concepto antes de la demo del portal. Fuente: docs-oficiales\\foundry\\what-is-foundry.md (sección 'Choose your developer surface')"
+  },
+  {
+   "layout": "demo",
+   "title": "Demo: recorrido por el portal de Foundry",
+   "scenario": "Explorar el portal ai.azure.com para ubicar catálogo de modelos, agentes, conocimiento y observabilidad.",
+   "steps": [
+    "Iniciar sesión y abrir (o crear) un proyecto Foundry.",
+    "Recorrer la pestaña Build: modelos, agentes y conocimiento.",
+    "Mostrar la sección de observabilidad y evaluaciones.",
+    "Revisar RBAC y configuración de red del proyecto."
+   ],
+   "expected": "El grupo identifica dónde viven modelos, agentes, tools y métricas dentro de un mismo portal.",
+   "notes": "Demo en vivo del portal de Foundry (ai.azure.com). El objetivo no es mostrar cada botón, sino que la sala ubique mentalmente las cuatro zonas clave: catálogo de modelos, agentes, conocimiento (Foundry IQ) y observabilidad/evaluaciones. Aprovechar para mostrar también dónde se configuran RBAC y redes del proyecto, ya que son temas que van a preocupar especialmente a los perfiles de gobierno y DevOps en la sala. Sugerido: tener preparado de antemano un proyecto de ejemplo con algún modelo ya desplegado, para no depender de tiempos de aprovisionamiento en vivo. Como plan B si falla la conexión, usar capturas de pantalla preparadas. Fuente: docs-oficiales\\foundry\\concepts\\capabilities.md (tabla 'Major products and capabilities')"
+  },
+  {
+   "layout": "process",
+   "title": "Cómo elegir un modelo en el catálogo",
+   "steps": [
+    {
+     "title": "Explorar catálogo",
+     "body": "Filtrar por capacidad (texto, visión, agentes), proveedor y licencia entre miles de modelos."
+    },
+    {
+     "title": "Comparar benchmarks",
+     "body": "Evaluar calidad, costo y latencia lado a lado con tareas reales o datos propios."
+    },
+    {
+     "title": "Elegir deployment type",
+     "body": "Definir si se necesita pago por token, capacidad reservada o procesamiento por lotes."
+    },
+    {
+     "title": "Validar cuota y región",
+     "body": "Confirmar disponibilidad del modelo y cuota en la región elegida antes de producción."
+    },
+    {
+     "title": "Desplegar y probar",
+     "body": "Crear el deployment y validarlo en el playground antes de integrarlo a una app."
+    }
+   ],
+   "notes": "Recorrer el flujo recomendado por la documentación de Foundry para elegir un modelo: explorar el catálogo (más de 10.000 modelos, ~50 nuevos por mes), comparar benchmarks con datos propios, elegir el tipo de deployment adecuado, validar cuota y región, y recién ahí desplegar. Remarcar que 'cuota y región' no es un detalle menor: no todos los modelos están disponibles en todas las regiones ni con todos los deployment types, así que conviene validarlo temprano en un proyecto real. Sugerido: mencionar que en el laboratorio de hoy se usa este mismo flujo mental, aunque simplificado. Fuente: docs-oficiales\\foundry\\concepts\\foundry-models-overview.md; docs-oficiales\\foundry\\foundry-models\\quotas-limits.md"
+  },
+  {
+   "layout": "table",
+   "title": "Tipos de deployment de modelos",
+   "columns": [
+    "Tipo",
+    "Procesamiento",
+    "Facturación",
+    "Uso típico"
+   ],
+   "rows": [
+    [
+     "Global Standard",
+     "Cualquier región de Azure",
+     "Pago por token",
+     "Uso general, mayor cuota"
+    ],
+    [
+     "Global Provisioned",
+     "Cualquier región de Azure",
+     "Capacidad reservada",
+     "Throughput alto y predecible"
+    ],
+    [
+     "Data Zone Standard",
+     "Dentro de la zona de datos",
+     "Pago por token",
+     "Cumplimiento US/EU/APAC"
+    ],
+    [
+     "Data Zone Provisioned",
+     "Dentro de la zona de datos",
+     "Capacidad reservada",
+     "Zona de datos + throughput"
+    ],
+    [
+     "Standard / Regional Provisioned",
+     "Dentro de la geografía de Azure",
+     "Token o reservada",
+     "Cumplimiento por geografía"
+    ],
+    [
+     "Batch",
+     "Cualquier región o zona",
+     "Descuento, asíncrono",
+     "Trabajos grandes, no urgentes"
+    ],
+    [
+     "Developer",
+     "Cualquier región de Azure",
+     "Pago por token",
+     "Evaluar modelos fine-tuned"
+    ]
+   ],
+   "note": "Empezar por Global Standard; cambiar solo si hay un motivo concreto de residencia o throughput.",
+   "notes": "Esta tabla resume los deployment types documentados para Foundry Models (aplican a la opción Serverless API; los modelos open-source con managed compute no usan estos tipos). La recomendación oficial es simple: arrancar siempre con Global Standard, que es el que llega primero para modelos nuevos, tiene el precio más bajo y la mayor cobertura de regiones. Solo conviene moverse a Data Zone o Standard/geografía si hay un requisito real de residencia de datos, y a Provisioned si se necesita throughput reservado y predecible. Batch sirve para trabajos grandes no urgentes con descuento. Sugerido: evitar entrar en números de precio o cuota exactos, la documentación no los fija de forma universal; remitir a la calculadora de precios oficial si preguntan. Fuente: docs-oficiales\\foundry\\foundry-models\\concepts\\deployment-types.md"
+  },
+  {
+   "layout": "demo",
+   "title": "Demo: catálogo de modelos y playground",
+   "scenario": "Desplegar un modelo del catálogo y conversar con él en el playground del proyecto.",
+   "steps": [
+    "Buscar un modelo de propósito general en el catálogo.",
+    "Revisar su ficha: capacidades y deployment types disponibles.",
+    "Crear el deployment con Global Standard.",
+    "Abrir el playground y probar un prompt bancario ficticio (p. ej. resumir una política interna)."
+   ],
+   "expected": "El grupo ve el camino completo: catálogo → deployment → prueba en playground, sin escribir código.",
+   "notes": "Segunda demo del módulo: mostrar el recorrido completo desde buscar un modelo hasta conversar con él, sin escribir una sola línea de código. Usar un ejemplo ficticio de banca, nunca datos reales de BCI (por ejemplo, pedirle al modelo que resuma una política interna inventada o redacte un correo de ejemplo). Aprovechar para mostrar la ficha del modelo con sus deployment types disponibles, conectando con la diapositiva anterior. Sugerido: preparar de antemano el modelo ya desplegado por si el tiempo de aprovisionamiento en vivo es largo, y tener un prompt de respaldo escrito para no quedarse en blanco frente a la sala. Fuente: docs-oficiales\\foundry\\what-is-foundry.md (sección 'Get started'); repos\\publico-samples\\foundry-samples\\samples\\python\\quickstart"
+  },
+  {
+   "layout": "compare",
+   "title": "Responses API vs Chat Completions",
+   "left": {
+    "title": "Chat Completions",
+    "items": [
+     "Modelo de mensajes por turno, histórico administrado por la app",
+     "Patrón conocido, amplia compatibilidad con integraciones existentes",
+     "Sin conceptos nativos de agente, tools o estado persistente"
+    ]
+   },
+   "right": {
+    "title": "Responses API (Agents v2)",
+    "items": [
+     "Pensado para agentes: conversaciones, items y versiones de agente",
+     "Integra tools, archivos y estado de forma nativa en la misma llamada",
+     "Es la ruta recomendada para nuevos desarrollos en Foundry"
+    ]
+   },
+   "verdict": "Para apps nuevas con agentes o tools, partir de Responses API; Chat Completions sigue disponible para migrar gradualmente.",
+   "notes": "Esta comparación viene directo del curso AI-103 (desarrollo de apps de IA generativa en Foundry): Chat Completions es el patrón clásico de mensajes por turno, muy conocido y compatible con mucho código existente, pero no tiene conceptos nativos de agente ni de tools. Responses API es la evolución pensada para agentes: maneja conversaciones, items y versiones de agente, e integra tools y estado en la misma llamada. Para código nuevo en Foundry, la recomendación es partir directamente por Responses API. Sugerido: aclarar que esto no es una decisión binaria permanente, muchas organizaciones migran gradualmente. Fuente: docs-oficiales\\foundry\\what-is-foundry.md (tabla 'Evolution of Foundry'); docs-oficiales\\foundry\\agents\\overview.md (sección Responses API); 00-agenda-y-contexto\\courseware-AI-103T00\\OUTLINE_slides_AI-103T00.md (deck 01, slides 21-24)"
+  },
+  {
+   "layout": "cards",
+   "title": "Tres formas de mejorar un modelo",
+   "cards": [
+    {
+     "title": "Prompt engineering",
+     "body": "Ajustar instrucciones, ejemplos y formato de salida. Es el primer paso, rápido y sin infraestructura adicional."
+    },
+    {
+     "title": "RAG (grounding)",
+     "body": "Conectar el modelo a datos propios (p. ej. políticas internas ficticias) para respuestas actualizadas y verificables."
+    },
+    {
+     "title": "Fine-tuning",
+     "body": "Entrenar el modelo con ejemplos propios cuando el prompting y la recuperación no alcanzan la calidad necesaria."
+    }
+   ],
+   "footer": "Orden recomendado: prompting → RAG → fine-tuning, de menor a mayor esfuerzo.",
+   "notes": "Resumir las tres palancas para mejorar la calidad de un modelo, en el orden en que conviene probarlas. Prompt engineering es siempre el primer paso: barato, rápido de iterar y muchas veces suficiente. Cuando el problema es que el modelo no conoce información propia o actualizada (por ejemplo, políticas internas de crédito ficticias), la solución es RAG: conectar el modelo a una fuente de conocimiento en lugar de reentrenarlo. Fine-tuning queda para cuando se necesita que el modelo adopte un estilo, dominio o comportamiento muy específico que ni el prompting ni la recuperación logran resolver. Sugerido: conectar esta diapositiva con el módulo 4, donde se profundiza en RAG y Foundry IQ. Fuente: docs-oficiales\\foundry\\concepts\\capabilities.md (fila Fine-tuning); 00-agenda-y-contexto\\courseware-AI-103T00\\OUTLINE_slides_AI-103T00.md (deck 01, slides 39-43)"
+  },
+  {
+   "layout": "bullets",
+   "title": "Cómo se construye en código",
+   "bullets": [
+    "Foundry SDK unificado (azure-ai-projects) para Python, C#, JavaScript y Java.",
+    "SDK de OpenAI y de Anthropic disponibles contra el mismo endpoint de proyecto.",
+    "Microsoft Agent Framework para construir agentes con código propio.",
+    "Extensión de VS Code y Azure Developer CLI (azd) para flujos de trabajo repetibles.",
+    "Foundry MCP Server (preview) habilita que asistentes de código operen Foundry por lenguaje natural."
+   ],
+   "callout": "No hace falta elegir un único camino: es común prototipar en el portal y pasar a SDK después.",
+   "notes": "Cerrar el módulo 2 repasando las superficies de desarrollo disponibles para quienes van a escribir código: el SDK unificado de Foundry (azure-ai-projects), compatibilidad con el SDK de OpenAI y de Anthropic contra el mismo endpoint, Microsoft Agent Framework para agentes con código propio, la extensión de VS Code y Azure Developer CLI para automatizar, y el Foundry MCP Server en preview para quienes usan GitHub Copilot u otros asistentes de código. Sugerido: mencionar brevemente que Agent Framework y hosted agents se retoman con mucho más detalle en el Día 2, así que hoy alcanza con saber que existen. Fuente: docs-oficiales\\foundry\\how-to\\develop\\sdk-overview.md"
+  },
+  {
+   "layout": "section",
+   "title": "Módulo 3 · Azure AI Services",
+   "number": "3",
+   "subtitle": "Foundry Tools especializados: documentos, voz, lenguaje y visión",
+   "duration": "40 min",
+   "notes": "Introducir el módulo 3: después de ver la plataforma general y el catálogo de modelos, ahora se revisan los servicios de IA especializados que viven dentro de Foundry Tools (el nombre actual de lo que antes era Azure AI Services): Document Intelligence, Speech, Language, Vision y Content Understanding. La idea es dar un panorama de qué hace cada uno y cuándo conviene usarlo, no un curso completo de cada servicio. Sugerido: anticipar que Document Intelligence se muestra en una demo en vivo dentro de este módulo y se retoma en el laboratorio guiado con un ejercicio de OCR sobre un documento bancario ficticio. Fuente: MATERIALS_INDEX.md (§1, fila Azure AI Services)"
+  },
+  {
+   "layout": "table",
+   "title": "Azure AI Services en Foundry Tools",
+   "columns": [
+    "Servicio",
+    "Qué hace",
+    "Uso bancario típico"
+   ],
+   "rows": [
+    [
+     "Document Intelligence",
+     "Extrae texto, tablas y campos clave de documentos",
+     "Solicitudes de crédito o formularios internos ficticios"
+    ],
+    [
+     "Speech",
+     "Convierte voz a texto y texto a voz, en vivo o por lotes",
+     "Transcripción de llamadas de atención al cliente"
+    ],
+    [
+     "Language",
+     "Analiza texto: entidades, PII, sentimiento, clasificación",
+     "Clasificar reclamos o detectar datos sensibles en tickets"
+    ],
+    [
+     "Vision",
+     "Analiza imágenes: objetos, texto, descripciones",
+     "Validar fotos de documentos o comprobantes"
+    ],
+    [
+     "Content Understanding",
+     "Genera salida estructurada desde documentos, audio o video",
+     "Esquematizar contratos o llamadas en un formato único"
+    ]
+   ],
+   "note": "Todos se consumen como Foundry Tools, con el mismo modelo de identidad y gobierno del proyecto.",
+   "notes": "Tabla resumen de los cinco Azure AI Services que se cubren hoy, con un caso de uso bancario ficticio por servicio (nunca datos reales de BCI). Document Intelligence para formularios, Speech para llamadas, Language para analizar texto y PII, Vision para imágenes y Content Understanding para convertir contenido no estructurado en un esquema definido. Remarcar el mensaje de la nota: todos estos servicios se consumen hoy como 'Foundry Tools' dentro del mismo recurso, con el mismo modelo de identidad y gobierno que se vio en el módulo 2, no son productos aislados. Sugerido: preguntar a la sala cuál de estos cinco servicios le resuena más con un problema real (sin pedir detalles confidenciales) para priorizar las siguientes dos diapositivas. Fuente: docs-oficiales\\ai-services-document-intelligence\\overview.md; docs-oficiales\\ai-services-speech-service\\overview.md; docs-oficiales\\ai-services-language-service\\overview.md; docs-oficiales\\ai-services-computer-vision\\overview.md; docs-oficiales\\ai-services-content-understanding\\overview.md"
+  },
+  {
+   "layout": "cards",
+   "title": "Document Intelligence en detalle",
+   "cards": [
+    {
+     "title": "Modelos prebuilt",
+     "body": "Plantillas listas para facturas, recibos, identificaciones y formularios comunes, sin entrenar nada."
+    },
+    {
+     "title": "Document Intelligence Studio",
+     "body": "Entorno visual para probar modelos, revisar la extracción y entrenar modelos personalizados."
+    },
+    {
+     "title": "Modelos personalizados",
+     "body": "Entrenables con ejemplos propios cuando el formato del documento es específico del negocio."
+    }
+   ],
+   "footer": "En el laboratorio de hoy probamos OCR sobre un documento bancario ficticio.",
+   "notes": "Profundizar un poco más en Document Intelligence porque es el servicio que se usa en el bloque C del laboratorio guiado. Mostrar que hay tres niveles: modelos prebuilt listos para usar (facturas, recibos, identificaciones), Document Intelligence Studio como entorno visual para probar y afinar la extracción, y modelos personalizados entrenables cuando el documento tiene un formato propio del negocio (por ejemplo, un formulario interno ficticio de apertura de cuenta). Sugerido: pasar enseguida a la demo en vivo de Document Intelligence Studio, para que la sala reconozca la interfaz antes del laboratorio. Fuente: docs-oficiales\\ai-services-document-intelligence\\overview.md; docs-oficiales\\ai-services-document-intelligence\\studio-overview.md; repos\\microsoftlearning-labs\\mslearn-ai-information-extraction\\Instructions\\03-document-intelligence.md"
+  },
+  {
+   "layout": "demo",
+   "title": "Demo: Document Intelligence Studio",
+   "scenario": "Extraer los campos de un comprobante de compra ficticio con un modelo prebuilt y revisar la confianza de cada campo.",
+   "steps": [
+    "Abrir Document Intelligence Studio y elegir el modelo prebuilt Receipt.",
+    "Cargar el comprobante de compra ficticio y ejecutar el análisis.",
+    "Revisar los campos extraídos y el nivel de confianza de cada uno.",
+    "Contrastar con Layout: texto plano frente a extracción estructurada.",
+    "Ver el JSON del resultado: lo que consumiría una app o un agente."
+   ],
+   "expected": "La sala distingue OCR de extracción estructurada antes de hacerlo por su cuenta en el bloque C del laboratorio.",
+   "notes": "Demo en vivo de unos 10 minutos con Document Intelligence Studio (documentintelligence.ai.azure.com), usando el comprobante de compra ficticio de la carpeta de datos del laboratorio y el modelo prebuilt Receipt; el laboratorio usa otros dos documentos (factura y solicitud de crédito), así que nadie ve dos veces el mismo. Mostrar primero el documento, ejecutar el análisis y recorrer los campos extraídos señalando la confianza de cada uno; después correr Layout sobre el mismo archivo para contrastar texto plano con extracción estructurada, y cerrar con la pestaña de JSON como puente hacia los agentes: ese resultado es el tipo de dato que una tool personalizada entregaría a un agente (Día 2). Plan B: tener capturas y el JSON ya generado por si Studio va lento o falla la sesión. Sugerido: pedir a alguien de la sala que adivine qué campo tendrá menor confianza antes de ejecutar. Fuente: laboratorios\\dia1-lab-guiado\\demo-document-intelligence.md; laboratorios\\dia1-lab-guiado\\datos\\documentos-ocr\\03-comprobante-compra.pdf; docs-oficiales\\ai-services-document-intelligence\\studio-overview.md"
+  },
+  {
+   "layout": "grid",
+   "title": "El resto de los Foundry Tools, en breve",
+   "cells": [
+    {
+     "title": "Speech",
+     "body": "Voz a texto, texto a voz y Voice Live para conversaciones habladas en tiempo real."
+    },
+    {
+     "title": "Language",
+     "body": "Análisis de texto, detección de PII y un servidor MCP para integrarlo en agentes."
+    },
+    {
+     "title": "Vision",
+     "body": "Análisis de imágenes y OCR clásico; la familia Image Analysis 4.0 está en migración."
+    },
+    {
+     "title": "Content Understanding",
+     "body": "Extrae campos y genera markdown desde documentos, imágenes, audio y video con un único analizador."
+    }
+   ],
+   "notes": "Repasar en formato breve los otros cuatro servicios. Speech cubre voz a texto, texto a voz y el escenario de conversación en tiempo real con Voice Live, que hoy solo se menciona: no hay laboratorio de voz. Language ofrece análisis de texto y detección de información personal, y ya tiene un servidor MCP propio para integrarse directamente en agentes. Vision analiza imágenes, aclarando que la familia Image Analysis 4.0 está en proceso de migración según la documentación oficial, así que conviene revisar la guía de migración antes de construir algo nuevo sobre ella. Content Understanding es el más nuevo: usa IA generativa para convertir documentos, audio o video en una salida con esquema definido. Sugerido: no profundizar más aquí, el detalle queda para quien lo necesite después del training. Fuente: docs-oficiales\\ai-services-speech-service\\overview.md; docs-oficiales\\ai-services-language-service\\overview.md; docs-oficiales\\ai-services-computer-vision\\overview.md; docs-oficiales\\ai-services-content-understanding\\overview.md"
+  },
+  {
+   "layout": "table",
+   "title": "Qué servicio uso en cada escenario",
+   "columns": [
+    "Escenario bancario (ficticio)",
+    "Servicio recomendado"
+   ],
+   "rows": [
+    [
+     "Extraer datos de un formulario de apertura de cuenta",
+     "Document Intelligence"
+    ],
+    [
+     "Resumir una llamada de atención al cliente",
+     "Speech + Language"
+    ],
+    [
+     "Clasificar reclamos por tipo y urgencia",
+     "Language"
+    ],
+    [
+     "Validar que una foto de comprobante es legible",
+     "Vision"
+    ],
+    [
+     "Convertir un contrato en campos estructurados",
+     "Content Understanding"
+    ]
+   ],
+   "note": "Varios escenarios combinan más de un servicio; el agente orquesta la secuencia.",
+   "notes": "Cerrar el módulo 3 con una tabla de decisión rápida, siempre con escenarios bancarios ficticios. El mensaje clave de la nota al pie es que en la práctica casi ningún caso usa un solo servicio: resumir una llamada combina Speech (transcribir) y Language (resumir o clasificar el sentimiento), y es el agente el que orquesta esa secuencia de pasos, no un único servicio aislado. Sugerido: pedir a la sala que piense en voz alta un escenario propio (sin datos reales) y entre todos ubicar qué combinación de servicios usarían, como puente hacia el módulo 4 de agentes. Fuente: docs-oficiales\\ai-services-document-intelligence\\overview.md; docs-oficiales\\ai-services-speech-service\\overview.md; docs-oficiales\\ai-services-content-understanding\\overview.md"
+  },
+  {
+   "layout": "section",
+   "title": "Módulo 4 · Agentes y conocimiento",
+   "number": "4",
+   "subtitle": "Foundry Agent Service, tools, RAG y MCP",
+   "duration": "35 min",
+   "notes": "Abrir el módulo 4, el más largo de la mañana y compartido entre Valentina (agentes) y Pablo (conocimiento/RAG). Es el módulo bisagra hacia el laboratorio: se explica qué es un agente, qué tipos existen, cómo se le dan herramientas, cómo se conecta a conocimiento propio con RAG y Foundry IQ, y qué es MCP como estándar para conectar tools. Al final de este módulo la sala ya tiene todo el vocabulario necesario para entender el laboratorio guiado. Sugerido: anunciar que habrá una demo de creación de un agente en el portal antes de pasar al laboratorio. Fuente: MATERIALS_INDEX.md (§1, fila Agentes y conocimiento)"
+  },
+  {
+   "layout": "layers",
+   "title": "La anatomía de un agente",
+   "layers": [
+    {
+     "title": "Modelo",
+     "body": "El motor de razonamiento: un modelo del catálogo elegido según capacidad, costo y latencia."
+    },
+    {
+     "title": "Instrucciones",
+     "body": "El rol, tono y reglas de negocio que guían cómo responde el agente."
+    },
+    {
+     "title": "Tools",
+     "body": "Acciones que el agente puede invocar: búsqueda web, code interpreter, funciones propias, MCP."
+    },
+    {
+     "title": "Conocimiento",
+     "body": "Datos propios a los que el agente accede vía RAG y Foundry IQ para fundamentar sus respuestas."
+    },
+    {
+     "title": "Memoria",
+     "body": "Contexto persistente entre sesiones (preview) para recordar preferencias o estado previo."
+    }
+   ],
+   "notes": "Esta diapositiva es el corazón conceptual del módulo: un agente no es 'un modelo que chatea', es la combinación de cinco piezas. El modelo aporta el razonamiento; las instrucciones fijan el rol y las reglas de negocio (por ejemplo, 'actuá como asistente de políticas internas y nunca inventes cifras'); las tools le dan capacidad de acción; el conocimiento lo conecta a datos propios vía RAG o Foundry IQ; y la memoria, todavía en preview, le permite recordar contexto entre sesiones. Sugerido: pedirle a la sala que, mientras se arma el agente del laboratorio, identifique explícitamente cada una de estas cinco piezas en lo que están configurando. Fuente: docs-oficiales\\foundry\\agents\\overview.md (secciones Tools and toolboxes, Agent Service at a glance); docs-oficiales\\foundry\\concepts\\capabilities.md (filas Memory, Workflows)"
+  },
+  {
+   "layout": "compare",
+   "title": "Prompt agent vs hosted agent",
+   "left": {
+    "title": "Prompt agent",
+    "items": [
+     "Se define por configuración: instrucciones, modelo y tools",
+     "Foundry lo ejecuta; no hay código ni contenedores que mantener",
+     "Ideal para empezar rápido y para agentes sin lógica custom"
+    ]
+   },
+   "right": {
+    "title": "Hosted agent",
+    "items": [
+     "Trae tu propio código o framework (Agent Framework, LangGraph...)",
+     "Foundry lo corre como contenedor con endpoint, escalado e identidad",
+     "Ideal cuando se necesita lógica de orquestación propia"
+    ]
+   },
+   "verdict": "Para el laboratorio de hoy usamos un prompt agent: la forma más rápida de llegar a un agente funcionando.",
+   "notes": "Explicar el espectro entre 'declarativo' y 'código completo' que describe la documentación de Foundry. Un prompt agent se arma completamente por configuración (instrucciones, modelo, tools) y Foundry se encarga de correrlo, sin contenedores ni infraestructura que mantener: es el punto de partida recomendado para casi todo el mundo. Un hosted agent, en cambio, es código propio (con Agent Framework, LangGraph u otro framework) empaquetado como contenedor, que Foundry aloja con endpoint administrado, escalado e identidad dedicada. Se eligió no mencionar los agentes de voz en esta comparación para no sobrecargar la diapositiva; se abordaron ya en el módulo 2. Sugerido: remarcar que hoy el laboratorio usa prompt agent, y que hosted agents se retoman en profundidad en el Día 2. Fuente: docs-oficiales\\foundry\\agents\\overview.md (secciones Agent types, Compare agent types)"
+  },
+  {
+   "layout": "demo",
+   "title": "Demo: crear un agente en el portal",
+   "scenario": "Configurar un prompt agent en el portal de Foundry y probarlo en el playground de agentes.",
+   "steps": [
+    "Crear un nuevo agente y elegir el modelo.",
+    "Escribir instrucciones para un caso bancario ficticio (p. ej. asistente de políticas internas).",
+    "Agregar una tool (file search o code interpreter).",
+    "Probarlo en el playground con una pregunta de ejemplo."
+   ],
+   "expected": "El grupo ve el flujo completo antes de replicarlo en el laboratorio guiado.",
+   "notes": "Tercera demo del día y la más importante antes del laboratorio: mostrar en vivo, paso a paso, cómo se crea un prompt agent en el portal, desde elegir el modelo hasta probarlo en el playground de agentes. Usar un caso bancario ficticio, por ejemplo un asistente que responde preguntas sobre una política interna inventada para el training. Agregar al menos una tool (file search es la más simple de mostrar) para que la sala vea cómo se conecta conocimiento o acción al agente. Sugerido: ir despacio en esta demo, ya que es exactamente lo que cada persona va a replicar por su cuenta en el bloque B del laboratorio; si algo falla, tener capturas de respaldo del flujo completo. Fuente: docs-oficiales\\foundry\\agents\\overview.md (sección 'Choose how to build'); repos\\microsoftlearning-labs\\mslearn-agent-quickstart\\Instructions\\01b-create-first-agent.md"
+  },
+  {
+   "layout": "grid",
+   "title": "Toolbox: un punto de entrada para las tools",
+   "cells": [
+    {
+     "title": "Build",
+     "body": "Definir tools y skills reutilizables una sola vez, con autenticación centralizada."
+    },
+    {
+     "title": "Discover",
+     "body": "Tool search ayuda al agente a encontrar la tool correcta entre cientos sin saturar el contexto."
+    },
+    {
+     "title": "Consume",
+     "body": "Un único endpoint compatible con MCP conecta agentes de distintos frameworks."
+    },
+    {
+     "title": "Govern",
+     "body": "Guardrails, versionado y gobierno aplicados de forma centralizada a todas las tools."
+    }
+   ],
+   "notes": "Explicar el problema que resuelve Toolbox: a medida que una organización crea más agentes, cada uno termina reimplementando sus propias tools, credenciales y controles de seguridad, lo que genera duplicación e inconsistencia. Toolbox centraliza esto en cuatro pilares: Build (definir tools y skills una sola vez), Discover (tool search, para que el agente encuentre la tool correcta sin saturar el contexto del modelo con cientos de definiciones), Consume (un único endpoint compatible con MCP que cualquier framework puede usar) y Govern (guardrails y versionado aplicados de forma centralizada). Sugerido: usar el ejemplo del documento oficial de un agente de onboarding que necesita cinco tipos de tools distintos para ilustrar el problema antes de la solución. Fuente: docs-oficiales\\foundry\\agents\\concepts\\toolbox-overview.md"
+  },
+  {
+   "layout": "process",
+   "title": "RAG: de documentos a respuestas fundamentadas",
+   "steps": [
+    {
+     "title": "Ingerir",
+     "body": "Cargar documentos propios (p. ej. políticas internas ficticias) desde su origen."
+    },
+    {
+     "title": "Chunking",
+     "body": "Dividir el contenido en fragmentos manejables para indexarlos."
+    },
+    {
+     "title": "Embeddings",
+     "body": "Generar vectores que representan el significado de cada fragmento."
+    },
+    {
+     "title": "Indexar",
+     "body": "Guardar los fragmentos y vectores en Azure AI Search para búsqueda híbrida."
+    },
+    {
+     "title": "Recuperar y fundamentar",
+     "body": "El agente busca los fragmentos relevantes y los usa para responder con contexto propio."
+    }
+   ],
+   "notes": "Introducir RAG (retrieval-augmented generation) con el flujo clásico de cinco pasos: ingerir documentos propios, dividirlos en fragmentos (chunking), generar embeddings que representan el significado de cada fragmento, indexarlos en Azure AI Search (que soporta búsqueda de texto, vectorial e híbrida) y finalmente recuperar los fragmentos relevantes para que el agente fundamente su respuesta en ellos en vez de 'inventar'. Usar como ejemplo ficticio una política interna de crédito que el agente debe citar correctamente. Sugerido: aclarar que Azure AI Search además ofrece 'agentic retrieval', un patrón más avanzado (descompone la pregunta en subconsultas, busca en paralelo y reordena resultados) que se retoma en la siguiente diapositiva con Foundry IQ. Fuente: docs-oficiales\\azure-ai-search\\search-what-is-azure-search.md"
+  },
+  {
+   "layout": "bullets",
+   "title": "Foundry IQ: conocimiento como servicio",
+   "bullets": [
+    "Una knowledge base agrupa varias fuentes (Blob Storage, SharePoint, OneLake, web) para un mismo agente.",
+    "La recuperación agentic planifica subconsultas, busca en paralelo y reordena resultados semánticamente.",
+    "Respeta permisos: sincroniza listas de control de acceso y responde solo con contenido autorizado.",
+    "Varios agentes pueden compartir la misma knowledge base, incluyendo agentes de Copilot Studio."
+   ],
+   "callout": "Azure AI Search es la infraestructura de indexado y recuperación detrás de Foundry IQ.",
+   "notes": "Foundry IQ es la capa administrada que empaqueta RAG como servicio: en vez de armar manualmente el pipeline de chunking, embeddings e índice, se define una knowledge base con una o más fuentes de conocimiento y Foundry IQ se encarga de la recuperación agentic (planificar subconsultas, buscar en paralelo, reordenar resultados). Un punto clave para un banco es que respeta permisos: sincroniza listas de control de acceso y Purview, y responde con el contenido que el usuario que pregunta tiene autorizado ver. Una misma knowledge base puede conectarse a varios agentes, incluso a agentes de Copilot Studio. Sugerido: mencionar que algunas capacidades de Foundry IQ siguen en preview según la versión de API de Azure AI Search utilizada. Fuente: docs-oficiales\\foundry\\agents\\concepts\\what-is-foundry-iq.md"
+  },
+  {
+   "layout": "cards",
+   "title": "MCP: un estándar para conectar tools",
+   "cards": [
+    {
+     "title": "¿Qué es?",
+     "body": "Model Context Protocol es un estándar abierto para que las apps ofrezcan tools y datos a modelos de lenguaje."
+    },
+    {
+     "title": "Cómo se usa en Foundry",
+     "body": "Un agente se conecta a un servidor MCP remoto (propio o de terceros) como una tool más."
+    },
+    {
+     "title": "Por qué importa",
+     "body": "Permite reusar las mismas tools entre agentes, frameworks y organizaciones sin reescribir integraciones."
+    }
+   ],
+   "footer": "El Toolbox de Foundry expone sus tools detrás de un único endpoint compatible con MCP.",
+   "notes": "Cerrar el bloque conceptual del módulo 4 con una introducción a MCP (Model Context Protocol): un estándar abierto, no exclusivo de Microsoft, que define cómo una aplicación ofrece tools y datos contextuales a un modelo de lenguaje. En Foundry, un agente puede conectarse a un servidor MCP remoto (autenticado por clave, Entra ID u OAuth on-behalf-of) como si fuera una tool más. El valor práctico es que la misma tool se puede reusar entre agentes distintos, frameworks distintos e incluso organizaciones distintas, en lugar de reescribir una integración a medida cada vez. Sugerido: mencionar brevemente que en el Día 2 se profundiza en cómo construir y consumir servidores MCP propios. Fuente: docs-oficiales\\foundry\\agents\\how-to\\tools\\model-context-protocol.md; docs-oficiales\\foundry\\mcp\\get-started.md"
+  },
+  {
+   "layout": "table",
+   "title": "Qué servicio o patrón uso cuándo",
+   "columns": [
+    "Necesidad",
+    "Patrón o servicio recomendado"
+   ],
+   "rows": [
+    [
+     "Responder con el tono y formato correctos",
+     "Prompt engineering"
+    ],
+    [
+     "Responder con datos internos actualizados",
+     "RAG + Foundry IQ / Azure AI Search"
+    ],
+    [
+     "El modelo debe aprender un estilo o dominio muy específico",
+     "Fine-tuning"
+    ],
+    [
+     "El agente debe ejecutar acciones o llamar sistemas externos",
+     "Tools, Toolbox y MCP"
+    ],
+    [
+     "Extraer campos de documentos o formularios",
+     "Document Intelligence o Content Understanding"
+    ],
+    [
+     "Conversación hablada en tiempo real",
+     "Voice-based prompt agent + Speech"
+    ]
+   ],
+   "note": "Esta tabla es un punto de partida; muchos casos combinan más de un patrón.",
+   "notes": "Cerrar el módulo 4 con una tabla de decisión que resume todo lo visto en el día: cuándo alcanza con ajustar el prompt, cuándo conviene RAG, cuándo fine-tuning, cuándo se necesitan tools o MCP, cuándo conviene un Azure AI Service específico y cuándo un agente de voz. Esta diapositiva funciona como 'chuleta' para que cada persona se lleve un criterio inicial de decisión, que es justamente uno de los objetivos del día planteados al inicio. Sugerido: invitar a la sala a guardar esta diapositiva como referencia, y aclarar que se va a volver a usar implícitamente durante el laboratorio guiado que viene a continuación, después de la pausa. Fuente: docs-oficiales\\foundry\\concepts\\capabilities.md (sección 'Start with your goal'); docs-oficiales\\foundry\\agents\\concepts\\what-is-foundry-iq.md"
+  },
+  {
+   "layout": "section",
+   "title": "Laboratorio guiado",
+   "number": "Lab",
+   "subtitle": "Del catálogo de modelos a una experiencia de agente",
+   "duration": "65 min",
+   "notes": "Después de la pausa de 10 minutos, arranca el bloque práctico del día: 65 minutos de laboratorio guiado en tres bloques, todos hands-on. El bloque A (15 min) deja el entorno listo: herramientas instaladas, az login con el Temporary Access Pass y acceso al proyecto Foundry; el bloque B (25 min) es la creación del primer agente; y el bloque C (25 min) es el OCR con Document Intelligence. No hay bloque de voz y avatar: ese tiempo se usa en la preparación del entorno, que además deja a todos listos para el Día 2. Sugerido: organizar a la sala en parejas o tríos antes de empezar y pedir que instalen las herramientas antes del taller, para que el bloque A sea solo una verificación. Fuente: laboratorios\\dia1-lab-guiado\\README.md (§3 Cronograma); MATERIALS_INDEX.md (§1, fila Lab guiado; §4 Entorno de laboratorio)"
+  },
+  {
+   "layout": "lab",
+   "title": "Laboratorio: visión general",
+   "objective": "Preparar el entorno, configurar un primer agente en Microsoft Foundry y probar OCR con Document Intelligence.",
+   "time": "65 min",
+   "steps": [
+    "Bloque A (≈15 min): preparar el entorno y verificar prerrequisitos (az CLI, VS Code, Python, Git).",
+    "Bloque B (≈25 min): crear y configurar un agente en Microsoft Foundry.",
+    "Bloque C (≈25 min): extraer datos de un documento con Document Intelligence.",
+    "Trabajar en parejas o tríos; cada persona deja su proyecto guardado al final."
+   ],
+   "deliverables": [
+    "Entorno verificado: az login y proyecto Foundry accesibles",
+    "Un agente configurado y probado en el playground",
+    "Un documento ficticio con campos extraídos"
+   ],
+   "repoUrl": "https://github.com/MicrosoftLearning/mslearn-agent-quickstart",
+   "notes": "Dar la visión general del laboratorio antes de entrar al detalle de cada bloque. Explicar los tiempos aproximados (15/25/25 minutos) y los tres entregables: el entorno verificado, un agente probado y un documento ficticio con campos extraídos. Aclarar que el modelo de trabajo es gpt-5.6-luna, ya desplegado en la cuenta de cada persona con una cuota chica (unos 4K tokens por minuto): conviene que cada pareja haga preguntas cortas y, si aparece un error de límite, espere unos segundos o cambie a gpt-5-mini, también desplegado. Remarcar que en el bloque A el objetivo es verificar lo que ya se instaló antes del taller, no instalar todo desde cero. Sugerido: recorrer rápidamente dónde están las instrucciones escritas (guía del participante y repositorio público) para que cada grupo avance a su ritmo. Fuente: laboratorios\\dia1-lab-guiado\\README.md; repos\\microsoftlearning-labs\\mslearn-agent-quickstart\\readme.md"
+  },
+  {
+   "layout": "lab",
+   "title": "Bloque A: preparación del entorno",
+   "objective": "Dejar tu entorno listo: herramientas verificadas, sesión iniciada con tu cuenta del taller y acceso a tu proyecto Foundry.",
+   "time": "15 min",
+   "steps": [
+    "Verificar VS Code, Python 3.13, Git y Azure CLI (az --version).",
+    "Iniciar sesión con tu cuenta del taller y tu Temporary Access Pass (az login).",
+    "Confirmar tu grupo de recursos, tu proyecto Foundry y el modelo gpt-5.6-luna.",
+    "Instalar la extensión Foundry Toolkit for VS Code e iniciar sesión.",
+    "Descargar la carpeta de datos y acordar los roles de la pareja o trío."
+   ],
+   "deliverables": [
+    "az login funcionando con tu cuenta del taller",
+    "Proyecto Foundry accesible en ai.azure.com"
+   ],
+   "repoUrl": "https://microsoftlearning.github.io/mslearn-ai-agents/Instructions/Exercises/02-agent-custom-tools.html",
+   "repoLabel": "Prerrequisitos (Microsoft Learn)",
+   "notes": "Este bloque deja el entorno listo y sigue los prerrequisitos del ejercicio público de Microsoft Learn sobre funciones personalizadas en agentes: Visual Studio Code, una suscripción de Azure activa, Python 3.13 (la 3.14 todavía no está soportada por algunas dependencias) y Git; a eso se suma Azure CLI. Las cuentas del taller entran con un Temporary Access Pass entregado por los organizadores, sin registrar MFA; si alguien ve el error de registro de MFA, no está usando el pase. La mayor parte debería estar instalada antes del taller, así que el bloque es sobre todo una verificación. Sugerido: pedir que cada pareja confirme en voz alta que ve su proyecto en ai.azure.com y que az account show responde; quien no lo logre en 10 minutos se une a otra pareja mientras un facilitador lo ayuda. Este mismo entorno se usa en el Día 2. Fuente: laboratorios\\dia1-lab-guiado\\README.md (Bloque A); repos\\microsoftlearning-labs (mslearn-ai-agents, ejercicio 02-agent-custom-tools)"
+  },
+  {
+   "layout": "lab",
+   "title": "Bloque B: tu primer agente",
+   "objective": "Crear un prompt agent en Foundry con instrucciones propias y una tool, y validarlo en el playground.",
+   "time": "25 min",
+   "steps": [
+    "Abrir el proyecto provisto por el equipo en ai.azure.com.",
+    "Definir instrucciones para un asistente de políticas internas ficticio.",
+    "Usar el modelo gpt-5.6-luna ya desplegado y agregar una tool (file search).",
+    "Probar el agente en el playground con 2–3 preguntas de ejemplo.",
+    "Guardar el agente como punto de partida para el Día 2."
+   ],
+   "deliverables": [
+    "Agente configurado y versionado en el proyecto"
+   ],
+   "repoUrl": "https://github.com/MicrosoftLearning/mslearn-agent-quickstart",
+   "notes": "Este bloque (el segundo del laboratorio) replica, paso a paso, la demo de creación de agente mostrada en el módulo 4: usar el modelo ya desplegado, escribir instrucciones y agregar una tool; el proyecto y el modelo gpt-5.6-luna ya vienen listos desde el bloque A, y gpt-5-mini queda de respaldo si hay límite de cuota. Usar como ejemplo un asistente de políticas internas ficticio (nunca información real de BCI), por ejemplo un reglamento interno inventado para el training. Circular entre las mesas para resolver dudas de acceso al proyecto o de permisos, que suelen ser el primer obstáculo. Sugerido: tener a mano 2-3 preguntas de ejemplo ya escritas para que quien se atrase pueda copiarlas y seguir avanzando sin perder el ritmo del grupo. El agente creado aquí es la base que se retoma el Día 2 para agregarle código propio. Fuente: repos\\microsoftlearning-labs\\mslearn-agent-quickstart\\Instructions\\01-get-started-in-foundry.md; repos\\microsoftlearning-labs\\mslearn-agent-quickstart\\Instructions\\01b-create-first-agent.md"
+  },
+  {
+   "layout": "lab",
+   "title": "Bloque C: OCR con Document Intelligence",
+   "objective": "Extraer campos clave de un documento bancario ficticio usando un modelo prebuilt de Document Intelligence.",
+   "time": "25 min",
+   "steps": [
+    "Abrir Document Intelligence Studio o el notebook del laboratorio.",
+    "Cargar la factura ficticia (modelo Invoice) y después la solicitud de crédito (Layout).",
+    "Ejecutar un modelo prebuilt y revisar los campos extraídos.",
+    "Comparar el resultado con lo que un agente podría hacer con esos datos."
+   ],
+   "deliverables": [
+    "Documento ficticio con campos extraídos y validados"
+   ],
+   "repoUrl": "https://github.com/MicrosoftLearning/mslearn-ai-information-extraction",
+   "notes": "Tercer bloque del laboratorio: cada grupo carga documentos bancarios ficticios (factura y solicitud de crédito; el comprobante ya se vio en la demo) (provisto en el material del laboratorio, jamás un documento real de un cliente de BCI) y corre un modelo prebuilt de Document Intelligence para extraer campos clave. El objetivo es que la sala vea de primera mano la diferencia entre un OCR clásico (solo texto plano) y la extracción estructurada con confianza por campo que ofrece Document Intelligence. Cerrar el bloque conectando con el módulo 4: estos campos extraídos son exactamente el tipo de dato que después alimentaría a un agente con una tool personalizada. Sugerido: si algún grupo termina antes, invitarlo a probar con un segundo documento ficticio de distinto formato para ver cómo cambia la confianza de extracción. Fuente: repos\\microsoftlearning-labs\\mslearn-ai-information-extraction\\Instructions\\03-document-intelligence.md; docs-oficiales\\ai-services-document-intelligence\\studio-overview.md"
+  },
+  {
+   "layout": "takeaway",
+   "title": "Qué nos llevamos del Día 1",
+   "points": [
+    "Microsoft Foundry unifica modelos, agentes y tools en una sola plataforma con gobierno integrado.",
+    "Elegir bien un modelo y un deployment type es tan importante como elegir el patrón (prompting, RAG, fine-tuning).",
+    "Un agente es modelo + instrucciones + tools + conocimiento, y hoy configuramos el primero.",
+    "RAG, Foundry IQ y MCP son las piezas que conectan agentes con datos y sistemas propios."
+   ],
+   "notes": "Abrir el cierre del día (módulo 'Preguntas y cierre', 15 minutos) recapitulando los cuatro mensajes centrales de la jornada: la plataforma unificada, la importancia de elegir bien modelo y deployment type, la anatomía de un agente, y las piezas de conocimiento e integración (RAG, Foundry IQ, MCP). Pedir a la sala que, en voz alta o por chat de Teams, compartan una cosa que les haya sorprendido o una duda que les haya quedado pendiente. Sugerido: dejar unos 5 minutos reales de preguntas abiertas antes de pasar al adelanto del Día 2, priorizando preguntas que ayuden a todo el grupo. Fuente: MATERIALS_INDEX.md (§1 Día 1, columna Outcomes)"
+  },
+  {
+   "layout": "cards",
+   "title": "Mañana: Día 2 – Agentes y RAG",
+   "cards": [
+    {
+     "title": "Arquitectura y runtime",
+     "body": "Microsoft Agent Framework y hosted agents: cuándo pasar de prompt agent a código propio."
+    },
+    {
+     "title": "Tools e integración",
+     "body": "Tools personalizadas y MCP en profundidad, incluyendo cómo construir un servidor propio."
+    },
+    {
+     "title": "RAG con Azure AI Search",
+     "body": "Retrieval híbrido, agentic retrieval y cómo diseñar una knowledge base para un caso bancario."
+    }
+   ],
+   "footer": "Mismo horario: 09:00–13:00 hora Chile, modalidad híbrida.",
+   "notes": "Dar el adelanto del Día 2 (L200: desarrollo de agentes y RAG con Azure AI Search). Explicar que mañana se retoma el agente creado hoy en el bloque B del laboratorio, para evolucionarlo hacia un hosted agent con Microsoft Agent Framework, agregarle tools personalizadas y MCP en profundidad, y finalmente construir una solución de RAG completa con Azure AI Search sobre un caso bancario ficticio. Confirmar el mismo horario y modalidad híbrida. Sugerido: pedir a cada persona que guarde el agente creado hoy, ya que se reutiliza mañana como punto de partida; esto motiva a no dejar el laboratorio a medio terminar. Fuente: MATERIALS_INDEX.md (§2 Día 2 – L200)"
+  },
+  {
+   "layout": "resources",
+   "title": "Para seguir explorando",
+   "links": [
+    {
+     "label": "¿Qué es Microsoft Foundry?",
+     "url": "https://learn.microsoft.com/azure/foundry/what-is-foundry"
+    },
+    {
+     "label": "Mapa de capacidades de Foundry",
+     "url": "https://learn.microsoft.com/azure/foundry/concepts/capabilities"
+    },
+    {
+     "label": "Foundry Agent Service",
+     "url": "https://learn.microsoft.com/azure/foundry/agents/overview"
+    },
+    {
+     "label": "Qué es Foundry IQ",
+     "url": "https://learn.microsoft.com/azure/foundry/agents/concepts/what-is-foundry-iq"
+    },
+    {
+     "label": "Qué es Azure AI Search",
+     "url": "https://learn.microsoft.com/azure/search/search-what-is-azure-search"
+    },
+    {
+     "label": "Introducción a MCP",
+     "url": "https://modelcontextprotocol.io/introduction"
+    },
+    {
+     "label": "Lab: tu primer agente",
+     "url": "https://github.com/MicrosoftLearning/mslearn-agent-quickstart"
+    },
+    {
+     "label": "Instalar Azure CLI",
+     "url": "https://learn.microsoft.com/cli/azure/install-azure-cli"
+    }
+   ],
+   "notes": "Compartir los enlaces públicos para quienes quieran seguir explorando por su cuenta antes del Día 2: la documentación oficial de Microsoft Foundry (qué es, mapa de capacidades, Agent Service, Foundry IQ), la documentación de Azure AI Search, el sitio oficial de Model Context Protocol, y la guía para instalar Azure CLI, el repositorio público del laboratorio de hoy para quien quiera repetir el ejercicio en su propio tiempo. Todos los enlaces son públicos y no requieren acceso interno de Microsoft. Sugerido: pegar estos enlaces también en el canal de Teams del training para que queden a mano después de la sesión. Fuente: enlaces públicos de Microsoft Learn y modelcontextprotocol.io citados en cada diapositiva anterior"
+  },
+  {
+   "layout": "closing",
+   "title": "¡Gracias! Nos vemos en el Día 2",
+   "message": "Cualquier duda sobre lo de hoy, escríbannos por Teams. Mañana seguimos con agentes de código y RAG.",
+   "notes": "Cerrar el Día 1 agradeciendo la participación activa del grupo, sobre todo durante el laboratorio guiado. Recordar el canal de Teams para dudas asincrónicas antes del Día 2 y confirmar que el material de hoy (enlaces públicos y el agente creado) queda disponible para quien quiera repasarlo. Sugerido: cerrar con una frase que conecte el logro concreto del día ('hoy configuraron su primer agente en Microsoft Foundry') con la expectativa de mañana ('mañana lo llevamos a código'), para dar sensación de progreso continuo entre los tres días del training. Fuente: MATERIALS_INDEX.md (introducción y §1-2)"
+  }
+ ]
+}

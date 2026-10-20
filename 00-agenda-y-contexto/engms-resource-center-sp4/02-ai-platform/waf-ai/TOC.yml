@@ -1,0 +1,11 @@
+- name: Well-Architected Assessment for Azure AI
+  href: WAA-intro.md
+  items:
+  - name: Learning Path
+    href: WAA-lp.md
+  - name: Datasheet
+    href: WAA-datasheet.md
+  - name: Delivery Guide
+    href: WAA-deliveryguide.md
+  - name: Tools Overview Guide
+    href: WAA-Tools Overview Guide.md

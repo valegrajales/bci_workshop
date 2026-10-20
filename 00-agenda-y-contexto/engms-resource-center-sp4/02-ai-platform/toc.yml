@@ -1,0 +1,105 @@
+- name: AI Platform
+  href: ./index.md
+  items:
+  - name: Solution Optimization to Build and Deploy Azure AI Platform
+    href: ./SolnOptimizationPlatform.md
+    items:
+      - name: Datasheet
+        href: ./SolnOptimizationPlatform-datasheet.md
+      - name: Delivery Guide
+        href: ./SolnOptimizationPlatform.md
+      - name: Learning Path
+        href: ./SolnOptimizationPlatform-lp.md
+  - name: Solution Optimization for Microsoft Foundry Lifecycle
+    href: ./so-foundry-ds.md
+    items:
+      - name: Datasheet
+        href: ./so-foundry-ds.md
+      - name: Delivery Guide
+        href: ./so-foundry-dg.md
+      - name: Learning Path
+        href: ./so-foundry-lp.md
+  - name: Solution Accelerator for Azure AI Governance
+    href: ./aigov-intro.md
+    items:
+      - name: Datasheet
+        href: ./aigov-datasheet.md
+      - name: Delivery Guide
+        href: ./aigov-deliveryguide.md
+      - name: Learning Path
+        href: ./aigov-lp.md
+  - name: Proof of Concept to Build and Deploy Azure AI Platform
+    href: ./pocplatform-deliveryguide.md
+    items:
+      - name: Datasheet
+        href: ./pocplatform-datasheet.md
+      - name: Delivery Guide
+        href: ./pocplatform-deliveryguide.md
+      - name: Learning Path
+        href: ./pocplatform-lp.md
+  - name: Landing Zone Accelerator to Build and Deploy Azure AI Platform​​
+    items:
+      - name: Datasheet
+        href: ./lza-aiplat-datasheet.md
+      - name: Delivery Guide
+        href: ./lza-aiplat-deliveryguide.md
+      - name: Learning Path
+        href: ./lza-aiplat-lp.md
+  - name: Upskilling Execution
+    href: ./upskillingexecution/index.md
+    items:
+      - name: Retired - Workshop - GenAI Ops
+        href: ../01-ai-apps/upskillingexecution/wsgenaiops/ue-intro.md
+        items:
+          - name: Datasheet
+            href: ../01-ai-apps/upskillingexecution/wsgenaiops/ue-datasheet.md
+          - name: Delivery Guide
+            href: ../01-ai-apps/upskillingexecution/wsgenaiops/ue-deliveryguide.md
+          - name: Learning Path
+            href: ../01-ai-apps/upskillingexecution/wsgenaiops/ue-lp.md
+          - name: CPE Best Practices
+            href: cpe.md
+      - name: WorkshopPLUS - Azure AI Platform and Services  
+        href: ./upskillingexecution/ws-aaiplatform-and-services/ue-intro.md
+        items:
+            - name: Datasheet
+              href: ./upskillingexecution/ws-aaiplatform-and-services/ue-datasheet.md
+            - name: Delivery Guide
+              href: ./upskillingexecution/ws-aaiplatform-and-services/ue-deliveryguide.md
+            - name: Learning Path
+              href: ./upskillingexecution/ws-aaiplatform-and-services/ue-lp.md
+            - name: CPE Best Practices
+              href: cpe.md
+      - name: Retired - Workshop - Azure Machine Learning
+        href: ./upskillingexecution/ws-azureml/ue-intro.md
+        items:
+          - name: Datasheet
+            href: ./upskillingexecution/ws-azureml/ue-datasheet.md
+          - name: Outcome Blueprint
+            href: ./upskillingexecution/ws-azureml/output/azureml-blueprint.md
+          - name: Living Kit
+            href: ./upskillingexecution/ws-azureml/output/azureml-living-kit.md
+          - name: Learning Path
+            href: ./upskillingexecution/ws-azureml/ue-lp.md
+          - name: CPE Best Practices
+            href: cpe.md
+      - name: WorkshopPLUS - Designing and implementing a data science solution on Azure
+        href: "./upskillingexecution/course-dp100t01/ue-intro.md"
+        items:
+          - name: Datasheet
+            href: "./upskillingexecution/course-dp100t01/ue-datasheet.md"
+          - name: Delivery Guide
+            href: "./upskillingexecution/course-dp100t01/ue-deliveryguide.md"
+          - name: Learning Path
+            href: "./upskillingexecution/course-dp100t01/ue-lp.md"
+      - name: Well-Architected Assessment for Azure AI
+        href: ./waf-ai/WAA-intro.md
+        items:
+          - name: Datasheet
+            href: ./waf-ai/WAA-datasheet.md
+          - name: Delivery Guide
+            href: ./waf-ai/WAA-deliveryguide.md
+          - name: Learning Path
+            href: ./waf-ai/WAA-lp.md
+          - name: Tools Overview Guide
+            href: ./waf-ai/WAA-Tools Overview Guide.md

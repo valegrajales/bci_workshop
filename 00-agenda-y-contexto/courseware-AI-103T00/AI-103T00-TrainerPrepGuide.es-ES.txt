@@ -1,0 +1,654 @@
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 1 
+ 
+AI-103 
+Desarrollador de aplicaciones  
+y agentes de Azure AI 
+Guía de preparación del instructor 
+ 
+Marzo de 2026 
+ 
+Propósito 
+ 
+Este documento está destinado a Microsoft Certified Trainers que se preparan para enseñar el curso  
+AI-103: Desarrollo de aplicaciones y agentes de Azure AI. Este curso está diseñado para alumnos que 
+planean presentarse al examen de certificación correspondiente o alumnos que desempeñan tareas como 
+desarrolladores de aplicaciones y agentes de Azure AI en su trabajo diario. 
+ 
+Descripción del curso 
+ 
+El curso AI-103: Desarrollo de aplicaciones y agentes de Azure AI está diseñado para desarrolladores de 
+software que crean soluciones de IA listas para producción en Microsoft Azure. En este curso, se describe 
+todo el espectro de desarrollo con Microsoft Foundry, desde la implementación y la optimización de 
+modelos de IA generativa, y la implementación de canalizaciones RAG, hasta la creación de agentes 
+autónomos con integración de herramientas, orquestación multiagente y protecciones de IA responsable. 
+Los alumnos también exploran funcionalidades multimodales, como la visión, la voz, el análisis del 
+lenguaje natural y la extracción de documentos/contenido, para aprender a conectar orígenes de 
+conocimiento y servicios externos a flujos de trabajo de agentes inteligentes. 
+ 
+Objetivos de aprendizaje 
+ 
+Después de completar este curso, los alumnos podrán hacer lo siguiente: 
+• 
+Crear aplicaciones de IA generativa con Microsoft Foundry, incluyendo canalizaciones RAG, 
+optimización de solicitudes y prácticas de IA responsable 
+• 
+Desarrollar agentes de IA que integran herramientas, memoria, MCP y orquestación multiagente 
+mediante el Agente de servicio de IA de Azure y Microsoft Agent Framework 
+• 
+Implementar soluciones multimodales que procesan y generan imágenes, vídeos, voz y 
+documentos complejos 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 2 
+ 
+• 
+Aplicar soluciones de lenguaje natural y análisis de texto con los servicios de Lenguaje de Azure AI 
+y las funcionalidades de IA generativa en Foundry 
+• 
+Crear canalizaciones de extracción de información y base de conocimiento mediante Búsqueda de 
+Azure AI, Content Understanding y Document Intelligence 
+ 
+Definición de roles del desarrollador de aplicaciones 
+y agentes de Azure AI 
+ 
+Tanto el examen de certificación como el software del curso se basan en el rol de desarrollador de 
+aplicaciones y agentes de Azure AI.  
+Los desarrolladores de aplicaciones y agentes de Azure AI crean, implementan y administran soluciones de 
+IA con Microsoft Azure. Son responsables del desarrollo de aplicaciones de IA generativa, agentes 
+autónomos y flujos de trabajo multimodales que aprovechan los servicios de Azure AI y 
+Microsoft Foundry. Los desarrolladores de aplicaciones y agentes de Azure AI colaboran con científicos de 
+datos y desarrolladores de software para integrar funcionalidades de IA en sistemas de producción, lo que 
+garantiza que las soluciones sean seguras y escalables y estén alineadas con los principios de IA 
+responsable. 
+ 
+Perfil del público 
+ 
+Este curso está pensado para los desarrolladores de software que desean crear aplicaciones con IA que 
+aprovechan Microsoft Foundry. Los temas de este curso incluyen el desarrollo de aplicaciones de IA 
+generativa, la creación de agentes de IA y soluciones que implementan conexiones de conocimiento o 
+herramientas en tus aplicaciones de agentes. En este curso, también se tratan las funcionalidades 
+multimodales y la comprensión del contenido complejo. Este curso se ha diseñado para ingenieros de 
+software relacionados con la creación, la administración y la implementación de soluciones de IA que 
+aprovechan Microsoft Foundry. Están familiarizados con Python y tienen conocimientos sobre el uso de 
+API y SDK para crear agentes y soluciones de IA generativa en Azure. 
+ 
+Requisitos previos de audiencia 
+ 
+Antes de asistir a este curso, los alumnos deben estar familiarizados con la programación de Python y 
+tener experiencia en el uso de las API REST y SDK para crear aplicaciones conectadas a la nube, 
+conocimientos básicos de los servicios de Azure y Azure Portal, y una comprensión de los conceptos 
+básicos de IA/ML, como los modelos de Machine Learning y la inferencia. La experiencia previa con los 
+servicios de Azure AI es útil, pero no es necesaria. 
+ 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 3 
+ 
+Examen de certificación 
+ 
+La certificación Microsoft Certified: Azure AI App and Agent Developer Associate se alinea con las 
+arquitecturas generativas y de agentes actuales para planificar y administrar recursos de IA en 
+Microsoft Foundry, crear aplicaciones generativas y flujos de trabajo de razonamiento de varios pasos, y 
+desarrollar agentes listos para producción con funcionalidades de orquestación multiagente. El examen 
+AI-103 beta estará disponible en abril de 2026. Se espera que el examen pase a estar activo en junio de 
+2026. 
+Las áreas de estudio del examen de certificación relacionadas con este curso se basan en el análisis de 
+tareas de trabajo (JTA) que se llevó a cabo en marzo de 2026. 
+Cada área de estudio tiene un porcentaje que indica el peso relativo del área del examen. Cuanto mayor 
+sea el porcentaje, más preguntas tiene probabilidad de ver en esa área.  
+Para revisar el dominio objetivo completo medido por las aptitudes, revisa la guía de estudio AI-103. 
+ 
+Área de estudio 
+Porcentaje 
+Planeamiento y administración de una solución de Azure AI 
+25-30 % 
+Implementación de soluciones de IA generativa y de agentes 
+30-35 % 
+Implementación de soluciones de Computer Vision 
+15-20 % 
+Implementación de soluciones de análisis de texto 
+10-15 % 
+Implementación de soluciones de extracción de información 
+10-15 % 
+ 
+En el caso de los exámenes relacionados con cursos que no son de aspectos básicos, los candidatos deben 
+tener un mínimo de seis meses de experiencia práctica trabajando con Azure AI y Foundry (AI-103).  
+ 
+Conocimientos previos necesarios para enseñar este curso 
+ 
+Para impartir este curso correctamente, los entrenadores deben tener sólidos conocimientos prácticos de 
+los servicios de Microsoft Azure AI y de SDK de Microsoft Foundry. Deben tener experiencia práctica en el 
+desarrollo y la implementación de soluciones de IA generativa, como canalizaciones RAG, agentes de IA y 
+patrones de orquestación multiagente. 
+Nota: Estas directrices no incluye los requisitos para convertirse en un Microsoft Certified Trainer (MCT). 
+  
+Materiales necesarios para enseñar y prepararte para 
+este curso 
+ 
+Necesitas los siguientes materiales para prepararte y enseñar este curso: 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 4 
+ 
+ 
+Recurso 
+Descripción 
+Archivos de Microsoft PowerPoint  
+Descarga el archivo AI-103T00-PowerPoint.es-
+ES.zip desde el Centro de descarga de MCT. 
+ 
+Registro de cambios 
+Descarga el archivo AI-103T00-ChangeLog.es-
+ES.pdf desde el Centro de descarga de MCT. 
+Entorno de laboratorio proporcionado por el 
+proveedor de hospedaje de laboratorio  
+Ponte en contacto con el proveedor de hospedaje 
+de laboratorio para obtener instrucciones sobre el 
+uso de su entorno de laboratorio. 
+Instrucciones del laboratorio  
+Las instrucciones para el laboratorio se 
+proporcionan en el entorno de laboratorio y en los 
+siguientes repositorios de GitHub de 
+Microsoft Learning: 
+LP1 (Foundry): mslearn-ai-studio 
+LP2 (Agentes): mslearn-ai-agents 
+LP3 (Lenguaje y Voz): mslearn-ai-language 
+LP4 (Vision y extracción de información): mslearn-
+ai-vision y mslearn-ai-information-extraction 
+Contenido de formación de estudiantes  
+Consulta la siguiente sección para obtener un 
+desglose detallado de cada ruta de aprendizaje 
+que se trata en el curso.  
+Programa Microsoft Learn para Educadores 
+Para las instituciones educativas que ofrecen este 
+curso, hay recursos adicionales disponibles en el 
+Centro de descarga de aprendizaje (LDC) para 
+educadores. 
+ 
+ 
+Contenido de aprendizaje de estudiantes 
+El contenido de aprendizaje de los estudiantes para este curso se encuentra en Microsoft Learn. En la 
+tabla siguiente se proporciona un desglose de cada ruta de aprendizaje, los módulos tratados en cada una 
+de ellas y el vínculo a cada ruta de aprendizaje de Microsoft Learn. 
+El contenido de formación de los estudiantes incluye vínculos a material de lectura adicional que te 
+ayudará a prepararte para áreas de temas específicos. 
+Ruta de aprendizaje  
+Curso en línea en Microsoft Learn 
+Introducción al curso 
+Solo diapositivas 
+Ruta de aprendizaje 1: 
+Desarrollo de aplicaciones de IA 
+generativa con Microsoft Foundry 
+Módulo 1:Planificación y preparación para desarrollar 
+soluciones de IA en Azure 
+Módulo 2:Evaluación de modelos con el catálogo de modelos 
+de Fundición de IA de Azure 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 5 
+ 
+Módulo 3:Desarrollo de una aplicación de IA con el SDK de 
+Microsoft Foundry 
+Módulo 4:Optimización del rendimiento del modelo de IA 
+generativa 
+Módulo 5:Implementación de una solución de IA generativa 
+responsable en Microsoft Foundry 
+Ruta de aprendizaje 2: 
+Desarrollo de agentes de IA 
+con Azure 
+Módulo 1:Desarrollo de agentes de IA con Microsoft Foundry y 
+Visual Studio Code 
+Módulo 2:Creación de un agente con herramientas 
+personalizadas 
+Módulo 3:Conexión de un agente a herramientas de MCP 
+Módulo 4:Creación de agentes de IA mejorados con 
+conocimientos con Foundry IQ 
+Módulo 5:Integración de tu agente con M365 
+Módulo 6:Creación de flujos de trabajo controlados por 
+agentes mediante Microsoft Foundry 
+Módulo 7:Desarrollo de un agente de IA con 
+Microsoft Agent Framework 
+Módulo 8:Orquestación de una solución multiagente con 
+Microsoft Agent Framework 
+Módulo 9:Detección de agentes de Azure AI con A2A 
+Ruta de aprendizaje 3: 
+Desarrollo de soluciones de lenguaje 
+con Azure AI 
+Módulo 1:Análisis de texto con Lenguaje de Azure AI 
+Módulo 2:Desarrollo de un agente de análisis de texto con MCP 
+de Lenguaje 
+Módulo 3:Desarrollo de aplicaciones de audio de IA generativa 
+Módulo 4:Creación de aplicaciones habilitadas para voz con 
+Microsoft Foundry 
+Módulo 5:Desarrollo de un agente de voz con MCP de Voz de 
+Azure AI 
+Módulo 6:Desarrollo de un agente de voz en tiempo real 
+Módulo 7:Traducción de texto y voz 
+Ruta de aprendizaje 4: 
+Extracción de información de datos 
+visuales en Azure  
+Módulo 1: Generación de imágenes con IA 
+Módulo 2: Generación y edición de vídeo con IA 
+Módulo 3: Análisis de medios con 
+Azure Content Understanding 
+Módulo 4: Desarrollo de una aplicación de IA generativa 
+habilitada para Vision 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 6 
+ 
+Módulo 5: Creación de una solución de análisis multimodal con 
+Azure Content Understanding 
+Módulo 6: Creación de una aplicación cliente de 
+Azure Content Understanding 
+Módulo 7: Creación de una solución de minería de 
+conocimientos con Búsqueda de Azure AI 
+ 
+Tareas de preparación 
+ 
+Los instructores deben completar las siguientes tareas para prepararte para enseñar este curso: 
+• 
+Si anteriormente has enseñado esta clase, consulta el registro de cambios del curso. Proporciona 
+información detallada sobre cómo ha cambiado el curso con el tiempo. El registro de cambios se 
+actualiza para cada versión del curso. 
+• 
+Revisa todos los temas del material de aprendizaje de los estudiantes en Microsoft Learn (consulta el 
+vínculo de la sección Materiales necesarios más arriba). Debes tener conocimientos sólidos sobre cada 
+tema. Si has enseñado previamente el curso y estás familiarizado con los conocimientos de cada tema, 
+céntrate principalmente en los temas nuevos o actualizados, tal como se describe en el registro de 
+cambios. 
+• 
+Repasa las diapositivas de PowerPoint. 
+• 
+Sé capaz de hablar sobre cada uno de los temas de conversación de las diapositivas. Algunas 
+diapositivas incluyen un gráfico del contenido de Learn asociado para el tema. Estos gráficos 
+se proporcionan en la diapositiva para que puedas hablar de ellos para ayudar a explicar los 
+temas clave de conversación sobre el tema. 
+• 
+Los elementos con viñetas de cada diapositiva NO deben leerse textualmente a los 
+estudiantes. Los alumnos pueden leer las diapositivas por su cuenta. En su lugar, los puntos 
+de viñeta reflejan la información clave en la que debes centrarte al analizar cada tema. Debes 
+usar tu experiencia como experto en la materia para explicar el qué, por qué y cómo de cada 
+tema. Esta es tu oportunidad de proporcionar un valor real agregado que vaya más allá de 
+los temas de conversación con viñetas.  
+• 
+Revisa los vínculos de lectura adicionales y otros recursos vinculados proporcionados en el material de 
+formación de estudiantes. Se recomienda presentar los puntos clave de este material para 
+complementar el valor añadido que proporcionas como instructor. 
+• 
+Cuando te prepares para la clase, debes revisar cada unidad y determinar en cuáles quieres realizar 
+demostraciones de la funcionalidad del producto correspondiente. Es necesario decidir qué 
+características de producto quieres demostrar a la clase. Debes usar tu experiencia para identificar 
+puntos clave durante el proceso de demostración. Esta es un área en la que debes confiar en tu 
+experiencia como experto en la materia para proporcionar valor adicional a los estudiantes. 
+• 
+Debes revisar cada pregunta de prueba de conocimientos (KC) para que sepas por qué la respuesta 
+correcta es correcta para cada pregunta. Los estudiantes pueden cuestionar algunas de las preguntas, 
+por lo que debes ser capaz de solucionar cualquiera de esas dudas.  
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 7 
+ 
+• 
+Debes realizar los laboratorios antes de la clase para familiarizarte con ellos y con cualquiera de los 
+puntos más complicados de los ejercicios del laboratorio. De este modo, estarás preparado para 
+ayudar a los estudiantes en clase si tienen dificultades.  
+ 
+Tiempos del curso 
+ 
+Agenda diaria 
+Usa el formato de tabla tal como se muestra a continuación. Asegúrate de cumplir los siguientes 
+requisitos: 
+• 
+Los puntos del programa deben estar en el orden en que se presentarán cada día.  
+• 
+Define el tiempo estimado total para completar cada elemento del programa (por ejemplo, 
+30 minutos, 1 hora, etc.).  
+• 
+NO incluyas horas de inicio y de finalización (es decir, de las 8:00 a las 8:45 horas). No todos los 
+instructores empezarán al mismo tiempo, ni tendrán las mismas pausas, horas de almuerzo, etc. 
+Además, es posible que los cursos híbridos y virtuales no se impartan en la misma cadencia de las 
+8:00 a las 17:00 horas, como un curso de clase tradicional.  
+• 
+NO incluyas horas de almuerzo y de descanso, ya que pueden variar de un curso a otro, 
+especialmente con cursos híbridos y virtuales. Simplemente, incluye los módulos, los laboratorios 
+y cualquier otra actividad de clase.>  
+ 
+La siguiente agenda proporciona tiempos estimados para completar cada actividad de clase. Sin embargo, 
+los tiempos estimados pueden variar en función de la experiencia de los alumnos, lo que puede afectar a 
+si puede avanzar más rápido o más despacio por el material del curso. 
+Los tiempos estimados para cada módulo incluyen el tiempo para completar como parte de un curso de 
+4 días: 
+• 
+La presentación de diapositivas de PowerPoint del módulo. 
+• 
+Cualquier demostración de producto predefinida. 
+• 
+Tiempo para revisar las preguntas de prueba de conocimientos (consulta la sección notas de 
+control de tiempo adicionales a continuación).  
+• 
+Tiempo para completar una actividad de discusión en la clase si se incluye una diapositiva de 
+discusión en la presentación de diapositivas del módulo. 
+En el caso de los cursos que se enseñan en un formato más largo, como la parte pf del programa Microsoft 
+Learn para Educadores (MSLE), revisa la sección Diseñar el plan de estudios de la Guía de enseñanza para 
+educadores que se encuentra en el Centro de descargas de Learning.  
+Debes ajustar la agenda según corresponda en función de las actividades de clase que hayas creado 
+personalmente o tengas pensado presentar que no estén incluidas en las diapositivas de este curso. Por 
+ejemplo, si tienes previsto presentar: 
+• 
+demostraciones ad hoc 
+• 
+actividades de revisión 
+• 
+juegos educativos 
+• 
+etcétera. 
+ 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 8 
+ 
+Nota: Cada actividad de la ruta de aprendizaje o el módulo en la siguiente agenda es la presentación de 
+diapositivas para el módulo.  
+En la tabla siguiente, se proporcionan especificaciones de impartición de un curso de 4 días. En el caso de 
+los cursos que se enseñan en un formato más largo, como la parte pf del programa MSLE, revisa la sección 
+Diseñar el plan de estudios de la estudios de la Guía de enseñanza para educadores que se encuentra en 
+el Centro de descargas de Learning. 
+ 
+Día 
+Tiempo 
+estimado 
+Actividad de clase 
+1 
+30 minutos Módulo 1: Planificación y preparación para desarrollar soluciones de IA en Azure 
+ 
+60 minutos Módulo 2: Evaluación de modelos con el catálogo de modelos de Fundición de IA 
+de Azure 
+ 
+60 minutos Laboratorio: Catálogo de modelo y laboratorio de evaluación 
+ 
+60 minutos Módulo 3: Desarrollo de una aplicación de IA con el SDK de Microsoft Foundry 
+ 
+60 minutos Laboratorio: Laboratorio de aplicaciones del Foundry SDK 
+ 
+60 minutos Módulo 4: Optimización del rendimiento del modelo de IA generativa (RAG e 
+ingeniería de solicitudes) 
+ 
+60 minutos Laboratorio: RAG/laboratorio de optimización 
+ 
+30 minutos Módulo 5: Implementación de una solución de IA generativa responsable en 
+Microsoft Foundry 
+2 
+45 minutos Módulo 1: Desarrollo de agentes de IA con Microsoft Foundry y 
+Visual Studio Code 
+ 
+60 minutos Laboratorio: Laboratorio de creación del agente principal 
+ 
+45 minutos Módulo 2: Creación de un agente con herramientas personalizadas 
+ 
+45 minutos Laboratorio: Laboratorio de integración de herramientas 
+ 
+30 minutos Módulo 3: Conexión de un agente a herramientas de MCP 
+ 
+45 minutos Laboratorio: Laboratorio de herramientas de MCP 
+ 
+30 minutos Módulo 4: Creación de agentes de IA mejorados con Foundry IQ (demostración) 
+ 
+30 minutos Módulo 5: Integración de tu agente con M365 (demostración) 
+ 
+45 minutos Módulos 6-8: Flujos de trabajo del agente, Agent Framework y orquestación 
+multiagente (información general) 
+ 
+45 minutos Laboratorio: Laboratorio multiagente orquestado 
+ 
+15 minutos Módulo 9: Detección de agentes de Azure AI con A2A (reconocimiento) 
+3 
+45 minutos Módulo 1: Análisis de texto con Lenguaje de Azure AI 
+ 
+60 minutos Laboratorio: Laboratorio de análisis de texto 
+ 
+45 minutos Módulo 2: Desarrollo de un agente de análisis de texto con MCP de Lenguaje 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 9 
+ 
+ 
+45 minutos Laboratorio: Laboratorio del agente de análisis de texto 
+ 
+30 minutos Módulo 3: Desarrollo de aplicaciones de audio de IA generativa 
+ 
+45 minutos Módulo 4: Creación de aplicaciones habilitadas para voz con Microsoft Foundry 
+ 
+45 minutos Laboratorio: Laboratorio de aplicaciones de voz 
+ 
+30 minutos Módulo 5: Desarrollo de un agente de voz con MCP de Voz de Azure AI 
+(laboratorio/demostración) 
+ 
+20 minutos Módulo 6: Desarrollo de un agente de voz en tiempo real (demostración) 
+ 
+30 minutos Módulo 7: Traducción de texto y voz 
+ 
+30 minutos Laboratorio: Laboratorio de traducción 
+4 
+30 minutos Módulo 1 (LP4): Generación de imágenes con IA 
+ 
+45 minutos Laboratorio: Laboratorio de generación de imágenes 
+ 
+30 minutos Módulo 2 (LP4): Generación y edición de vídeo con IA (demostración) 
+ 
+45 minutos Módulo 3 (LP4): Análisis de medios con Azure Content Understanding 
+ 
+45 minutos Laboratorio: Laboratorio multimedia de Content Understanding 
+ 
+30 minutos Módulo 4 (LP4): Desarrollo de una aplicación de IA generativa habilitada para 
+Vision 
+ 
+45 minutos Módulos 1-2 (LP4): Creación de una solución de análisis multimodal con 
+Azure Content Understanding 
+ 
+45 minutos Laboratorio: Laboratorio de extracción de Content Understanding 
+ 
+30 minutos Módulos 3-4 (LP4): Minería de conocimientos con Búsqueda de Azure AI y 
+Document Intelligence 
+ 
+45 minutos Laboratorio: Laboratorio de canalización de ingesta y AI Search 
+ 
+30 minutos Resumen del curso, guía de preparación de exámenes y pasos siguientes 
+ 
+ 
+ 
+Notas de control de tiempo adicionales: preguntas de prueba de conocimientos 
+A lo largo del curso, se proporcionan preguntas para comprobar los conocimientos del estudiante del 
+material que se ha tratado. Los instructores pueden usar estas preguntas de varias maneras:   
+• 
+Realiza un ejercicio educativo formal en el que revises las preguntas de un módulo antes de pasar 
+al módulo siguiente.  
+• 
+Distribuye las preguntas dentro del contenido a medida que comentas el material relacionado de 
+un módulo.  
+• 
+Deja que los estudiantes revisen las preguntas después de la clase como una asignación diaria de 
+tareas. Puedes reservar tiempo al principio de cada día para responder a cualquier pregunta que 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 10 
+ 
+tengan con respecto a las preguntas del día anterior. Esta puede ser la opción más factible dadas 
+las restricciones de tiempo estrictas que tienen la mayoría de las clases. 
+Cada instructor podrá determinar cómo quiere incorporar las preguntas de prueba de conocimientos en 
+su clase.  
+Si proporcionas tiempo a los estudiantes para revisar las preguntas de prueba de conocimientos al final de 
+temas específicos y al final de cada módulo, debes permitir un par de minutos por pregunta, y unos 
+minutos adicionales por pregunta para responder a las preguntas o las dificultades de los estudiantes que 
+puedan tener dudas o cuyas respuestas discrepan. Esto puede agregar unos 15 y 30 minutos para 
+completar cada módulo. 
+ 
+Notas de tiempo adicionales: discusiones en el aula 
+Este curso incluye dos tipos de preguntas de discusión en el aula: 
+• 
+Preguntas de debate que se intercalan en todos los módulos (es decir, una diapositiva donde se 
+formula una pregunta de debate sobre una característica del producto. Por ejemplo: "¿Crees que 
+tu organización implementará esta característica? ¿Por qué sí o por qué no?"). 
+Debes planificar entre 5 y 10 minutos para cada una de estas diapositivas de debate. 
+ 
+ 
+• 
+Una diapositiva al final de cada presentación de diapositivas de la ruta de aprendizaje que pide a 
+los alumnos que analicen lo que han aprendido en la ruta de aprendizaje (el módulo final de cada 
+ruta de aprendizaje se denomina Revisión de la ruta de aprendizaje y solo contiene la diapositiva 
+de debate; este módulo es una actividad de clase y no está asociado a un módulo de Learn).  
+ 
+Cada diapositiva de repaso de la ruta de aprendizaje formula las siguientes preguntas: “¿Cuáles 
+son las principales conclusiones que ha sacado de esta ruta de aprendizaje? ¿Cuáles son las 
+principales características que se describen en esta ruta de aprendizaje que cree que se 
+implementarán en su organización?” 
+ 
+Dedique entre 10 y 15 minutos a analizar la diapositiva de repaso del último módulo de cada 
+presentación de diapositivas de una ruta de aprendizaje. 
+Laboratorios 
+ 
+NOTA: Los laboratorios estarán disponibles el 3 de abril de 2026. 
+Los laboratorios deben completarse en el entorno de laboratorio proporcionado por el proveedor de 
+hospedaje de laboratorios. Se proporcionan instrucciones detalladas paso a paso para cada laboratorio y 
+se presentan como parte de la experiencia de la interfaz de usuario del entorno de laboratorio.  
+En el momento en que se lanzaron los cursos, la instrucción del laboratorio se había probado 
+exhaustivamente y los pasos del laboratorio eran 100% precisos. Sin embargo, dada la naturaleza de los 
+productos en la nube de Microsoft y el hecho de que Microsoft publica actualizaciones de la interfaz de 
+usuario de forma periódica, es posible que, en algún momento, la interfaz de usuario de una característica 
+determinada cambie y ya no coincida con la instrucción del laboratorio. 
+Si los estudiantes se encuentran con pasos de laboratorio que no reflejan con precisión la interfaz de 
+usuario, tendrán que explorar la interfaz de usuario para determinar lo que se debe hacer. Normalmente, 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 11 
+ 
+los cambios en la interfaz de usuario son bastante sutiles, por lo que esperamos que no te encuentres en 
+una situación en la que se haya revisado por completo una característica.  
+Sin embargo, si se producen cambios importantes en la interfaz de usuario, desafía a los estudiantes a 
+explorarla y ofréceles ayuda solo si definitivamente lo necesitan. Los cambios en la interfaz de usuario del 
+producto formarán parte de su vida diaria en el mundo de la nube actual. Como TI o profesionales, deben 
+aprender a manejar tales situaciones.  
+Una cosa que Microsoft te pide es que, si te encuentras en situaciones como esta, donde las instrucciones 
+del laboratorio ya no coinciden con la interfaz de usuario correspondiente, documenta la incidencia en el 
+repositorio de GitHub del curso. Esto ayudará al equipo de World-Wide Learning de Microsoft a actualizar 
+las instrucciones del laboratorio para mantenerlas lo más actualizadas posible. Para obtener información 
+sobre cómo enviar una incidencia, consulta Guía del usuario de GitHub para MCT. 
+ 
+Posibles problemas de laboratorio 
+En esta sección se identifican los ejercicios de laboratorio en los que los alumnos han tenido problemas 
+debido a la complejidad del laboratorio o a la falta de conocimientos previos de los alumnos.  
+ 
+Laboratorio y ejercicios 
+Tarea 
+Descripción 
+Laboratorio (por determinar) y 
+ejercicio (por determinar) 
+Por determinar 
+Tarea (por determinar) 
+Por determinar 
+No hay ningún problema 
+conocido en este momento. 
+Laboratorio (por determinar) y 
+ejercicio (por determinar) 
+Por determinar 
+Tarea (por determinar) 
+Por determinar 
+No hay ningún problema 
+conocido en este momento. 
+Laboratorio (por determinar) y 
+ejercicio (por determinar) 
+Por determinar 
+Tarea (por determinar) 
+Por determinar 
+No hay ningún problema 
+conocido en este momento. 
+y así sucesivamente. 
+ 
+ 
+ 
+ 
+Portal, Cloud Shell, PowerShell y la CLI 
+Las instrucciones de laboratorio están escritas para usar Cloud Shell. Cloud Shell se conecta 
+automáticamente a Azure y proporciona acceso a PowerShell y la CLI.  
+Si prefiere que los alumnos usen PowerShell o la CLI de forma local, puede usar estos vínculos.  
+• 
+Instalación de Azure PowerShell en Windows con PowerShellGet 
+• 
+Instalación de la CLI de Azure en Windows 
+ 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 12 
+ 
+Sugerencias y recomendaciones para impartir el curso 
+AI-103 
+AI-103 es un nuevo curso que se inicia en marzo de 2026. Por tanto, todavía no hay sugerencias ni 
+recomendaciones para instructores disponibles. Esta sección se actualizará con una guía práctica basada 
+en los comentarios del entrenador recopilados durante los próximos meses. Si tienes sugerencias o 
+información para compartir después de tu primer módulo impartido, ponte en contacto con el equipo del 
+curso. 
+Conceptos erróneos comunes del producto 
+ 
+Fundición de IA de Azure frente a Microsoft Foundry: experiencia de nomenclatura y portal 
+Fundición de IA de Azure es el nombre anterior de lo que ahora se denomina Microsoft Foundry. Todo el 
+contenido del curso se ha desarrollado para la nueva experiencia de Microsoft Foundry. 
+Documentación externa: gran parte de la documentación de Microsoft existente todavía hace referencia 
+a "Fundación de IA de Azure" o describe la experiencia del portal clásico. Al compartir vínculos o material 
+de referencia con alumnos, comprueba que el contenido refleje la nueva interfaz de Microsoft Foundry, en 
+lugar de la versión clásica, ya que la navegación, la terminología y las características disponibles pueden 
+diferir considerablemente. 
+En el portal: cuando los alumnos abran el portal de Microsoft Foundry, es posible que se les pida que 
+cambien entre la experiencia clásica y la nueva experiencia del portal. Los alumnos deben seleccionar y 
+trabajar en todo momento en la nueva experiencia del portal al seguir los laboratorios y los ejercicios del 
+curso. Los instructores deben confirmarlo al principio de cada sesión de laboratorio para evitar 
+confusiones causadas por diferencias de interfaz. 
+Evolución de AI-102 
+AI-103 es el sucesor de AI-102: Diseñar e implementar una solución de Microsoft Azure AI. Si tienes 
+experiencia por haber impartido el curso AI-102, gran parte de esa preparación te servirá para el nuevo 
+curso. Los servicios de Azure AI principales que se tratan en AI-102 (incluyendo Lenguaje, Vision y 
+Document Intelligence) permanecen en AI-103 y se tratan en las Rutas de aprendizaje 3, 4 y 5. Los 
+conocimientos existentes de esas API de servicio, los patrones de laboratorio y las preguntas comunes de 
+los alumnos serán directamente aplicables. 
+Las adiciones clave de AI-103 son las Rutas de aprendizaje 1 y 2, que presentan Microsoft Foundry como la 
+plataforma de desarrollo y cubren el desarrollo de soluciones de agentes y de IA generativa mediante el 
+SDK de la Fundición de IA de Azure y el Agente de servicio de IA de Azure. Los entrenadores nuevos en 
+estos temas deben priorizar el tiempo práctico con Microsoft Foundry y los laboratorios de desarrollo de 
+agentes antes de impartir el curso. Los instructores de AI-102 que ya están familiarizados con los módulos 
+Language y Vision pueden centrar su preparación en estas nuevas rutas de aprendizaje centradas en el 
+agente y en Foundry. 
+Casos de uso del mundo real 
+La idea de esta sección es demostrar a los alumnos cómo se implementan diversas características del 
+curso en el mundo real. En otras palabras, lleva a los alumnos de los conceptos tratados en el 
+entrenamiento a escenarios reales que impliquen características del curso. 
+ 
+
+Guía de preparación del entrenador: AI-103 
+ Marzo de 2026 
+Página 13 
+ 
+Comentarios 
+En este curso, hemos proporcionado un marco con el que puedes trabajar. Tómate el tiempo para 
+prepararte y pensar en el valor que solo un instructor puede aportar al aprendizaje. Esperamos asociarnos 
+contigo para brindarte una experiencia de estudiante excepcional y agradecemos tus comentarios.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
