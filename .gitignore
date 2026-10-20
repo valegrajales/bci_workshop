@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# uv: local environments and caches
+.uv/
+.uv-cache/
+
+# Keep uv.lock and .python-version versioned for reproducibility.
