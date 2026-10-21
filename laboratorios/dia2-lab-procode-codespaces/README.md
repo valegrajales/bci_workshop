@@ -94,7 +94,7 @@ Los comandos son para el **terminal del Codespace (bash, Linux)**: rutas con `/`
 
 **5.1 Abre el Codespace**
 
-1. Entra al repositorio `valegrajales/bci_workshop` en GitHub → botón verde **Code** → pestaña **Codespaces** → **Create codespace on main** (o `…` → *New with options* si necesitas elegir la rama; deja la máquina de **2-core**). Si no tienes permisos de escritura, GitHub crea el Codespace sobre un *fork* tuyo: es lo esperado.
+1. Entra al repositorio `valegrajales/bci_workshop` en GitHub → botón verde **Code** → pestaña **Codespaces** → **Create codespace on main** (o `…` → *New with options* si necesitas elegir la rama; deja la máquina de **2-core**). Si no tienes permisos de escritura, el Codespace se crea igual desde el repositorio público; GitHub solo crea o enlaza un *fork* tuyo si luego haces commit o push (no lo necesitas en este laboratorio).
 2. Espera 2–4 min la primera vez: el contenedor instala Python 3.12 y las dependencias (`requirements-dev.txt`) automáticamente y abre este README en el editor del navegador.
 3. Abre un terminal (menú **Terminal → Nuevo terminal**) y confirma:
 

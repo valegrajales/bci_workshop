@@ -14,10 +14,10 @@ Esta carpeta es solo para Pablo Braconi y Valentina Grajales. Explica los dos de
 
 ## Cómo ejecutar
 
-```powershell
-python src\05_caso_fallido.py --caso 1      # defecto de recuperación (determinista)  <- caso para todos
-python src\05_caso_fallido.py --caso 2      # defecto de descripción de la herramienta (variante, para quienes terminen antes)
-python instructores\05_caso_fallido_corregido.py --caso 1    # mismo caso con las herramientas correctas
+```bash
+python src/05_caso_fallido.py --caso 1      # defecto de recuperación (determinista)  <- caso para todos
+python src/05_caso_fallido.py --caso 2      # defecto de descripción de la herramienta (variante, para quienes terminen antes)
+python instructores/05_caso_fallido_corregido.py --caso 1    # mismo caso con las herramientas correctas
 ```
 
 Pregunta del caso 1 (la misma que C1 de `src\agente_lab.py`): *"¿Cuál es el límite mensual de gasto con
@@ -52,7 +52,7 @@ de una constante fija:
 +    filtro = construir_filtro_acceso(cargar_settings().nivel_usuario)
 ```
 
-Comprobación: `python instructores\05_caso_fallido_corregido.py --caso 1` → 4 de 4 ✔ y `busqueda.ids` contiene `NOR-001-…`.
+Comprobación: `python instructores/05_caso_fallido_corregido.py --caso 1` → 4 de 4 ✔ y `busqueda.ids` contiene `NOR-001-…`.
 
 Conversación de cierre (security trimming): el nivel **nunca** es un parámetro que decida el modelo; en producción
 sale del token del usuario (grupos/oid → filtro `search.in(...)` o ACL de documento). Referencia:
