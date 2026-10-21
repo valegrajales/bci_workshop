@@ -1,6 +1,6 @@
 # Runbook de facilitación · Microsoft AI Foundry BCI Training Day (3 días, híbrido)
 
-**Fechas:** mié 21 (L100), jue 22 (L200) y vie 23 (L300) de octubre de 2026 · **Horario:** 09:00–13:00 hora de Chile los Días 1 y 2; 09:00–12:30 el Día 3 (termina 30 min antes al eliminar "AI Search avanzado" sin reemplazo) · **Lugar:** Microsoft Chile (Las Condes) + Teams · **Inscritos:** ~48 (21 presenciales / 27 en Teams).
+**Fechas:** mié 21 (L100), jue 22 (L200) y vie 23 (L300) de octubre de 2026 · **Horario:** 09:00–13:00 hora de Chile los 3 días · **Lugar:** Microsoft Chile (Las Condes) + Teams · **Inscritos:** ~48 (21 presenciales / 27 en Teams).
 **Equipo:** Pablo Braconi y Valentina Grajales (instructores) · Robert Escalante (organizador) · Diego Bell Tineo (contacto de BCI, líder de arquitectura) · administrador Azure de BCI `<ADMIN-BCI>` (de guardia 08:30–13:30).
 **Enlaces (marcadores):** `<LINK-TEAMS>` · `<LINK-REPO>` · `<LINK-FEEDBACK>` · `<LINK-PARKING>` · `<LINK-PLANB>` (carpeta `plan-b\`) · `<LINK-CANVAS>` (plantilla del Día 3).
 
@@ -51,10 +51,10 @@
 | 2 | Tools e integración | Valentina (diseño de tools) + Pablo (MCP) | Robert |
 | 2 | RAG y Azure AI Search (demo retrieval) | Pablo | Valentina / Robert |
 | 2 | Laboratorio pro-code | Pablo conduce; Valentina soporte | Robert (chat) |
+| 3 | Observabilidad y ciclo de vida (ejercicio de trazas) | Valentina | Pablo |
 | 3 | Protocolos y multiagente | Valentina | Pablo / Robert |
 | 3 | Arquitectura empresarial (demo AI Gateway) | Valentina | Pablo |
 | 3 | Seguridad y gobierno | Pablo | Valentina |
-| 3 | Observabilidad y ciclo de vida (ejercicio de trazas) | Valentina | Pablo |
 | 3 | Workshop BCI + cierre ejecutivo | Ambos | Robert (tiempo y mesas virtuales) |
 
 ---
@@ -97,7 +97,7 @@ Revisa esto en una **reunión de prueba** con el organizador (hoy). Algunas opci
 |---|---|
 | **1** | Cuenta de prueba `labNN` con **TAP vigente** (válido el miércoles 21 de 06:30 a 14:30; verificado con `az login --use-device-code` y en `https://ai.azure.com`). Proyecto `lab-NN` con `gpt-5.6-luna`, `gpt-5-mini` y `text-embedding-3-small` **ya desplegados** (para las demos 11, 14 y 26: portal, catálogo, agente). Prueba con la cuenta de participante la **subida de un archivo a file search** y el agente con `gpt-5.6-luna` (**no probado todavía**; si da 403, ver guía, sección 6.1 y el riesgo R21; si el agente falla con ese modelo, usa `gpt-5-mini`). Hoja de cuentas `labNN` ↔ participante y proyecto `lab-NN` (sin datos sensibles) y TAP listos para entregar. Document Intelligence Studio accesible con la cuenta de prueba; documentos ficticios del Bloque C descargados. **Demo en vivo de Document Intelligence** (Receipt sobre `03-comprobante-compra.pdf`, ≈10:40–10:50): ensayada **y** plan B listo (PB-D1-01; ver `dia1-lab-guiado\demo-document-intelligence.md`). |
 | **2** | Índice de Azure AI Search **ya creado y con datos ficticios** de normativa; variables de entorno del starter verificadas con `python src\00_verificar_entorno.py --probar-modelo` (cuenta de participante; `FOUNDRY_MODEL=gpt-5-mini`, `FOUNDRY_EMBEDDING_MODEL=text-embedding-3-small`, `AZURE_SEARCH_INDEX_NAME=normativa-austral`; guía, sección 18.2); **Application Insights con trazas visibles** para un usuario con el rol de participante (Log Analytics Reader; Monitoring Reader es complementario). Demos del agente hospedado (diapositivas 10 y 30): *si el hospedaje no está operativo, usa el plan B*. Rama/carpeta `solucion\` lista por si hay que recuperar un bloqueo. **Importante:** el proyecto/recursos de `dia2-lab-procode\` deben quedar intactos al cierre del día — se reutilizan el Día 3 para el ejercicio de trazas (el TAP de acceso se regenera a diario, pero el proyecto y los recursos de Azure persisten los 3 días). |
-| **3** | **Sin laboratorio en la nube propio del día**, salvo el ejercicio de trazas que reutiliza el proyecto del Día 2 (`dia2-lab-procode\`): verifica que siga accesible con el TAP regenerado y que el caso fallido quede preparado para la Tarea de diagnóstico (ex Tarea 4). Grabación de la demo del AI Gateway (diapositiva 21) cargada. Plantilla del canvas (`<LINK-CANVAS>`) compartida y caso ficticio «Austral Bank» listo. Mesas/pizarras en sala y grupos virtuales definidos para el workshop. Nota: en la diapositiva 2 las notas del orador hablan de «el workshop de la tarde», pero el evento termina a las 12:30; el workshop es 11:35–12:10. |
+| **3** | **Sin laboratorio en la nube propio del día**, salvo el ejercicio de trazas que reutiliza el proyecto del Día 2 (`dia2-lab-procode\`): verifica que siga accesible con el TAP regenerado y que el caso fallido quede preparado para la Tarea de diagnóstico (ex Tarea 4). Grabación de la demo del AI Gateway (diapositiva 23) cargada. Plantilla del canvas (`<LINK-CANVAS>`) compartida y caso ficticio «Austral Bank» listo. Mesas/pizarras en sala y grupos virtuales definidos para el workshop. Nota: en la diapositiva 2 las notas del orador hablan de «el workshop de la tarde», pero el evento termina a las 13:00; el workshop es 11:35–12:40. |
 
 ---
 
@@ -140,17 +140,17 @@ Revisa esto en una **reunión de prueba** con el organizador (hoy). Algunas opci
 | 11:15–12:30 | **Laboratorio pro-code** (preparación 10′ · Tareas 1–2 25′ · Tarea 3 20′ · revisión en parejas y preguntas 20′) | Si la preparación supera 12′: salta a *modo pareja/demo* para los bloqueados. Si T3 se atrasa: entrega la función ya implementada (`solucion\`) y recorta el bloque de revisión | Al menos: agente con grounding (T1–T2) + una tool funcionando (T3); la traza se revisa a fondo el Día 3 |
 | 12:30–13:00 | Preguntas y cierre | Checklist de producción en lectura | Resumen, adelanto del Día 3, pulso de feedback |
 
-### Día 3 — L300 · Arquitectura, seguridad y operación (09:00–12:30)
+### Día 3 — L300 · Arquitectura, seguridad y operación (09:00–13:00)
 
 | Hora | Módulo | Qué se recorta si vamos tarde | Mínimo indispensable |
 |---|---|---|---|
-| 09:00–09:40 | Protocolos y multiagente | Diapositivas 13–14 en síntesis | MCP vs A2A y gobierno |
-| 09:40–10:15 | Arquitectura empresarial (demo 21) | **Demo del AI Gateway: usa la grabación (3 min)** | Hosted agents (identidad, aislamiento), sesión 1:1 vs multiplexado, AI Gateway |
-| 10:15–10:25 | **Pausa** | No se recorta | — |
-| 10:25–11:05 | Seguridad y gobierno | Diapositiva 27 (red teaming vs guardrails) en 1 minuto | Amenazas vs controles + identidad y mínimo privilegio |
-| 11:05–11:35 | Observabilidad y ciclo de vida (ejercicio de trazas) | Teoría (cómo viaja una traza) en síntesis si falta tiempo | Cómo viaja una traza + diagnóstico del caso 1 usando el proyecto del Día 2 |
-| 11:35–12:10 | **Workshop BCI** (5′ contexto · 10′ canvas · 8′ amenazas · 7′ SLOs · 5′ backlog) | Se protege: reduce teoría previa, no este bloque. Mínimo 25′; recorta primero «SLOs» a 4′ y «Backlog» a 3′ | Canvas completo, 3 amenazas con control, backlog de 3 elementos |
-| 12:10–12:30 | Cierre ejecutivo | — | Arquitectura objetivo, backlog, próximos pasos, **formulario final** |
+| 09:00–09:30 | Observabilidad y ciclo de vida (ejercicio de trazas) | Teoría (cómo viaja una traza) en síntesis si falta tiempo | Cómo viaja una traza + diagnóstico del caso 1 usando el proyecto del Día 2 |
+| 09:30–10:10 | Protocolos y multiagente | Diapositivas 13–14 en síntesis | MCP vs A2A y gobierno |
+| 10:10–10:45 | Arquitectura empresarial (demo 21) | **Demo del AI Gateway: usa la grabación (3 min)** | Hosted agents (identidad, aislamiento), sesión 1:1 vs multiplexado, AI Gateway |
+| 10:45–10:55 | **Pausa** | No se recorta | — |
+| 10:55–11:35 | Seguridad y gobierno | Diapositiva 29 (red teaming vs guardrails) en 1 minuto | Amenazas vs controles + identidad y mínimo privilegio |
+| 11:35–12:40 | **Workshop BCI** (5′ contexto · 20′ canvas · 15′ amenazas · 12′ SLOs · 13′ backlog) | Se protege: reduce teoría previa, no este bloque. Mínimo 45′; recorta primero «SLOs» a 8′ y «Backlog» a 8′ | Canvas completo, 3 amenazas con control, backlog de 3 elementos |
+| 12:40–13:00 | Cierre ejecutivo | — | Arquitectura objetivo, backlog, próximos pasos, **formulario final** |
 
 ---
 

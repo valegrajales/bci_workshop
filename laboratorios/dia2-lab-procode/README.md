@@ -417,7 +417,7 @@ Código y documentación oficial en los que se basa el kit (verifica siempre la 
 ## Apéndice — Ejercicio de trazas y diagnóstico (se hace el Día 3)
 
 > Esta parte **ya no se hace durante el laboratorio del Día 2**: se mueve al módulo "Observabilidad y ciclo de
-> vida" del Día 3 (11:05–11:35), reutilizando este mismo proyecto (mismo entorno, mismo agente, mismo índice).
+> vida" del Día 3 (09:00–09:30), reutilizando este mismo proyecto (mismo entorno, mismo agente, mismo índice).
 > El Día 3 vuelves a abrir tu carpeta `dia2-lab-procode\` — el TAP de acceso se regenera a diario, pero el
 > proyecto y los recursos de Azure persisten los 3 días.
 

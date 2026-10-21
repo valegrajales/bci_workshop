@@ -10,7 +10,7 @@ Archivos relacionados en esta carpeta: `arquitectura-objetivo.md` (diagrama y le
 |---|---|---|---|
 | Canvas | Las 5 dimensiones con una decisión cada una | Cada decisión con criterio y supuesto explícito | Además marcan qué decisión merece ADR y qué cambia si cae un supuesto |
 | Amenazas | 3 amenazas con control | Cada una con punto de aplicación y dueño; incluyen una amenaza de herramientas/MCP | Distinguen control preventivo y detectivo, y reconocen límites de la plataforma (qué guardrails no cubren MCP) |
-| SLOs y evaluación | Una métrica por dimensión | Objetivo numérico marcado como hipótesis y fuente de datos | Evaluador con umbral, alerta con dueño y gate en CI/CD |
+| SLOs y evaluación | Una métrica por dimensión | Objetivo numérico marcado como hipótesis y fuente de datos | Evaluador con umbral, alerta con dueño y evaluación recurrente sobre tráfico real |
 | Backlog | 3 ítems con dueño | Criterio de éxito verificable y dependencia | Primer experimento claro, pequeño y de bajo costo que valida el supuesto más riesgoso |
 
 ## 1. Canvas de arquitectura y decisiones (paso 2)
@@ -30,10 +30,10 @@ Archivos relacionados en esta carpeta: `arquitectura-objetivo.md` (diagrama y le
 |---|---|---|---|---|---|
 | T1 · Prompt injection indirecto vía adjuntos de comex | Comportamiento del agente; datos del cliente | PDF de carta de crédito con instrucciones ocultas. | Prompt Shields (ataques de documento) sobre cada adjunto antes de entregarlo al agente; guardrail de respuesta de herramienta en las herramientas que lo soportan (preview); revisión humana si el adjunto activa señal; validación de salida. | Contenido recuperado / adjunto | Seguridad |
 | T2 · Agente con permisos excesivos | Saldos, posiciones, operaciones | Identidad del agente con alcance mayor al del usuario; herramienta que permite escritura. | Identidad delegada + RBAC de mínimo privilegio; lista de herramientas permitidas; v1 solo lectura; aprobación humana y doble control para cualquier acción futura. | Identidad / RBAC | Arquitectura |
-| T3 · Fuga de datos de clientes en logs y trazas | Prompts, respuestas y argumentos de herramientas en telemetría | Application Insights guarda contenido sensible legible por muchos roles. | Enmascarado en origen; contenido sensible a una tabla protegida con lectura solo para un rol privilegiado; retención mínima; sin secretos en trazas. | Telemetría y logs | GenAIOps |
+| T3 · Fuga de datos de clientes en logs y trazas | Prompts, respuestas y argumentos de herramientas en telemetría | Application Insights guarda contenido sensible legible por muchos roles. | Enmascarado en origen; contenido sensible a una tabla protegida con lectura solo para un rol privilegiado; retención mínima; sin secretos en trazas. | Telemetría y logs | Plataforma |
 | T4 · Suplantación entre agentes o llamadas laterales (A2A) | Confianza entre agentes | Un agente (o un cliente) invoca a otro sin validar quién es; token con audience equivocado. | Entra Agent ID por agente; validar audience en cada token; lista de agentes invocables; sin llamadas laterales entre especialistas; v1 sin A2A. | Identidad / RBAC | Arquitectura |
-| T5 · Tool poisoning / shadowing en un servidor MCP | Cadena de herramientas | La descripción o respuesta de una herramienta contiene instrucciones que redirigen al agente. | Catálogo de MCP aprobados vía APIM; revisar y fijar versión de descripciones; validar esquema de salida; egress controls del Hosted Agent (preview); evaluador de ataque indirecto en CI/CD. | Gateway (APIM) | Plataforma |
-| T6 · Acceso cruzado entre clientes por sesión compartida o caché | Aislamiento entre clientes | Datos del contenedor sin partición por usuario; caché semántico compartido entre clientes. | Partición por (sesión, usuario) en todo dato propio; sin caché semántico para datos por cliente; prueba A-A-B en el pipeline. | Pipeline CI/CD | Plataforma |
+| T5 · Tool poisoning / shadowing en un servidor MCP | Cadena de herramientas | La descripción o respuesta de una herramienta contiene instrucciones que redirigen al agente. | Catálogo de MCP aprobados vía APIM; revisar y fijar versión de descripciones; validar esquema de salida; egress controls del Hosted Agent (preview); evaluador de ataque indirecto sobre el set adversarial y en la evaluación recurrente. | Gateway (APIM) | Plataforma |
+| T6 · Acceso cruzado entre clientes por sesión compartida o caché | Aislamiento entre clientes | Datos del contenedor sin partición por usuario; caché semántico compartido entre clientes. | Partición por (sesión, usuario) en todo dato propio; sin caché semántico para datos por cliente; prueba A-A-B antes de cada cambio de versión. | Revisión de versión | Plataforma |
 
 ## 3. Mapa de riesgos (cierre del paso 3)
 
@@ -41,8 +41,8 @@ Archivos relacionados en esta carpeta: `arquitectura-objetivo.md` (diagrama y le
 |---|---|---|---|---|---|---|
 | Prompt injection vía documento adjunto | Media | Alto | Prompt Shields + revisión humana de adjuntos; pruebas con documentos en español | Seguridad | 23-11-2026 | Alto |
 | Agente con permisos excesivos | Baja | Alto | Identidad delegada, RBAC mínimo privilegio, v1 solo lectura, aprobación por monto | Arquitectura | 23-11-2026 | Medio |
-| Acceso cruzado entre clientes en sesión multiplexada | Baja | Alto | Partición (sesión, usuario), prueba A-A-B en CI/CD, revisión de código del Session Gateway | Plataforma | 07-12-2026 | Medio |
-| Degradación silenciosa del retrieval | Media | Medio | Evaluación continua de groundedness y revisión de etiquetas de acceso | GenAIOps | 21-12-2026 | Medio |
+| Acceso cruzado entre clientes en sesión multiplexada | Baja | Alto | Partición (sesión, usuario), prueba A-A-B antes de cada cambio de versión, revisión de código del Session Gateway | Plataforma | 07-12-2026 | Medio |
+| Degradación silenciosa del retrieval | Media | Medio | Evaluación continua de groundedness y revisión de etiquetas de acceso | Observabilidad | 21-12-2026 | Medio |
 | Costo fuera de rango por mal dimensionamiento | Media | Medio | Límites y alertas en el AI Gateway; presupuesto por proyecto; dimensionar sandbox con carga real | Plataforma | 21-12-2026 | Medio |
 | Superar el límite de sesiones concurrentes en pico | Media | Alto | Multiplexar, ajustar idle timeout, test de carga, solicitar aumento de cuota con antelación | Plataforma | 07-12-2026 | Alto |
 | Dependencia de funciones en preview (guardrails de agentes, memoria, monitoreo) | Media | Medio | Lista de funciones permitidas solo GA en producción; excepciones aprobadas; plan B por función | Gobierno | 21-01-2027 | Medio |
@@ -56,15 +56,15 @@ Archivos relacionados en esta carpeta: `arquitectura-objetivo.md` (diagrama y le
 |---|---|---|---|---|---|
 | Disponibilidad | Éxito de sesión del Hosted Agent | ≥ 99,5 % mensual (hipótesis) | Trazas OpenTelemetry (Application Insights) | n/a (indicador de plataforma) | Consumo de presupuesto de error > 50 % en 7 días → Plataforma/SRE |
 | Latencia | Primer texto visible y respuesta completa con consulta a core | Web/app p95 ≤ 3 s y ≤ 8 s; contact center ≤ 5 s (hipótesis) | Trazas OTel y logs de APIM | n/a | p95 > objetivo por 15 min → SRE |
-| Calidad: retrieval | Groundedness de respuestas basadas en políticas | ≥ 90 % de casos del golden set sobre el umbral | Evaluación en CI/CD + evaluación continua sobre tráfico | Groundedness (escala 1–5), umbral ≥ 4 a calibrar | Caída > 5 pp vs línea base → bloquea release |
-| Calidad: herramientas | Precisión de uso de herramientas (selección y parámetros) | ≥ 95 % de llamadas correctas en el golden set | Evaluación en CI/CD | Tool Call Accuracy; Tool Input Accuracy (umbral a calibrar) | Regresión vs versión anterior → bloquea release |
+| Calidad: retrieval | Groundedness de respuestas basadas en políticas | ≥ 90 % de casos del golden set sobre el umbral | Evaluación programada sobre una muestra de tráfico real y sobre el golden set | Groundedness (escala 1–5), umbral ≥ 4 a calibrar | Caída > 5 pp vs línea base → alerta y revisión de la versión |
+| Calidad: herramientas | Precisión de uso de herramientas (selección y parámetros) | ≥ 95 % de llamadas correctas en el golden set | Evaluación programada sobre el golden set y el tráfico | Tool Call Accuracy; Tool Input Accuracy (umbral a calibrar) | Regresión vs versión anterior → alerta y revisión de la versión |
 | Seguridad | Tasa de éxito de ataque (ASR) en red teaming y tasa de bloqueo de Prompt Shields | 0 éxitos críticos en fuga de datos; ASR total bajo el umbral acordado con Riesgos | Escaneos del AI Red Teaming Agent y logs de guardrails | Indirect Attack, Prohibited Actions, Sensitive Data Leakage | Éxito crítico → incidente; cambio brusco en bloqueos → revisión |
-| Aislamiento | Prueba A-A-B entre usuarios en sesión compartida | 100 % superada en cada release | Pruebas automatizadas | Fuga de datos sensibles = 0 en set adversarial | Cualquier fallo bloquea el despliegue |
+| Aislamiento | Prueba A-A-B entre usuarios en sesión compartida | 100 % superada en cada cambio de versión | Pruebas automatizadas | Fuga de datos sensibles = 0 en set adversarial | Cualquier fallo detiene el cambio de versión |
 | Fidelidad FX | Cotizaciones con hora, vigencia y etiqueta 'indicativa' | 100 % de respuestas con cotización cumplen el formato | Evaluador personalizado sobre el golden set y muestreo de producción | Rúbrica propia (grader) ≥ umbral | Una cotización sin etiqueta → alerta a Producto |
 | Costo | Tokens por conversación y CPU/memoria por sesión activa | ≤ presupuesto mensual aprobado (hipótesis); alerta al 80 % | AI Gateway + panel de costos del proyecto | n/a | 80 % del presupuesto → FinOps; 100 % → degradar a modelo más económico |
 | Capacidad | Sesiones concurrentes con cómputo activo vs límite de la región | ≤ 70 % del límite en pico | Métricas del proyecto y trazas | n/a | 70 % → pedir aumento de cuota / ajustar idle timeout |
 
-*Todos los objetivos numéricos son hipótesis a validar con tráfico piloto. Los evaluadores nombrados (Groundedness, Tool Call Accuracy, Tool Input Accuracy, Indirect Attack, Prohibited Actions, Sensitive Data Leakage) están en la lista de evaluadores integrados de la documentación; confirma el estado (GA o preview) de cada uno antes de usarlo como gate.*
+*Todos los objetivos numéricos son hipótesis a validar con tráfico piloto. Los evaluadores nombrados (Groundedness, Tool Call Accuracy, Tool Input Accuracy, Indirect Attack, Prohibited Actions, Sensitive Data Leakage) están en la lista de evaluadores integrados de la documentación; confirma el estado (GA o preview) de cada uno antes de usarlo como umbral de alerta.*
 
 ## 5. Backlog (paso 5)
 
@@ -75,7 +75,7 @@ Archivos relacionados en esta carpeta: `arquitectura-objetivo.md` (diagrama y le
 | ADR-002: identidad delegada hasta el MCP/API de core | Decisión (ADR) | Alta | Seguridad | S (≤ 1 semana) | Flujo de token documentado y validado con el IdP de clientes. | Confirmación del IdP de clientes |
 | Test de carga de sesiones concurrentes vs cuota regional | Test | Alta | Plataforma | S (≤ 1 semana) | Curva de sesiones activas en pico vs límite; decisión sobre idle timeout y solicitud de cuota. | PoC Session Gateway |
 | Políticas de Content Safety y Prompt Shields para adjuntos de comex | Habilitador | Media | Seguridad | M (≤ 1 mes) | Dataset de adjuntos benignos y maliciosos en español evaluado; umbrales acordados. | Dataset de adjuntos sintéticos |
-| Golden dataset y gate de evaluación en CI/CD | Habilitador | Media | GenAIOps | M (≤ 1 mes) | Pipeline bloquea la promoción bajo umbral; resultados por versión. | Casos representativos aprobados por negocio |
+| Golden dataset y evaluaciones programadas sobre tráfico real | Habilitador | Media | Observabilidad | M (≤ 1 mes) | Evaluaciones recurrentes con umbral y alerta con dueño; resultados por versión en el panel de trazas. | Casos representativos aprobados por negocio |
 | Escaneo de red teaming base sobre el agente en entorno acotado | Test | Media | Seguridad | M (≤ 1 mes) | ASR base documentado y plan de mitigación. | Agente desplegado en entorno de pruebas |
 | Catálogo de MCP aprobados vía APIM | Habilitador | Media | Plataforma | M (≤ 1 mes) | Los 3 MCP publicados con validación de audience, límites y logs. | ADR-002 |
 
@@ -109,7 +109,7 @@ Archivos relacionados en esta carpeta: `arquitectura-objetivo.md` (diagrama y le
 | Supuesto | Si es falso | Experimento o prueba | Dueño / fecha |
 |---|---|---|---|
 | Pico de ~1.500 usuarios con conversación abierta en 15 min | Con 400 bastaría la opción A | Test de carga con tráfico sintético | Plataforma · 4 semanas |
-| El contenedor puede particionar todo dato propio por (sesión, usuario) | Fuga entre clientes | Prueba A-A-B en el pipeline | Seguridad · 4 semanas |
+| El contenedor puede particionar todo dato propio por (sesión, usuario) | Fuga entre clientes | Prueba A-A-B antes de cada cambio de versión | Seguridad · 4 semanas |
 | El permiso de suplantación se concede solo al Session Gateway | Se reabre la opción A o C | Revisión con Seguridad e IAM | Seguridad · 2 semanas |
 
 **Riesgos y controles:** amenaza T6 y riesgos «Acceso cruzado entre clientes en sesión multiplexada» y «Superar el límite de sesiones concurrentes en pico».

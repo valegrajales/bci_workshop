@@ -117,7 +117,7 @@ $raiz = ".\laboratorios\entorno-y-facilitacion\plan-b"
 5. Guarda **cada punto de control** en `D2\solucion\` (por ejemplo, ramas `t1-t2`, `t3`, `t4`) y registra cuánto demoró cada paso (sirve para ajustar el reloj del runbook).
 6. Anota la versión de Python y de los paquetes (`pip freeze` sin secretos) en `D2_01_versiones_DOC_v01.txt`.
 
-**PB-D2-02 · Traza fallida y diagnóstico (≈ 25 min) → `D2\D2_02_traza-fallida_VID_v01.mp4` + `IMG_v01_01–06.png`** — *se usa el Día 3, en el módulo "Observabilidad y ciclo de vida" (11:05–11:35): los participantes retoman su propio proyecto `dia2-lab-procode\` del Día 2 (mismo entorno, mismo agente, mismo índice) para diagnosticar con su propia traza; esta grabación es el plan B si algo falla en vivo.*
+**PB-D2-02 · Traza fallida y diagnóstico (≈ 25 min) → `D2\D2_02_traza-fallida_VID_v01.mp4` + `IMG_v01_01–06.png`** — *se usa el Día 3, en el módulo "Observabilidad y ciclo de vida" (09:00–09:30): los participantes retoman su propio proyecto `dia2-lab-procode\` del Día 2 (mismo entorno, mismo agente, mismo índice) para diagnosticar con su propia traza; esta grabación es el plan B si algo falla en vivo.*
 1. Ejecuta el **caso fallido** diseñado para el ejercicio de trazas (pregunta fuera del índice o tool con parámetro mal formado).
 2. Abre la traza en el portal de Foundry: ubica el *span* de retrieval y el `execute_tool`; muestra argumentos y resultado.
 3. Muestra dónde se identifica la causa (retrieval vs tool vs modelo).

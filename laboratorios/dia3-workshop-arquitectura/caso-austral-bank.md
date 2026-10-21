@@ -1,6 +1,6 @@
 # Caso Austral Bank: Asistente de Tesorería para clientes corporativos
 
-**Workshop BCI · Architecture Decision Workshop · Día 3 (12:05–12:40) · Material del participante**
+**Workshop BCI · Architecture Decision Workshop · Día 3 (11:35–12:40) · Material del participante**
 *Caso 100 % ficticio. No contiene datos reales de BCI ni de ningún otro banco. Puedes adaptarlo a tu propio caso después del training.*
 
 ## 1. Contexto de negocio
@@ -68,6 +68,6 @@ Teams (ejecutivos internos) es opcional y queda a criterio del grupo. Disponibil
 | Documentos de comex llegan como PDF adjuntos | Sí | Prompt injection indirecto, Content Safety |
 | Nada de lo anterior es dato real de BCI | **No** | Regla del ejercicio |
 
-## 8. Cómo trabajar (35 min, 5 pasos)
+## 8. Cómo trabajar (65 min, 5 pasos)
 
-Contexto 5 min → Canvas 10 → Amenazas 8 → SLOs y evaluación 7 → Backlog 5. Prefiere una decisión **con su criterio y su supuesto** antes que un diagrama perfecto. Plantillas: `Workshop_BCI_Plantillas.xlsx` (una hoja por paso).
+Contexto 5 min → Canvas 20 → Amenazas 15 → SLOs y evaluación 12 → Backlog 13. Prefiere una decisión **con su criterio y su supuesto** antes que un diagrama perfecto. Plantillas: `Workshop_BCI_Plantillas.xlsx` (una hoja por paso).

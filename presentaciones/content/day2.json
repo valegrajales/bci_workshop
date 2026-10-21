@@ -48,7 +48,7 @@
      "detail": "Checklist de preparación y adelanto del día 3"
     }
    ],
-   "notes": "Recorrer la agenda en voz alta y anclarla a los resultados del día: una arquitectura de referencia, un patrón RAG con criterios de calidad y seguridad, y un agente con grounding y una tool propia funcionando. Avisar que el laboratorio pro-code es la parte más larga (75 minutos) y que conviene dejar dudas de implementación para ese momento; el diagnóstico profundo de trazas se practica recién mañana, como parte del módulo de Observabilidad del día 3. La pausa de 10 minutos es corta a propósito: sugerir que los conectados por Teams aprovechen para revisar su entorno de laboratorio. Sugerido: mostrar el checklist de prerequisitos (nivel día 1, Python o .NET básico, APIs, Azure) y confirmar que todos pueden acceder a su proyecto de Foundry antes de seguir. Fuente: MATERIALS_INDEX.md (§2 Día 2), instrucciones del taller."
+   "notes": "Recorrer la agenda en voz alta y anclarla a los resultados del día: una arquitectura de referencia, un patrón RAG con criterios de calidad y seguridad, y un agente con grounding y una tool propia funcionando. Avisar que el laboratorio pro-code es la parte más larga (75 minutos) y que conviene dejar dudas de implementación para ese momento; el diagnóstico profundo de trazas se practica recién mañana, como parte del módulo de Observabilidad que abre el día 3 a las 09:00. La pausa de 10 minutos es corta a propósito: sugerir que los conectados por Teams aprovechen para revisar su entorno de laboratorio. Sugerido: mostrar el checklist de prerequisitos (nivel día 1, Python o .NET básico, APIs, Azure) y confirmar que todos pueden acceder a su proyecto de Foundry antes de seguir. Fuente: MATERIALS_INDEX.md (§2 Día 2), instrucciones del taller."
   },
   {
    "layout": "compare",
@@ -639,24 +639,24 @@
    "title": "Un adelanto del día 3",
    "cards": [
     {
+     "title": "Observabilidad (09:00)",
+     "body": "Trazas, diagnóstico y evaluación: abrimos retomando el proyecto de hoy para diagnosticar una falla real"
+    },
+    {
+     "title": "Multiagente y protocolos",
+     "body": "MCP, A2A y patrones de colaboración entre agentes y workflows más complejos"
+    },
+    {
      "title": "Seguridad y gobernanza",
      "body": "Content Safety avanzado, Purview, políticas de datos e identidad a escala"
     },
     {
-     "title": "Multiagente y orquestación",
-     "body": "Patrones de colaboración entre agentes y workflows más complejos"
-    },
-    {
-     "title": "Observabilidad y ciclo de vida",
-     "body": "Trazas, diagnóstico y evaluación continua: retomamos el proyecto de hoy para diagnosticar una falla real"
-    },
-    {
-     "title": "Operación a escala",
-     "body": "Resiliencia, límites y gestión del ciclo de vida de múltiples agentes"
+     "title": "Arquitectura empresarial",
+     "body": "Hosted Agents, Session Gateway y AI Gateway para escalar con resiliencia y límites"
     }
    ],
-   "footer": "Día 3 es L300: foco en gobernanza, seguridad avanzada, observabilidad y operación de agentes a escala en producción.",
-   "notes": "Cerramos con un adelanto para generar expectativa sobre el día 3, que sube un nivel desde L200 hacia L300: gobernanza, seguridad avanzada, observabilidad y operación de agentes a escala, con menos foco en construir desde cero y más en operar y gobernar lo que ya se construyó hoy. Sugerido: mencionar que mañana retoman el mismo proyecto del laboratorio para diagnosticar una traza en el módulo de Observabilidad, y que varias de las preguntas abiertas de hoy sobre seguridad y multiagente también se retoman con más profundidad, para que quienes tengan dudas pendientes sepan que no se pierden, solo se postergan. Fuente: contexto del taller (estructura de tres días, nivel L100, L200 y L300)."
+   "footer": "Día 3 es L300: foco en observabilidad, arquitectura empresarial, seguridad y un workshop aplicado de decisiones.",
+   "notes": "Cerramos con un adelanto para generar expectativa sobre el día 3, que sube un nivel desde L200 hacia L300: observabilidad, protocolos y multiagente, arquitectura empresarial y seguridad, con menos foco en construir desde cero y más en operar y gobernar lo que ya se construyó hoy; el día termina con un workshop aplicado más largo. Sugerido: mencionar que mañana a las 09:00 retoman el mismo proyecto del laboratorio para diagnosticar una traza en el módulo de Observabilidad, y que varias de las preguntas abiertas de hoy sobre seguridad y multiagente también se retoman con más profundidad, para que quienes tengan dudas pendientes sepan que no se pierden, solo se postergan. Fuente: contexto del taller (estructura de tres días, nivel L100, L200 y L300)."
   },
   {
    "layout": "resources",
@@ -701,7 +701,7 @@
    "layout": "closing",
    "title": "Gracias, nos vemos mañana",
    "message": "Día 3 profundiza en seguridad, gobernanza y operación a escala. Traigan sus preguntas sobre este laboratorio.",
-   "notes": "Cierre del día 2. Agradecer la energía del grupo durante un día técnico largo y recordarles que el laboratorio de hoy es la base directa para las discusiones de seguridad y gobernanza del día 3. Sugerido: dejar un canal abierto (chat de Teams o correo del equipo de Microsoft) para preguntas que surjan al revisar el material por su cuenta antes de mañana. Confirmar horario y modalidad del día 3 (09:00 a 12:30, mismo formato híbrido Microsoft Chile y Teams) y despedirse agradeciendo la participación activa durante el laboratorio pro-code. Fuente: contexto del taller (agenda general de los tres días)."
+   "notes": "Cierre del día 2. Agradecer la energía del grupo durante un día técnico largo y recordarles que el laboratorio de hoy es la base directa para las discusiones de seguridad y gobernanza del día 3. Sugerido: dejar un canal abierto (chat de Teams o correo del equipo de Microsoft) para preguntas que surjan al revisar el material por su cuenta antes de mañana. Confirmar horario y modalidad del día 3 (09:00 a 13:00, mismo formato híbrido Microsoft Chile y Teams) y despedirse agradeciendo la participación activa durante el laboratorio pro-code. Fuente: contexto del taller (agenda general de los tres días)."
   }
  ]
 }
