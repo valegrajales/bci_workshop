@@ -1,6 +1,6 @@
 // Entorno de laboratorio BCI Foundry Training Day: UN participante = UN resource group.
 // Despliega (scope: resource group): cuenta Foundry (AIServices) + proyecto + deployments de chat y embeddings,
-// roles del participante y un presupuesto con alertas. NO crea usuarios (lo hace Provision-Lab.ps1).
+// roles del participante (Foundry User + Reader en el RG, Cognitive Services User en la cuenta) y un presupuesto con alertas. NO crea usuarios (lo hace Provision-Lab.ps1).
 // Basado en infrastructure-setup-bicep/40-basic-agent-setup de microsoft-foundry/foundry-samples.
 targetScope = 'resourceGroup'
 
@@ -54,6 +54,8 @@ var accountName = 'bcilab${participantNumber}-${suffix}'
 // Foundry User: dataActions de CognitiveServices/* (agentes, modelos, Document Intelligence, Speech...).
 var roleFoundryUser = '53ca6127-db72-4b80-b1b0-d745d6d5456d'
 var roleReader = 'acdd72a7-3385-48ef-bd42-f606fba81ae7'
+// Cognitive Services User sobre la cuenta Foundry: Document Intelligence Studio y modelos prebuilt con Entra ID (Día 1, Bloque C).
+var roleCognitiveServicesUser = 'a97b65f3-24c7-4388-baec-2e87135dc908'
 
 resource account 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' = {
   name: accountName
@@ -163,6 +165,17 @@ resource raReader 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(resourceGroup().id, participantObjectId, roleReader)
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleReader)
+    principalId: participantObjectId
+    principalType: principalType
+  }
+}
+
+// Mismo nombre (guid) que rol-cognitive-services-user.bicep, para que ambos sean idempotentes entre sí.
+resource raCognitiveServicesUser 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(account.id, participantObjectId, roleCognitiveServicesUser)
+  scope: account
+  properties: {
+    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleCognitiveServicesUser)
     principalId: participantObjectId
     principalType: principalType
   }

@@ -6,7 +6,7 @@
   Requiere: az CLI con sesión en la suscripción, y Microsoft.Graph.Authentication con sesión activa
   (Connect-MgGraph -Scopes Policy.ReadWrite.AuthenticationMethod,UserAuthenticationMethod.ReadWrite.All,User.ReadWrite.All,Group.ReadWrite.All).
   Crea, por cada participante N: usuario labNN, RG rg-bci-lab-NN, cuenta Foundry + proyecto + deployments (participante.bicep),
-  roles (Foundry User + Reader en su RG) y presupuesto con alertas. Genera un Temporary Access Pass (multi-uso) para iniciar sesión
+  roles (Foundry User + Reader en su RG; Cognitive Services User en su cuenta Foundry) y presupuesto con alertas. Genera un Temporary Access Pass (multi-uso) para iniciar sesión
   sin registrar MFA (el tenant exige MFA y bloquea el registro de métodos desde fuera de la red de confianza).
   Las credenciales (UPN + TAP) se escriben en un CSV LOCAL fuera de OneDrive. NO se guardan contraseñas.
 

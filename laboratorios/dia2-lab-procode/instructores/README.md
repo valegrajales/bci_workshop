@@ -1,8 +1,14 @@
-# Instructores — Caso fallido de la Tarea 4 (NO distribuir esta carpeta)
+# Instructores — Caso fallido del ejercicio de Observabilidad (Día 3) (NO distribuir esta carpeta)
 
 Esta carpeta es solo para Pablo Braconi y Valentina Grajales. Explica los dos defectos plantados en
 `src\05_caso_fallido.py`, cómo se ven en la traza y cómo corregirlos. Los participantes reciben el script
 **sin** esta guía y deben diagnosticar mirando solo las trazas.
+
+> Este ejercicio (antes la "Tarea 4" del laboratorio pro-code del Día 2) ahora se hace el **Día 3**, como el
+> ejercicio práctico del módulo "Observabilidad y ciclo de vida" (ver
+> `..\..\dia3-workshop-arquitectura\ejercicio-observabilidad-dia2.md`). Los participantes retoman este mismo
+> proyecto `dia2-lab-procode\` (mismo entorno, mismo agente, mismo índice); el contenido técnico de esta guía no
+> cambia, solo el día en que se usa.
 
 > Aún no se ha validado contra recursos reales de Azure: ejecuta ambos casos en la suscripción de prueba antes
 > del taller (ver `checklist-validacion.md`, puntos 12–15) y ajusta los textos de "qué debería verse".

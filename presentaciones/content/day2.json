@@ -11,7 +11,7 @@
    "title": "Agentes y RAG con Microsoft Foundry y Azure AI Search (L200)",
    "subtitle": "Día 2 · Taller técnico: arquitectura, tools, MCP y RAG para agentes empresariales",
    "meta": "Jueves 22 de octubre de 2026 · 09:00–13:00 (Chile) · Microsoft Chile + Teams",
-   "notes": "Bienvenida al día 2. Ayer vimos los fundamentos de Foundry; hoy pasamos a construir: arquitectura de agentes, tools confiables, MCP, RAG con Azure AI Search y observabilidad, cerrando con un laboratorio pro-code. El público ya tiene experiencia con Foundry hosted agents, APIM/AI Gateway, MCP, semantic cache, Content Safety y evaluaciones, así que vamos a profundizar en diseño y buenas prácticas, no en conceptos básicos. Sugerido: presentar a Pablo y Valentina, repasar la agenda y pedir que todos tengan su entorno de laboratorio listo desde ahora para no perder tiempo más tarde. Mencionar que todos los escenarios de hoy son bancarios ficticios, sin datos reales de BCI. Fuente: MATERIALS_INDEX.md (§2 Día 2)."
+   "notes": "Bienvenida al día 2. Ayer vimos los fundamentos de Foundry; hoy pasamos a construir: arquitectura de agentes, tools confiables, MCP, RAG con Azure AI Search, cerrando con un laboratorio pro-code. El público ya tiene experiencia con Foundry hosted agents, APIM/AI Gateway, MCP, semantic cache, Content Safety y evaluaciones, así que vamos a profundizar en diseño y buenas prácticas, no en conceptos básicos. Sugerido: presentar a Pablo y Valentina, repasar la agenda y pedir que todos tengan su entorno de laboratorio listo desde ahora para no perder tiempo más tarde. Mencionar que todos los escenarios de hoy son bancarios ficticios, sin datos reales de BCI. Fuente: MATERIALS_INDEX.md (§2 Día 2)."
   },
   {
    "layout": "agenda",
@@ -38,22 +38,17 @@
      "detail": "Café y networking"
     },
     {
-     "time": "11:15–11:45",
-     "title": "Observabilidad y ciclo de vida",
-     "detail": "Tracing, debugging, evaluación"
-    },
-    {
-     "time": "11:45–12:40",
+     "time": "11:15–12:30",
      "title": "Laboratorio pro-code",
      "detail": "Agente con grounding y herramienta propia"
     },
     {
-     "time": "12:40–13:00",
+     "time": "12:30–13:00",
      "title": "Preguntas y cierre",
      "detail": "Checklist de preparación y adelanto del día 3"
     }
    ],
-   "notes": "Recorrer la agenda en voz alta y anclarla a los resultados del día: una arquitectura de referencia, un patrón RAG con criterios de calidad y seguridad, y un agente instrumentado con una tool propia. Avisar que el laboratorio pro-code es la parte más larga (55 minutos) y que conviene dejar dudas de implementación para ese momento. La pausa de 10 minutos es corta a propósito: sugerir que los conectados por Teams aprovechen para revisar su entorno de laboratorio. Sugerido: mostrar el checklist de prerequisitos (nivel día 1, Python o .NET básico, APIs, Azure) y confirmar que todos pueden acceder a su proyecto de Foundry antes de seguir. Fuente: MATERIALS_INDEX.md (§2 Día 2), instrucciones del taller."
+   "notes": "Recorrer la agenda en voz alta y anclarla a los resultados del día: una arquitectura de referencia, un patrón RAG con criterios de calidad y seguridad, y un agente con grounding y una tool propia funcionando. Avisar que el laboratorio pro-code es la parte más larga (75 minutos) y que conviene dejar dudas de implementación para ese momento; el diagnóstico profundo de trazas se practica recién mañana, como parte del módulo de Observabilidad del día 3. La pausa de 10 minutos es corta a propósito: sugerir que los conectados por Teams aprovechen para revisar su entorno de laboratorio. Sugerido: mostrar el checklist de prerequisitos (nivel día 1, Python o .NET básico, APIs, Azure) y confirmar que todos pueden acceder a su proyecto de Foundry antes de seguir. Fuente: MATERIALS_INDEX.md (§2 Día 2), instrucciones del taller."
   },
   {
    "layout": "compare",
@@ -503,164 +498,29 @@
   },
   {
    "layout": "section",
-   "title": "Observabilidad y ciclo de vida",
-   "number": "5",
-   "subtitle": "De trazas a decisiones: depurar, evaluar y pasar a producción",
-   "duration": "30 min · Valentina",
-   "notes": "Después de la pausa, cerramos la parte teórica con observabilidad: cómo saber qué hizo realmente el agente, cómo depurar una falla y cómo decidir con datos si está listo para producción. Esto conecta directo con el laboratorio de hoy, donde cada equipo va a inspeccionar la traza de su propio agente. Sugerido: preguntar cómo depuran hoy un agente cuando algo sale mal, si usan logs sueltos o alguna herramienta de tracing, para calibrar cuánto detalle dar sobre OpenTelemetry. Remarcar que este bloque es corto (30 minutos) porque se practica en profundidad durante el laboratorio pro-code. Fuente: MATERIALS_INDEX.md (§2 Día 2, módulo 5)."
-  },
-  {
-   "layout": "process",
-   "title": "Cómo viaja una traza en Foundry",
-   "steps": [
-    {
-     "title": "Instrumentación",
-     "body": "El agente (o Agent Framework) emite spans con convenciones OpenTelemetry GenAI"
-    },
-    {
-     "title": "Exportación",
-     "body": "Las trazas salen por OTLP hacia Application Insights u otro backend"
-    },
-    {
-     "title": "Almacenamiento",
-     "body": "Azure Monitor guarda spans anidados: invoke_agent, execute_tool, plan"
-    },
-    {
-     "title": "Análisis",
-     "body": "Portal de Foundry o Application Insights para inspeccionar paso a paso"
-    }
-   ],
-   "notes": "Tracing en Foundry está construido sobre OpenTelemetry y las convenciones semánticas de GenAI, un estándar que también adoptan Agent Framework, LangChain, LangGraph y el SDK de OpenAI Agents, lo que facilita correlacionar trazas entre distintos componentes. Cada ejecución genera spans anidados: invoke_agent envuelve toda la corrida, execute_tool registra cada llamada a una tool con sus argumentos y resultado, y hay spans específicos para workflows y memoria. Todo esto se exporta por OTLP y normalmente se almacena en Application Insights. Sugerido: mostrar en el portal de Foundry una traza real y señalar los distintos niveles de spans. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
-  },
-  {
-   "layout": "bullets",
-   "title": "Qué registrar (y qué nunca registrar) en una traza",
-   "bullets": [
-    "Registra entradas, salidas, llamadas a tools, tokens y latencias de cada paso",
-    "Cada tool call guarda sus argumentos y su resultado como atributos del span",
-    "Redacta secretos, credenciales y datos personales antes de que lleguen a la traza",
-    "Trata los datos de traza con los mismos controles de acceso que un log de producción",
-    "Correlaciona el ID de la corrida de evaluación con la traza para analizar todo junto"
-   ],
-   "notes": "La traza es una herramienta de diagnóstico, pero también un dato sensible: si una tool recibe un número de cuenta o un dato personal como argumento, ese valor puede terminar en el span si no se redacta antes. La recomendación es tratar la telemetría con los mismos controles de acceso que cualquier log de producción, nunca como un espacio 'libre' para depurar sin cuidado. Correlacionar el ID de una corrida de evaluación con su traza permite, por ejemplo, entender por qué un evaluador de groundedness marcó una respuesta como mala, viendo exactamente qué contexto se recuperó. Sugerido: pedir ejemplos de datos que nunca deberían aparecer en una traza en el contexto bancario (números de cuenta, RUT, montos). Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
-  },
-  {
-   "layout": "demo",
-   "title": "Demo: inspeccionar una traza y diagnosticar una falla",
-   "scenario": "El agente de normativa responde mal una consulta; usamos la traza para encontrar dónde se rompió el razonamiento",
-   "steps": [
-    "Abrir la traza de la corrida fallida en el portal de Foundry",
-    "Bajar al span execute_tool y revisar argumentos y resultado",
-    "Detectar que el retrieval no devolvió el fragmento correcto",
-    "Confirmar la causa con los logs del hosted agent"
-   ],
-   "expected": "Identificamos si la falla fue de retrieval, de la tool o del modelo, con evidencia concreta de la traza",
-   "notes": "Esta es la segunda de las tres demos obligatorias del día y muestra el flujo real de depuración: no adivinamos qué pasó, bajamos span por span hasta encontrar la causa raíz. En este caso el error viene del retrieval, no del modelo ni de la tool, algo que solo se puede confirmar mirando qué contexto llegó exactamente al prompt. Sugerido: aprovechar para mostrar también los comandos de diagnóstico de hosted agents (logs del contenedor, eventos de arranque) como complemento a la traza, porque algunas fallas no quedan en el span sino en el runtime del contenedor. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/debug-hosted-agent.md."
-  },
-  {
-   "layout": "cards",
-   "title": "Diagnóstico rápido de un hosted agent",
-   "cards": [
-    {
-     "title": "No responde",
-     "body": "Revisa logs del contenedor: eventos de arranque, crashes y reinicios antes de mirar el modelo"
-    },
-    {
-     "title": "Latencia alta",
-     "body": "Separa tiempo de arranque del contenedor, latencia del modelo y tiempo de la tool"
-    },
-    {
-     "title": "Error de autenticación",
-     "body": "Confirma la identidad Entra del agente y los permisos sobre el recurso que falla"
-    },
-    {
-     "title": "No llama a la tool",
-     "body": "Revisa que la tool esté adjunta al agente y que su descripción sea clara"
-    }
-   ],
-   "notes": "Estas cuatro categorías cubren la gran mayoría de los problemas que aparecen al operar un hosted agent en el día a día. Antes de sospechar del modelo conviene descartar lo básico: ¿arrancó bien el contenedor?, ¿hay errores de autenticación por identidad o permisos faltantes?, ¿la tool está realmente adjunta y bien descrita? Separar la latencia por etapa (arranque, modelo, tool) evita optimizar lo que no es el cuello de botella real. Sugerido: relacionar 'no llama a la tool' con la lámina de diseño de tools del módulo 2, mostrando que muchos problemas de observabilidad en realidad se originan en un mal diseño previo de la tool. Fuente: docs-oficiales/foundry/agents/how-to/debug-hosted-agent.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
-  },
-  {
-   "layout": "table",
-   "title": "Evaluar antes y después de publicar",
-   "columns": [
-    "Nivel",
-    "Qué mide",
-    "Ejemplos de evaluador"
-   ],
-   "rows": [
-    [
-     "Turn",
-     "Calidad de una respuesta puntual",
-     "Groundedness, Relevance, Coherence"
-    ],
-    [
-     "Conversation",
-     "Resultado de toda la interacción",
-     "Task Completion, Task Adherence"
-    ],
-    [
-     "Tool use",
-     "Si el agente usó bien sus tools",
-     "Tool Call Accuracy, Tool Selection"
-    ]
-   ],
-   "note": "Corre evaluaciones en desarrollo, en CI/CD y de forma recurrente sobre tráfico real.",
-   "notes": "La evaluación no es un paso único antes de publicar, es un proceso continuo con tres niveles distintos. A nivel de turno medimos la calidad de una respuesta individual; a nivel de conversación, si el agente cumplió la tarea completa a lo largo de varios turnos; y a nivel de uso de tools, si eligió y llamó correctamente las herramientas disponibles. Foundry permite correr estos evaluadores en desarrollo, integrarlos a CI/CD para detectar regresiones antes de publicar una nueva versión, y también de forma recurrente sobre tráfico real ya en producción. Sugerido: conectar esta tabla con los evaluadores de RAG vistos en el módulo anterior, mostrando que ambos conjuntos se combinan para un agente que hace RAG con tools. Fuente: docs-oficiales/foundry/concepts/evaluation-overview.md, docs-oficiales/foundry/concepts/built-in-evaluators.md."
-  },
-  {
-   "layout": "process",
-   "title": "De la idea al agente en producción",
-   "steps": [
-    {
-     "title": "Crear y probar",
-     "body": "Elige el tipo de agente e itera en el playground o en código"
-    },
-    {
-     "title": "Agregar tools y datos",
-     "body": "Conecta retrieval y acciones; valida cada tool antes de guardar"
-    },
-    {
-     "title": "Versionar",
-     "body": "Guarda cambios como versiones inmutables, comparables y reversibles"
-    },
-    {
-     "title": "Trazar y evaluar",
-     "body": "Confirma comportamiento con trazas y evaluaciones repetibles"
-    },
-    {
-     "title": "Publicar y monitorear",
-     "body": "Publica un endpoint estable y sigue la calidad en producción"
-    }
-   ],
-   "notes": "Este es el ciclo de vida completo que venimos armando en capítulos a lo largo del día: crear y probar, agregar tools y datos, versionar, trazar y evaluar, publicar y monitorear. La versión es inmutable una vez guardada, lo que permite comparar configuración, salidas y definición YAML entre versiones, y hacer rollback si una nueva versión empeora resultados. El patrón recomendado en código es 'get-or-create': buscar el agente por nombre y crearlo solo si no existe, tratando un 404 posterior como señal de que fue borrado, nunca como motivo para reintentar en loop. Sugerido: usar este slide como puente directo al laboratorio, donde el grupo va a recorrer varias de estas etapas en código. Fuente: docs-oficiales/foundry/agents/concepts/development-lifecycle.md."
-  },
-  {
-   "layout": "section",
    "title": "Laboratorio pro-code",
-   "number": "6",
+   "number": "4",
    "subtitle": "Agente pro-code con grounding y herramientas",
-   "duration": "55 min · Ambos",
-   "notes": "Llegamos a la parte práctica más larga del día. El objetivo es que cada persona (o pareja) construya, de punta a punta, un agente pro-code en Python que combine grounding con Azure AI Search, una tool propia, y termine revisando su traza. El escenario es un asistente de normativa interna ficticio, pensado para no depender de ningún dato real de BCI. Sugerido: explicar la mecánica del laboratorio (starter code provisto, pasos incrementales, ayuda disponible de Pablo y Valentina) y aclarar que quien prefiera .NET tiene una alternativa abierta, aunque el soporte en vivo se va a enfocar en Python. Fuente: MATERIALS_INDEX.md (§2 Día 2, laboratorio), repos/publico-workshops/foundry-hosted-agents-workshop."
+   "duration": "75 min · Ambos",
+   "notes": "Llegamos a la parte práctica más larga del día. El objetivo es que cada persona (o pareja) construya, de punta a punta, un agente pro-code en Python que combine grounding con Azure AI Search y una tool propia. El escenario es un asistente de normativa interna ficticio, pensado para no depender de ningún dato real de BCI. Sugerido: explicar la mecánica del laboratorio (starter code provisto, pasos incrementales, ayuda disponible de Pablo y Valentina) y aclarar que quien prefiera .NET tiene una alternativa abierta, aunque el soporte en vivo se va a enfocar en Python. Recordar que mañana, en el módulo de Observabilidad del día 3, van a retomar este mismo proyecto para inspeccionar su traza a fondo. Fuente: MATERIALS_INDEX.md (§2 Día 2, laboratorio), repos/publico-workshops/foundry-hosted-agents-workshop."
   },
   {
    "layout": "lab",
    "title": "Visión general del laboratorio",
-   "objective": "Construir un agente pro-code en Python que responda con grounding de Azure AI Search y use una tool propia, con traza visible",
-   "time": "55 min",
+   "objective": "Construir un agente pro-code en Python que responda con grounding de Azure AI Search y use una tool propia",
+   "time": "75 min",
    "steps": [
     "Escenario: asistente de normativa interna ficticio de un banco, sin datos reales de BCI",
     "Partimos de un proyecto inicial con Agent Framework ya configurado",
-    "Sumamos retrieval, una tool personalizada y revisamos la traza final",
+    "Sumamos retrieval y una tool personalizada, y cerramos con revisión en parejas",
     "Python es el lenguaje principal; hay una alternativa .NET para quien la prefiera"
    ],
    "deliverables": [
     "Agente funcionando con respuesta grounded y una tool",
-    "Al menos una traza completa inspeccionada",
-    "Checklist de diseño y observabilidad completado"
+    "Checklist de diseño completado para las tareas 1 a 3"
    ],
    "repoUrl": "https://github.com/microsoft-foundry/foundry-samples",
-   "notes": "Este slide da el panorama completo antes de arrancar: qué vamos a construir, cuánto tiempo hay y qué se espera entregar al final. El starter code deriva de los samples públicos de hosted agents con Agent Framework; cada participante trabaja sobre su propia copia. Sugerido: mostrar la estructura de carpetas del proyecto inicial (agente, tools, configuración) antes de que empiecen a escribir código, para que no pierdan tiempo orientándose. Recordar que la alternativa en .NET sigue el mismo flujo de tareas pero con otro starter; mencionarla solo brevemente porque el soporte en vivo del taller está pensado para Python. Fuente: repos/publico-workshops/foundry-hosted-agents-workshop (travel_assistant, adaptado), repos/microsoftlearning-labs/mslearn-ai-agents (Consolidated C0-C4)."
+   "notes": "Este slide da el panorama completo antes de arrancar: qué vamos a construir, cuánto tiempo hay y qué se espera entregar al final. El starter code deriva de los samples públicos de hosted agents con Agent Framework; cada participante trabaja sobre su propia copia. Sugerido: mostrar la estructura de carpetas del proyecto inicial (agente, tools, configuración) antes de que empiecen a escribir código, para que no pierdan tiempo orientándose. Aclarar que la revisión profunda de la traza (diagnóstico de fallas, criterios de éxito) se hace mañana, en el módulo de Observabilidad del día 3, reutilizando este mismo proyecto. Recordar que la alternativa en .NET sigue el mismo flujo de tareas pero con otro starter; mencionarla solo brevemente porque el soporte en vivo del taller está pensado para Python. Fuente: repos/publico-workshops/foundry-hosted-agents-workshop (travel_assistant, adaptado), repos/microsoftlearning-labs/mslearn-ai-agents (Consolidated C0-C4)."
   },
   {
    "layout": "lab",
@@ -684,7 +544,7 @@
    "layout": "lab",
    "title": "Tareas 1 y 2: agente pro-code con grounding",
    "objective": "Construir el agente base en Python e integrar Azure AI Search para que responda con grounding de normativa interna",
-   "time": "20 min",
+   "time": "25 min",
    "steps": [
     "Definir el agente con Agent Framework: modelo, instrucciones y sesión",
     "Conectar el índice de Azure AI Search como fuente de grounding",
@@ -701,7 +561,7 @@
    "layout": "lab",
    "title": "Tarea 3: implementar y probar una tool propia",
    "objective": "Agregar una function tool que consulte el estado de una solicitud ficticia y validar que el agente la use correctamente",
-   "time": "15 min",
+   "time": "20 min",
    "steps": [
     "Definir el esquema JSON de la tool: nombre, parámetros y campos obligatorios",
     "Implementar la función que devuelve un estado de solicitud ficticio",
@@ -716,21 +576,20 @@
   },
   {
    "layout": "lab",
-   "title": "Tarea 4: trazas, diagnóstico y criterios de éxito",
-   "objective": "Inspeccionar la traza de una ejecución completa, diagnosticar un caso fallido provisto y validar contra el checklist de éxito",
-   "time": "10 min",
+   "title": "Revisión en parejas y preguntas técnicas",
+   "objective": "Revisar el agente construido con otra persona o pareja y resolver dudas técnicas antes de cerrar el laboratorio",
+   "time": "20 min",
    "steps": [
-    "Ejecutar un caso de prueba y abrir su traza en el portal de Foundry",
-    "Ubicar los spans de retrieval y de la tool dentro de la traza",
-    "Diagnosticar el caso fallido provisto por el equipo instructor",
-    "Validar tu agente contra el checklist: responde, cita fuente, usa la tool, sin errores en traza"
+    "Intercambiar agente con otra pareja y probar dos o tres preguntas cruzadas",
+    "Comentar decisiones de diseño: cómo definieron la tool, qué prompt usaron",
+    "Levantar con Pablo y Valentina cualquier bloqueo técnico pendiente",
+    "Dejar el proyecto guardado tal como queda: se retoma mañana sin cambios"
    ],
    "deliverables": [
-    "Traza completa inspeccionada y explicada",
-    "Diagnóstico del caso fallido provisto",
-    "Checklist de éxito completado"
+    "Al menos una ronda de feedback cruzado entre parejas",
+    "Checklist de diseño completado para las tareas 1 a 3"
    ],
-   "notes": "Cerramos el laboratorio con la misma práctica de diagnóstico que vimos en la demo de observabilidad, pero ahora sobre la propia traza de cada equipo. El caso fallido provisto está diseñado a propósito (por ejemplo, una pregunta fuera del índice o una tool con un parámetro mal formado) para practicar diagnóstico sin depender de que algo salga mal por azar. Si alguien no logra terminar las tres tareas anteriores, puede usar este tiempo para completar lo pendiente; lo mínimo esperable es un agente que responda y una traza revisada. Troubleshooting común: si no aparecen spans de tool, revisar que la tool esté realmente adjunta; si el grounding no trae resultados, revisar la conexión al índice. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/debug-hosted-agent.md."
+   "notes": "Cerramos el laboratorio sin la tarea de trazas: ese diagnóstico profundo pasa al día 3, como parte del nuevo módulo de Observabilidad, así que acá el foco es consolidar lo construido y despejar dudas. Sugerido: armar parejas que no hayan trabajado juntas antes, para que vean otra forma de resolver el mismo problema. Insistir en que dejen el proyecto guardado exactamente como queda: mañana lo van a volver a abrir para inspeccionar su traza y diagnosticar un caso fallido, reutilizando el mismo entorno y el mismo agente de hoy (el acceso del laboratorio se regenera a diario, pero el proyecto y los recursos de Azure persisten los tres días). Fuente: MATERIALS_INDEX.md (§2 Día 2, laboratorio)."
   },
   {
    "layout": "takeaway",
@@ -738,8 +597,8 @@
    "points": [
     "Una arquitectura de referencia para un agente empresarial: hosted agent, Agent Framework, tools y MCP",
     "Un patrón RAG funcionando con criterios de calidad y seguridad definidos, no solo conectado a un índice",
-    "Un agente instrumentado: trazas legibles y una tool propia probada de punta a punta",
-    "Un checklist de diseño, observabilidad y preparación aplicable a tu próximo agente"
+    "Un agente que emite trazas legibles y una tool propia probada de punta a punta (el diagnóstico profundo es mañana)",
+    "Un checklist de diseño y preparación aplicable a tu próximo agente"
    ],
    "notes": "Resumir el día conectando cada punto con el momento del taller donde se construyó: la arquitectura de referencia viene del módulo 1, el patrón RAG con calidad y seguridad del módulo 3, el agente instrumentado del laboratorio. Sugerido: pedir a dos o tres personas que compartan en una frase qué se llevan del día, para cerrar con la voz del grupo y no solo la del instructor. Aprovechar para recordar que todo el material (starter code, slides, checklist) queda disponible para revisar después del taller. Fuente: contexto del taller (outcomes y deliverables del día 2)."
   },
@@ -770,14 +629,10 @@
     [
      "Calidad",
      "¿Corres Groundedness y Relevance antes de publicar?"
-    ],
-    [
-     "Observabilidad",
-     "¿Las trazas llegan a App Insights sin datos sensibles?"
     ]
    ],
    "note": "Usa esta checklist como gate antes de mover un agente de prototipo a piloto con usuarios reales.",
-   "notes": "Este checklist resume en seis preguntas todo lo que cubrimos hoy, y está pensado para usarse literalmente como gate de revisión antes de un piloto con usuarios reales. Sugerido: entregar este checklist como parte del material editable del taller, para que cada equipo lo adapte a su propio proceso de revisión interna. Proponer como ejercicio final que cada equipo marque, con honestidad, en qué estado está su propio agente hoy respecto a estas seis áreas, y qué harían primero la semana que viene. Fuente: síntesis de los módulos 1 a 6 del día 2 (arquitectura, tools, RAG, observabilidad, laboratorio)."
+   "notes": "Este checklist resume en cinco preguntas todo lo que cubrimos hoy, y está pensado para usarse literalmente como gate de revisión antes de un piloto con usuarios reales. La observabilidad queda fuera a propósito: ese tema se ve recién mañana, en el módulo dedicado del día 3. Sugerido: entregar este checklist como parte del material editable del taller, para que cada equipo lo adapte a su propio proceso de revisión interna. Proponer como ejercicio final que cada equipo marque, con honestidad, en qué estado está su propio agente hoy respecto a estas áreas, y qué harían primero la semana que viene. Fuente: síntesis de los módulos 1 a 4 del día 2 (arquitectura, tools, RAG, laboratorio)."
   },
   {
    "layout": "cards",
@@ -792,12 +647,16 @@
      "body": "Patrones de colaboración entre agentes y workflows más complejos"
     },
     {
+     "title": "Observabilidad y ciclo de vida",
+     "body": "Trazas, diagnóstico y evaluación continua: retomamos el proyecto de hoy para diagnosticar una falla real"
+    },
+    {
      "title": "Operación a escala",
      "body": "Resiliencia, límites y gestión del ciclo de vida de múltiples agentes"
     }
    ],
-   "footer": "Día 3 es L300: foco en gobernanza, seguridad avanzada y operación de agentes a escala en producción.",
-   "notes": "Cerramos con un adelanto para generar expectativa sobre el día 3, que sube un nivel desde L200 hacia L300: gobernanza, seguridad avanzada y operación de agentes a escala, con menos foco en construir desde cero y más en operar y gobernar lo que ya se construyó hoy. Sugerido: mencionar que varias de las preguntas abiertas de hoy sobre seguridad y multiagente se retoman mañana con más profundidad, para que quienes tengan dudas pendientes sepan que no se pierden, solo se postergan. Fuente: contexto del taller (estructura de tres días, nivel L100, L200 y L300)."
+   "footer": "Día 3 es L300: foco en gobernanza, seguridad avanzada, observabilidad y operación de agentes a escala en producción.",
+   "notes": "Cerramos con un adelanto para generar expectativa sobre el día 3, que sube un nivel desde L200 hacia L300: gobernanza, seguridad avanzada, observabilidad y operación de agentes a escala, con menos foco en construir desde cero y más en operar y gobernar lo que ya se construyó hoy. Sugerido: mencionar que mañana retoman el mismo proyecto del laboratorio para diagnosticar una traza en el módulo de Observabilidad, y que varias de las preguntas abiertas de hoy sobre seguridad y multiagente también se retoman con más profundidad, para que quienes tengan dudas pendientes sepan que no se pierden, solo se postergan. Fuente: contexto del taller (estructura de tres días, nivel L100, L200 y L300)."
   },
   {
    "layout": "resources",
@@ -842,7 +701,7 @@
    "layout": "closing",
    "title": "Gracias, nos vemos mañana",
    "message": "Día 3 profundiza en seguridad, gobernanza y operación a escala. Traigan sus preguntas sobre este laboratorio.",
-   "notes": "Cierre del día 2. Agradecer la energía del grupo durante un día técnico largo y recordarles que el laboratorio de hoy es la base directa para las discusiones de seguridad y gobernanza del día 3. Sugerido: dejar un canal abierto (chat de Teams o correo del equipo de Microsoft) para preguntas que surjan al revisar el material por su cuenta antes de mañana. Confirmar horario y modalidad del día 3 (09:00 a 13:00, mismo formato híbrido Microsoft Chile y Teams) y despedirse agradeciendo la participación activa durante el laboratorio pro-code. Fuente: contexto del taller (agenda general de los tres días)."
+   "notes": "Cierre del día 2. Agradecer la energía del grupo durante un día técnico largo y recordarles que el laboratorio de hoy es la base directa para las discusiones de seguridad y gobernanza del día 3. Sugerido: dejar un canal abierto (chat de Teams o correo del equipo de Microsoft) para preguntas que surjan al revisar el material por su cuenta antes de mañana. Confirmar horario y modalidad del día 3 (09:00 a 12:30, mismo formato híbrido Microsoft Chile y Teams) y despedirse agradeciendo la participación activa durante el laboratorio pro-code. Fuente: contexto del taller (agenda general de los tres días)."
   }
  ]
 }

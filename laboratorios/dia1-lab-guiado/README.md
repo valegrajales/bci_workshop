@@ -416,53 +416,66 @@ Usa la versión corta de instrucciones (`prompts.md` 1.2) y sube solo 2 document
 
 ---
 
-## 8. Bloque C — OCR con Document Intelligence (≈25 min)
+## 8. Bloque C — OCR con Document Intelligence / Content Understanding (≈25 min)
 
-**Objetivo:** extraer campos de un documento ficticio con un modelo prebuilt de Document Intelligence, validar el resultado y compararlo con lo que un agente podría hacer con esos datos.
+**Objetivo:** extraer campos de un documento ficticio con **Content Understanding Studio** (el flujo que sí funciona con las cuentas AIServices del laboratorio), validar el resultado y compararlo con lo que un agente podría hacer con esos datos.
 
-**Resultado esperado:** la factura ficticia analizada con campos extraídos y validados, la solicitud de crédito analizada con el modelo Layout y una comparación breve con un modelo/agente.
+**Resultado esperado:** la factura ficticia analizada con campos extraídos y validados, la solicitud de crédito analizada con una extracción más general (contenido/pares clave-valor) y una comparación breve con un modelo/agente.
 
-**Fuente oficial:** laboratorio `03-document-intelligence.md` de `mslearn-ai-information-extraction` y la guía de inicio de Document Intelligence Studio (ver "Fuentes").
+**Fuente oficial:** laboratorio `03-document-intelligence.md` de `mslearn-ai-information-extraction` y la guía de inicio de Document Intelligence Studio (ver "Fuentes"). **Nota:** el laboratorio oficial fue escrito para Document Intelligence Studio clásico; en este entorno usamos Content Understanding Studio porque es la ruta compatible con las cuentas AIServices predesplegadas (ver C.1).
 
 **Documentos (en `datos\documentos-ocr\`):**
 
-| Archivo | Qué es | Modelo que usarás |
+| Archivo | Qué es | Qué harás con él |
 |---|---|---|
-| `01-factura.png` / `.pdf` | Factura de un proveedor a Austral Bank | **Invoice** (`prebuilt-invoice`) |
-| `02-solicitud-credito.png` / `.pdf` | Solicitud de crédito de consumo (formulario) | **Layout** (prebuilt-layout) con pares clave-valor (key-value pairs) |
-| `03-comprobante-compra.png` / `.pdf` | Comprobante de una cafetería (lo usan los facilitadores en la demo en vivo de Document Intelligence) | **Receipt** (`prebuilt-receipt`), solo como extensión |
+| `01-factura.png` / `.pdf` | Factura de un proveedor a Austral Bank | Esquema de campos personalizado (equivalente a **Invoice**) |
+| `02-solicitud-credito.png` / `.pdf` | Solicitud de crédito de consumo (formulario) | Extracción general de contenido / pares clave-valor (equivalente a **Layout**) |
+| `03-comprobante-compra.png` / `.pdf` | Comprobante de una cafetería (lo usan los facilitadores en la demo en vivo de Document Intelligence) | Solo como extensión |
 | `campos-esperados.md` / `.csv` | Valores correctos para verificar el resultado | — |
 
-> La diapositiva del laboratorio menciona una solicitud de crédito como ejemplo y "Document Intelligence Studio o el notebook". Aquí usamos **Studio** (sin código): primero la factura con el modelo específico **Invoice**, que muestra mejor los campos tipados, y luego la solicitud de crédito con **Layout**, que también es un modelo prebuilt. El laboratorio oficial incluye además código Python en `Labfiles\03-document-intelligence\prebuilt` por si quieres verlo.
+> La diapositiva del laboratorio menciona una solicitud de crédito como ejemplo y "Document Intelligence Studio o el notebook". Aquí usamos **Content Understanding Studio** (sin código): primero la factura con un esquema de campos personalizado, que muestra mejor los campos tipados, y luego la solicitud de crédito con una extracción más general. El laboratorio oficial incluye además código Python en `Labfiles\03-document-intelligence\prebuilt` (ese SDK sí trabaja directo contra Document Intelligence/cuentas AIServices, sin pasar por ningún Studio) por si quieres verlo.
 
 Todos tienen una marca de agua **DOCUMENTO FICTICIO**. Los PDF principales son solo imagen (como un escaneo); la carpeta `pdf-texto-nativo\` tiene versiones con capa de texto para comparar.
 
 | Min | Paso | Qué haces |
 |---|---|---|
-| 0–4 | C.1 | Abres Document Intelligence Studio y seleccionas el recurso |
-| 4–9 | C.2 | Analizas la factura con el modelo **Invoice** |
+| 0–4 | C.1 | Creas tu proyecto en Content Understanding Studio (recurso, storage account, modelo) |
+| 4–9 | C.2 | Analizas la factura con un esquema de campos |
 | 9–13 | C.3 | Validas los campos contra `campos-esperados.md` |
-| 13–18 | C.4 | Analizas la solicitud de crédito con **Layout** |
+| 13–18 | C.4 | Analizas la solicitud de crédito (contenido general / pares clave-valor) |
 | 18–24 | C.5 | Comparas con lo que haría un modelo/agente |
 | 24–25 | C.6 | Guardas el resultado |
 
-### C.1 Abre Document Intelligence Studio (min 0–4)
+### C.1 Abre Content Understanding Studio y crea tu proyecto (min 0–4)
 
-1. Abre Document Intelligence Studio: `https://documentintelligence.ai.azure.com/studio`. El laboratorio oficial usa `https://contentunderstanding.ai.azure.com/documentintelligence/studio`. Usa el enlace que te indique el equipo facilitador (es el mismo servicio con otra dirección).
-2. Si Studio te pide un recurso, selecciona **Settings** (engranaje arriba a la derecha) > pestaña **Resource** y elige el recurso de Document Intelligence que indica el equipo (**no crees uno nuevo** salvo instrucción). Si te pregunta el tipo de autenticación, usa **Microsoft Entra ID**. Si te pide iniciar sesión, usa tu cuenta `labNN` con tu **TAP** (ver Bloque A). Nunca pegues una clave ni tu TAP en un chat.
+> **Cambio de última hora (20-oct):** probamos Document Intelligence Studio clásico (`documentintelligence.ai.azure.com/studio`) y también la ruta de modelos prebuilt bajo `contentunderstanding.ai.azure.com/documentintelligence/studio/prebuilt`, y **ninguna de las dos reconoce las cuentas AIServices del laboratorio** (el selector de recurso aparece vacío, "No available options"). Usa en su lugar el flujo de **proyectos de Content Understanding Studio**, que sí funciona con tu cuenta y ya quedó preparado por el equipo facilitador (storage account y roles incluidos).
 
-**Deberías ver:** la página de inicio de Studio con los modelos agrupados por tipo (análisis de documentos y modelos prebuilt).
+1. Abre `https://contentunderstanding.ai.azure.com/build?tab=projectList`.
+2. Si te pide iniciar sesión, usa tu cuenta `labNN`/`instNN` con tu **TAP** (ver Bloque A). Nunca pegues una clave ni tu TAP en un chat.
+3. Selecciona **Create** para crear un proyecto nuevo.
+4. **Workflow kind:** deja seleccionado **"Extract content and field with custom schema"**.
+5. En **Advanced settings → Connected resource → AI Foundry resource**: debería aparecer ya tu cuenta (`bcilabNN-xxxxx` o `bcilabNN-xxxxx` de instructor). Si no aparece sola, selecciónala del desplegable (**no crees un recurso nuevo**).
+6. **Connect storage account:** Subscription y Resource group ya deberían estar preseleccionados (tu propio RG). En **Storage account**, busca por nombre: tu cuenta ya tiene uno creado con el patrón `stbcil<NN>…` (participantes) o `stbcii<NN>…` (instructores) — **no necesitas crear uno nuevo**, solo seleccionarlo.
+7. **Blob container:** usa **Create a new container** (por ejemplo, `lab-dia1`).
+8. **Chat completion model:** debería aparecer ya seleccionado automáticamente (`gpt-5-mini` o `gpt-4.1-mini`, según tu cuenta — ver nota de modelos más abajo). Déjalo así.
+9. Selecciona **Create**.
 
-✔ **Checkpoint C1 (min 4):** Studio abierto con un recurso seleccionado.
+**Deberías ver:** tu proyecto creado, listo para subir un documento y definir o generar un esquema de campos.
 
-### C.2 Analiza la factura con el modelo Invoice (min 4–9)
+✔ **Checkpoint C1 (min 4):** proyecto creado con el recurso, el storage account y el modelo de chat seleccionados.
 
-1. En la página de inicio, selecciona el modelo **Invoices** (en los modelos prebuilt).
-2. Carga tu propio archivo: arrastra `01-factura.png` o usa la opción de subir archivo (en Studio suele aparecer como **Browse for a file**).
-3. Selecciona **Analyze options**. Si aparece la opción de idioma o configuración regional (locale), elige español de Chile (`es-CL`) o deja la detección automática.
-4. Selecciona **Run analysis** y espera unos segundos.
+> **Nota de modelos:** `lab01`–`lab15` e instructores tienen desplegado `gpt-5-mini` (40K TPM); `lab16`–`lab30` tienen en su lugar `gpt-4.1-mini` (40K TPM) — ya no tienen `gpt-5-mini`. Cualquiera de los dos sirve igual para este bloque; solo cambia el nombre que verás preseleccionado.
 
-**Deberías ver:** el documento a la izquierda y, a la derecha, los campos extraídos (como `VendorName`, `InvoiceId`, `InvoiceDate`, `InvoiceTotal`), cada uno con su **confianza** (confidence). También verás las pestañas **Content** (texto reconocido), **Result** (JSON completo) y **Code**.
+### C.2 Analiza la factura y define los campos (min 4–9)
+
+1. Dentro de tu proyecto, sube `01-factura.png` (arrastra el archivo o usa el botón de carga).
+2. Si el Studio ofrece **generar un esquema automáticamente** a partir del documento (auto-generate/suggest schema), úsalo como punto de partida. (*Por confirmar en el ensayo: el nombre exacto del botón puede variar*.)
+3. Revisa o agrega los campos esperados: proveedor (`VendorName`), número de factura (`InvoiceId`), fecha (`InvoiceDate`) y total (`InvoiceTotal`) — los nombres exactos que te ofrezca el Studio pueden variar un poco frente a estos.
+4. Ejecuta el análisis (**Run**/**Analyze**) y espera unos segundos.
+
+**Deberías ver:** el documento junto a los campos extraídos, cada uno con su **confianza** (confidence).
+
+> Si esta pantalla se ve distinta a lo descrito (la interfaz de Content Understanding cambia con frecuencia), el objetivo no cambia: subir el documento, obtener campos con nombre + valor + confianza, y seguir con C.3.
 
 ### C.3 Valida los campos (min 9–13)
 
@@ -477,23 +490,24 @@ Todos tienen una marca de agua **DOCUMENTO FICTICIO**. Los PDF principales son s
 
 ✔ **Checkpoint C2 (min 13):** tienes la factura analizada y anotaste al menos 1 observación (un campo con baja confianza, un formato distinto o un campo faltante).
 
-### C.4 Analiza la solicitud de crédito con Layout (min 13–18)
+### C.4 Analiza la solicitud de crédito (min 13–18)
 
-Un formulario no es una factura, así que no hay un modelo prebuilt específico. Usamos el modelo **Layout**, que lee el texto, las tablas y las casillas, junto con la opción de **pares clave-valor**.
+Un formulario no es una factura, así que no hay un esquema predefinido. En el mismo proyecto de Content Understanding, trabajarás con un segundo documento y un esquema más general (texto, tablas y pares clave-valor en vez de campos de factura).
 
-1. Vuelve a la página de inicio y abre el modelo **Layout** (en análisis de documentos).
-2. Carga `02-solicitud-credito.png`.
-3. En **Analyze options**, activa la detección de pares clave-valor (key-value pairs) si aparece. Si no aparece con ese nombre, busca la opción equivalente.
-4. Selecciona **Run analysis**.
+1. Vuelve a tu proyecto (o crea un segundo análisis dentro de él) y sube `02-solicitud-credito.png`.
+2. Si el Studio te permite elegir entre un esquema de **campos** y una extracción más general de **contenido** (texto, tablas, pares clave-valor), usa esta segunda opción para este documento. (*Por confirmar en el ensayo: el nombre exacto de esta opción en la interfaz actual.*)
+3. Ejecuta el análisis (**Run**/**Analyze**).
 
-**Deberías ver:** el texto, la tabla de obligaciones vigentes, las casillas marcadas y no marcadas (selection marks) y, si activaste la opción, pares como "Nombre completo → Camila Andrea Ejemplo Prueba" o "Monto solicitado → $6.000.000".
+**Deberías ver:** el texto reconocido, la tabla de obligaciones vigentes y, si el Studio lo ofrece, pares como "Nombre completo → Camila Andrea Ejemplo Prueba" o "Monto solicitado → $6.000.000".
 
-Compara con la tabla del documento 02 en `campos-esperados.md`. No se espera que se detecten todos los pares; el objetivo es que entiendas qué entrega Layout y qué entrega un modelo prebuilt.
+Compara con la tabla del documento 02 en `campos-esperados.md`. No se espera que se detecten todos los pares; el objetivo es que entiendas la diferencia entre una extracción de **contenido general** y una de **campos específicos** (como la de la factura en C.2).
+
+> **Plan B de este paso:** si el Studio no ofrece un modo de extracción general separado, repite el mismo flujo de campos personalizados de C.2 pero define campos propios del formulario (por ejemplo `NombreSolicitante`, `MontoSolicitado`, `RUT`). El objetivo pedagógico (ver qué entrega cada tipo de extracción) se mantiene igual.
 
 ### C.5 Compara con lo que haría un modelo o agente (min 18–24)
 
 1. Copia desde la pestaña **Result** el JSON de la factura (o, si es muy largo, los campos principales con su confianza).
-2. Abre el **playground de `gpt-5.6-luna`** (el modelo que ya usaste en el Bloque B; si hay `429`, usa `gpt-5-mini`). No uses tu agente de políticas: está limitado a ese tema.
+2. Abre el **playground de `gpt-5.6-luna`** (el modelo que ya usaste en el Bloque B; si hay `429`, cambia al modelo de respaldo de tu cuenta: `gpt-5-mini` en `lab01`–`lab15` e instructores, `gpt-4.1-mini` en `lab16`–`lab30`). No uses tu agente de políticas: está limitado a ese tema.
 3. Pega el **prompt de comparación** de `datos\prompts.md`, sección 3.1, y pega el JSON donde indica. Como tu cuota es de ≈4K TPM, **pega solo los campos principales** (no el JSON completo) y espera la respuesta antes de enviar otro mensaje largo.
 4. Lee la respuesta: resumen, validación aritmética, campos con baja confianza y siguiente paso.
 5. En parejas, completen la tabla de comparación de `prompts.md` 3.4 (Document Intelligence vs. modelo/agente).
@@ -511,24 +525,26 @@ Compara con la tabla del documento 02 en `campos-esperados.md`. No se espera que
 
 | Qué ves | Causa probable | Qué hacer |
 |---|---|---|
-| `PermissionDenied` o 403 al analizar | Falta el rol **Cognitive Services User** en el recurso, o la autenticación por clave está deshabilitada | Avisa al equipo facilitador. No pegues claves en el chat |
-| Error AADSTS50058 al abrir Studio | Cookies de terceros bloqueadas | Permite las cookies de terceros para Document Intelligence Studio (o usa otra ventana del navegador) |
+| El Studio clásico (`documentintelligence.ai.azure.com/studio`) no muestra ningún recurso | Las cuentas AIServices del laboratorio no son compatibles con esa ruta clásica | Usa `https://contentunderstanding.ai.azure.com/build?tab=projectList` (ver C.1) |
+| `PermissionDenied`, 403, o el dropdown de recurso marca falta de permiso `deployments/write` al crear el proyecto | Rol faltante en tu cuenta Foundry | Ya debería estar resuelto (roles Cognitive Services User + Contributor asignados antes del evento). Si persiste, avisa al equipo facilitador. No pegues claves en el chat |
+| El dropdown de **Storage account** aparece vacío o pide crear uno | No seleccionaste el storage account ya creado para tu cuenta | Búscalo por nombre: patrón `stbcil<NN>…` (participantes) o `stbcii<NN>…` (instructores). No necesitas crear uno nuevo |
+| Error AADSTS50058 al abrir Studio | Cookies de terceros bloqueadas | Permite las cookies de terceros para Content Understanding Studio (o usa otra ventana del navegador) |
 | Error AADSTS50079 o AADSTS50076 al iniciar sesión | No estás usando el TAP (la cuenta exige MFA y no puedes registrarlo) | En el inicio de sesión elige **Use a Temporary Access Pass instead** e ingresa tu TAP |
-| Error `429` en el playground del modelo (C.5) | Cuota de `gpt-5.6-luna` de ≈4K TPM por cuenta | Espera unos 10 segundos, pega solo los campos principales o cambia a `gpt-5-mini` |
-| Studio no muestra ningún recurso | No hay recurso seleccionado | **Settings** > **Resource** y elige el que indica el equipo |
+| Error `429` en el playground del modelo (C.5) | Cuota de `gpt-5.6-luna` de ≈4K TPM por cuenta | Espera unos 10 segundos, pega solo los campos principales o cambia al modelo de respaldo de tu cuenta (`gpt-5-mini` en lab01–15/instructores, `gpt-4.1-mini` en lab16–30) |
 | El archivo no se acepta o falla por tamaño | Con el nivel gratuito (F0) el máximo es 4 MB, y solo se procesan 2 páginas | Usa los archivos de `datos\` (pesan menos de 2 MB) |
-| No aparece el campo que esperabas (por ejemplo, `PaymentTerm`) | Es un campo opcional o el modelo no lo reconoció | Es un resultado válido: anótalo y revísalo manualmente |
+| No aparece el campo que esperabas (por ejemplo, `PaymentTerm`) | Es un campo opcional o no se definió en el esquema | Es un resultado válido: agrégalo al esquema o anótalo y revísalo manualmente |
 | Los montos en pesos se ven distintos (símbolo, separadores, moneda) | La API normaliza los valores; el peso chileno (CLP) no figura entre las monedas listadas en la documentación de la factura | Compara el significado con `campos-esperados.md` y comenta la diferencia con el grupo |
-| No hay pares clave-valor en Layout | La opción no está activada | Actívala en **Analyze options** y vuelve a ejecutar |
+| No hay pares clave-valor en C.4 | La extracción general de contenido no estaba activada, o el esquema solo pedía campos específicos | Revisa las opciones del análisis en C.4 y vuelve a ejecutar |
 | La marca de agua aparece como texto | Es parte de la imagen | Ignórala; no es un campo del documento |
 
 ### Si vas atrasado en el Bloque C
 
-Haz solo C.2 y C.3 con la factura. Para C.5, usa el JSON de ejemplo que te comparta el equipo facilitador.
+Haz solo C.1 y C.2 con la factura. Para C.5, usa el JSON de ejemplo que te comparta el equipo facilitador.
 
 ### Criterios de éxito del Bloque C
 
-- [ ] Analizaste un documento ficticio con un modelo prebuilt y viste los campos extraídos con su confianza.
+- [ ] Creaste un proyecto en Content Understanding Studio con tu recurso, storage account y modelo de chat.
+- [ ] Analizaste un documento ficticio y viste los campos extraídos con su confianza.
 - [ ] Validaste los campos contra `campos-esperados.md` (al menos proveedor, número, fecha y total).
 - [ ] Verificaste la consistencia neto + IVA = total.
 - [ ] Comparaste el resultado con lo que hace un modelo/agente con esos datos.
@@ -536,13 +552,13 @@ Haz solo C.2 y C.3 con la factura. Para C.5, usa el JSON de ejemplo que te compa
 
 ### Extensiones para quienes terminen antes (Bloque C)
 
-- Analiza `03-comprobante-compra.png` con el modelo **Receipt** y valida el total, la fecha y los ítems (es el mismo documento que los facilitadores usan en su demo en vivo).
+- Analiza `03-comprobante-compra.png` (en un nuevo análisis del mismo proyecto o en uno nuevo) y valida el total, la fecha y los ítems (es el mismo documento que los facilitadores usan en su demo en vivo).
 - Compara `01-factura.png` (escaneada) con `pdf-texto-nativo\01-factura.pdf` (con capa de texto). ¿Cambia la confianza?
-- Prueba la variante A de `prompts.md` 3.2: pega solo el texto de **Content** y observa qué pierdes frente a los campos estructurados.
+- Prueba la variante A de `prompts.md` 3.2: pega solo el texto reconocido y observa qué pierdes frente a los campos estructurados.
 - Piensa qué herramienta (tool) tendría que tener un agente para guardar estos campos en un sistema. Lo retomamos el Día 2.
-- Si tienes Python y acceso al recurso, el laboratorio oficial `03-document-intelligence.md` incluye una ruta con el SDK `azure-ai-documentintelligence` para hacer lo mismo desde código.
+- Si tienes Python y acceso al recurso, el laboratorio oficial `03-document-intelligence.md` incluye una ruta con el SDK `azure-ai-documentintelligence` para hacer lo mismo desde código (ese SDK sí funciona directo contra cuentas AIServices, sin pasar por ningún Studio).
 
-> No incluimos un cheque: el modelo prebuilt para cheques (`prebuilt-check.us`) solo funciona con documentos de EE. UU.
+> Nota: el modelo prebuilt para cheques (`prebuilt-check.us`) solo funciona con documentos de EE. UU.; no aplica a este laboratorio en ningún caso.
 
 ---
 
