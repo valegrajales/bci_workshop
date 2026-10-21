@@ -1,4 +1,4 @@
-# Checklist de producción, seguridad y GenAIOps para agentes en Microsoft Foundry
+# Checklist de producción y seguridad para agentes en Microsoft Foundry
 
 *Entregable del Día 3 · Microsoft AI Foundry BCI Training Day · L300. Plantilla reutilizable: aplícala a tu caso real (el caso Austral Bank es ficticio). Los ítems son una adaptación propia de la documentación oficial; las funciones en preview están marcadas como tales y su estado puede cambiar, así que confirma en la página vinculada antes de decidir.*
 
@@ -58,13 +58,13 @@
 | ☐ | E3 | Definiste controles para desvío de tarea y fuga de datos: Task Adherence (preview), y los evaluadores de Prohibited Actions y Sensitive Data Leakage, con umbrales acordados con negocio y seguridad. | Los ataques más costosos no son contenido ofensivo, sino un agente que hace algo que no debía o revela lo que no debía. | [Task Adherence (preview)](https://learn.microsoft.com/en-us/azure/foundry/guardrails/task-adherence)<br>[Evaluadores integrados](https://learn.microsoft.com/en-us/azure/foundry/concepts/built-in-evaluators) | `foundry\guardrails\task-adherence.md`<br>`foundry\concepts\built-in-evaluators.md` |
 | ☐ | E4 | Ejecutas red teaming (AI Red Teaming Agent) antes de producción y después de cada cambio relevante de modelo, prompt o tools; registras la tasa de éxito de ataques (ASR), los hallazgos y su estado. | Las pruebas manuales no escalan; un baseline de ASR permite saber si un cambio empeoró la postura de seguridad. | [AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent) | `foundry\concepts\ai-red-teaming-agent.md` |
 
-## F. Evaluaciones y CI/CD
+## F. Evaluaciones y calidad
 
 | Hecho | # | Ítem a verificar | Por qué importa | Referencia oficial (Learn) | Ruta offline (`docs-oficiales\`) |
 |---|---|---|---|---|---|
 | ☐ | F1 | Tienes un conjunto de evaluación (golden set) versionado, aprobado por negocio, con casos típicos, bordes, adversariales y en español, y lo extiendes con cada incidente. | Sin un golden set estable no puedes comparar versiones ni demostrar que un cambio no degradó el servicio. | [Evaluaciones: visión general](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-overview) | `foundry\concepts\evaluation-overview.md` |
 | ☐ | F2 | Elegiste evaluadores y umbrales por caso de uso (groundedness, tool call accuracy, indirect attack, prohibited actions…) y revisaste cuáles están en preview antes de usarlos como criterio de aprobación. | Un umbral sin justificar se vuelve discutible en la primera falla; un evaluador en preview puede cambiar entre versiones. | [Evaluadores integrados](https://learn.microsoft.com/en-us/azure/foundry/concepts/built-in-evaluators)<br>[Disponibilidad general vs preview](https://learn.microsoft.com/en-us/azure/foundry/concepts/general-availability) | `foundry\concepts\built-in-evaluators.md`<br>`foundry\concepts\general-availability.md` |
-| ☐ | F3 | La promoción entre entornos pasa por un gate automático (azd, GitHub Actions o Azure DevOps) que ejecuta evaluaciones y red teaming y bloquea la versión si no cumple los umbrales. | Si la evaluación depende de una persona, se omite cuando hay presión por entregar. | [CI/CD de hosted agents (azd)](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/set-up-ci-cd-cli)<br>[Evaluación con GitHub Actions](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluation-github-action)<br>[Evaluación con Azure DevOps](https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluation-azure-devops) | `foundry\agents\how-to\set-up-ci-cd-cli.md`<br>`foundry\how-to\evaluation-github-action.md`<br>`foundry\how-to\evaluation-azure-devops.md` |
+| ☐ | F3 | Programaste evaluaciones recurrentes sobre una muestra de tráfico real, con evaluadores y umbrales acordados, y alguien recibe una alerta cuando la calidad cae bajo el umbral. | La degradación silenciosa no aparece en las pruebas de desarrollo; si la evaluación depende de una revisión manual ocasional, se omite cuando hay presión por entregar. | [Evaluaciones: visión general](https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-overview)<br>[Evaluadores integrados](https://learn.microsoft.com/en-us/azure/foundry/concepts/built-in-evaluators) | `foundry\concepts\evaluation-overview.md`<br>`foundry\concepts\built-in-evaluators.md` |
 | ☐ | F4 | Cada versión del agente es inmutable y trazable a su código, prompt y configuración; definiste el rollback y cómo harás el canary, porque una versión atiende todo el tráfico del endpoint (sin división de tráfico entre versiones). | Sin versión previa conocida y probada, un incidente se resuelve improvisando. | [Hosted agents](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/hosted-agents)<br>[Administrar un hosted agent](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/manage-hosted-agent) | `foundry\agents\concepts\hosted-agents.md`<br>`foundry\agents\how-to\manage-hosted-agent.md` |
 
 ## G. Observabilidad y SLOs
@@ -74,7 +74,7 @@
 | ☐ | G1 | Los agentes emiten trazas OpenTelemetry a Application Insights y puedes correlacionar una solicitud con su sesión, usuario seudonimizado, tools y versión de agente. | Sin trazas de extremo a extremo no puedes explicar una respuesta ante auditoría ni encontrar la causa de una degradación. | [Trazas de agentes](https://learn.microsoft.com/en-us/azure/foundry/observability/concepts/trace-agent-concept)<br>[Hosted agents](https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/hosted-agents) | `foundry\observability\concepts\trace-agent-concept.md`<br>`foundry\agents\concepts\hosted-agents.md` |
 | ☐ | G2 | El contenido sensible de las trazas (prompts, respuestas) va a la tabla dedicada con acceso restringido (rol Privileged Monitoring Data Reader) y confirmaste las fechas de migración de la doc oficial. | Las trazas contienen datos de clientes; si cualquiera con acceso al workspace los ve, el monitoreo se convierte en una fuga. | [Contenido sensible en trazas](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/traces-sensitive-content) | `foundry\observability\how-to\traces-sensitive-content.md` |
 | ☐ | G3 | Definiste SLOs por dimensión (disponibilidad, latencia, calidad, seguridad, costo) con dueño y alertas; el panel de monitoreo y las alertas son (preview), así que mantienes un plan alterno con Azure Monitor. | Una métrica sin dueño ni alerta no cambia decisiones; una dependencia de una función preview para alertar es un riesgo operativo. | [Panel de monitoreo (preview)](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/how-to-monitor-agents-dashboard)<br>[Disponibilidad general vs preview](https://learn.microsoft.com/en-us/azure/foundry/concepts/general-availability) | `foundry\observability\how-to\how-to-monitor-agents-dashboard.md`<br>`foundry\concepts\general-availability.md` |
-| ☐ | G4 | Hay evaluación continua sobre una muestra del tráfico y escaneos de red teaming programados, con resultados que alimentan el backlog. | La calidad y la seguridad derivan con el tiempo (datos, modelos, usuarios); lo que pasó el gate hoy puede fallar en tres meses. | [Panel de monitoreo (preview)](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/how-to-monitor-agents-dashboard)<br>[AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent) | `foundry\observability\how-to\how-to-monitor-agents-dashboard.md`<br>`foundry\concepts\ai-red-teaming-agent.md` |
+| ☐ | G4 | Hay evaluación continua sobre una muestra del tráfico y escaneos de red teaming programados, con resultados que alimentan el backlog. | La calidad y la seguridad derivan con el tiempo (datos, modelos, usuarios); lo que pasó la evaluación hoy puede fallar en tres meses. | [Panel de monitoreo (preview)](https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/how-to-monitor-agents-dashboard)<br>[AI Red Teaming Agent](https://learn.microsoft.com/en-us/azure/foundry/concepts/ai-red-teaming-agent) | `foundry\observability\how-to\how-to-monitor-agents-dashboard.md`<br>`foundry\concepts\ai-red-teaming-agent.md` |
 
 ## H. Costos y FinOps
 
@@ -113,7 +113,7 @@
 | C. Datos y retrieval | 4 |  |  |  |  |  |
 | D. Tools, MCP y A2A | 5 |  |  |  |  |  |
 | E. Seguridad de contenido y red teaming | 4 |  |  |  |  |  |
-| F. Evaluaciones y CI/CD | 4 |  |  |  |  |  |
+| F. Evaluaciones y calidad | 4 |  |  |  |  |  |
 | G. Observabilidad y SLOs | 4 |  |  |  |  |  |
 | H. Costos y FinOps | 4 |  |  |  |  |  |
 | I. Gobierno y cumplimiento | 5 |  |  |  |  |  |
@@ -144,7 +144,6 @@
 | Autenticación de MCP | https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/mcp-authentication |
 | Buenas prácticas de herramientas | https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/tool-best-practice |
 | Cancelar un turno hosted | https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/cancel-hosted-agent-turn |
-| CI/CD de hosted agents (azd) | https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/set-up-ci-cd-cli |
 | Contenido sensible en trazas | https://learn.microsoft.com/en-us/azure/foundry/observability/how-to/traces-sensitive-content |
 | Control Plane: cumplimiento y seguridad | https://learn.microsoft.com/en-us/azure/foundry/control-plane/how-to-manage-compliance-security |
 | Control Plane: visión general | https://learn.microsoft.com/en-us/azure/foundry/control-plane/overview |
@@ -153,8 +152,6 @@
 | Disponibilidad general vs preview | https://learn.microsoft.com/en-us/azure/foundry/concepts/general-availability |
 | Durable state store (preview) | https://learn.microsoft.com/en-us/azure/foundry/agents/concepts/agent-state-store |
 | Evaluaciones: visión general | https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-overview |
-| Evaluación con Azure DevOps | https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluation-azure-devops |
-| Evaluación con GitHub Actions | https://learn.microsoft.com/en-us/azure/foundry/how-to/evaluation-github-action |
 | Evaluadores integrados | https://learn.microsoft.com/en-us/azure/foundry/concepts/built-in-evaluators |
 | Flujo On-Behalf-Of | https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/use-on-behalf-of-flow |
 | Gateway de IA generativa | https://learn.microsoft.com/en-us/azure/architecture/ai-ml/guide/generative-ai-gateway |

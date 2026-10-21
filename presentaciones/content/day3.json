@@ -10,50 +10,50 @@
    "layout": "title",
    "title": "Microsoft AI Foundry BCI Training Day — Día 3",
    "subtitle": "L300 · Arquitecturas avanzadas, seguridad y operación de agentes",
-   "meta": "Viernes 23 de octubre de 2026 · 09:00–12:30 Chile · Microsoft Chile + Teams",
-   "notes": "Bienvenida al tercer y último día del training. Hoy pasamos de construir agentes a operarlos como plataforma empresarial: protocolos de interoperabilidad y patrones multiagente, arquitectura empresarial, seguridad y gobierno, y observabilidad y ciclo de vida, cerrando con un workshop aplicado a un caso propio. La audiencia de hoy es más técnica y transversal: arquitectos, ingenieros de plataforma, seguridad, SRE/DevOps, gobierno e IA. El objetivo final es dejar una arquitectura objetivo validada y un backlog priorizado de decisiones y pruebas. Recordar que el contenido de hoy asume ya experiencia previa con agentes hospedados, APIM, MCP y evaluaciones vista en los días anteriores. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+   "meta": "Viernes 23 de octubre de 2026 ·    09:00–13:00 Chile · Microsoft Chile + Teams",
+      "notes": "Bienvenida al tercer y último día del training. Hoy pasamos de construir agentes a operarlos como plataforma empresarial: arrancamos con observabilidad y ciclo de vida usando el proyecto de ayer, seguimos con protocolos de interoperabilidad y patrones multiagente, arquitectura empresarial, y seguridad y gobierno, cerrando con un workshop aplicado a un caso propio. La audiencia de hoy es más técnica y transversal: arquitectos, ingenieros de plataforma, seguridad, SRE/DevOps, gobierno e IA. El objetivo final es dejar una arquitectura objetivo validada y un backlog priorizado de decisiones y pruebas. Recordar que el contenido de hoy asume ya experiencia previa con agentes hospedados, APIM, MCP y evaluaciones vista en los días anteriores. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
   },
   {
    "layout": "agenda",
    "title": "Agenda del Día 3",
    "items": [
     {
-     "time": "09:00–09:40",
-     "title": "Protocolos y multiagente",
-     "detail": "MCP, A2A, patrones multiagente, diseño de orchestrator"
-    },
-    {
-     "time": "09:40–10:15",
-     "title": "Arquitectura empresarial",
-     "detail": "Hosted Agents, Session Gateway, AI Gateway, escalabilidad"
-    },
-    {
-     "time": "10:15–10:25",
-     "title": "Pausa",
-     "detail": "Café"
-    },
-    {
-     "time": "10:25–11:05",
-     "title": "Seguridad y gobierno",
-     "detail": "Seguridad de apps/agentes/tools, Responsible AI, red teaming"
-    },
-    {
-     "time": "11:05–11:35",
+     "time": "09:00–09:30",
      "title": "Observabilidad y ciclo de vida",
      "detail": "Tracing, debugging, evaluación"
     },
     {
-     "time": "11:35–12:10",
+     "time": "09:30–10:10",
+     "title": "Protocolos y multiagente",
+     "detail": "MCP, A2A, patrones multiagente, diseño de orchestrator"
+    },
+    {
+     "time": "10:10–10:45",
+     "title": "Arquitectura empresarial",
+     "detail": "Hosted Agents, Session Gateway, AI Gateway, escalabilidad"
+    },
+    {
+     "time": "10:45–10:55",
+     "title": "Pausa",
+     "detail": "Café"
+    },
+    {
+     "time": "10:55–11:35",
+     "title": "Seguridad y gobierno",
+     "detail": "Seguridad de apps/agentes/tools, Responsible AI, red teaming"
+    },
+    {
+     "time": "11:35–12:40",
      "title": "Workshop BCI",
      "detail": "Architecture Decision Workshop sobre un caso propio"
     },
     {
-     "time": "12:10–12:30",
+     "time": "12:40–13:00",
      "title": "Cierre ejecutivo",
      "detail": "Arquitectura objetivo, backlog, próximos pasos"
     }
    ],
-   "notes": "Recorremos la agenda completa de 210 minutos. La mañana combina protocolos e interoperabilidad, arquitectura empresarial, una pausa, seguridad y gobierno, observabilidad y ciclo de vida, y cerramos con un workshop aplicado y un cierre ejecutivo que conecta con los tres días. Pedimos a los arquitectos y responsables de seguridad que anoten preguntas específicas de su contexto para resolverlas en el workshop del cierre de la jornada. El ritmo es denso: cada módulo combina exposición corta con decisiones de arquitectura concretas, no solo teoría. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+   "notes": "Recorremos la agenda completa de 240 minutos. Abrimos con observabilidad y ciclo de vida, que retoma el proyecto del laboratorio de ayer; luego protocolos e interoperabilidad, arquitectura empresarial, una pausa y seguridad y gobierno. Cerramos con un workshop aplicado de 65 minutos y un cierre ejecutivo que conecta con los tres días. Pedimos a los arquitectos y responsables de seguridad que anoten preguntas específicas de su contexto para resolverlas en el workshop, y a todos que tengan abierta la carpeta del laboratorio de ayer para el ejercicio de las 09:00. El ritmo es denso: cada módulo combina exposición corta con decisiones de arquitectura concretas, no solo teoría. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
   },
   {
    "layout": "cards",
@@ -79,10 +79,10 @@
    "layout": "bullets",
    "title": "Objetivos y método del Día 3",
    "bullets": [
+    "Diagnosticar un agente con observabilidad: leer trazas, depurar fallas y evaluar su calidad.",
     "Diseñar con criterio cuándo usar protocolos de interoperabilidad (MCP, A2A) y patrones multiagente.",
     "Diseñar una arquitectura empresarial con Hosted Agents, Session Gateway y AI Gateway/APIM.",
     "Aplicar seguridad, Responsible AI, guardrails y red teaming a agentes y herramientas.",
-    "Diagnosticar y operar con observabilidad: trazas, evaluación continua y ciclo de vida del agente.",
     "Cerrar con una arquitectura objetivo y un backlog priorizado para un caso propio."
    ],
    "callout": "Método: profundización técnica + decisiones de arquitectura + threat modeling + taller aplicado.",
@@ -90,8 +90,146 @@
   },
   {
    "layout": "section",
-   "title": "Protocolos y multiagente",
+   "title": "Observabilidad y ciclo de vida",
    "number": "1",
+   "subtitle": "De trazas a decisiones: depurar y evaluar un agente",
+   "duration": "30 min",
+   "notes": "Abrimos el día con observabilidad, que retoma el trabajo de ayer: cubrimos cómo saber qué hizo realmente el agente, cómo depurar una falla y cómo usar evaluaciones para decidir con datos si responde bien, y cerramos con el ejercicio práctico que antes era la Tarea 4 del laboratorio pro-code del día 2. Cada participante retoma su propio proyecto de ayer (mismo entorno, mismo agente, mismo índice) para diagnosticar un caso fallido real con su propia traza. Son 30 minutos: unos 10-12 de teoría y el resto de ejercicio. Sugerido: preguntar cómo depuran hoy un agente cuando algo sale mal, si usan logs sueltos o alguna herramienta de tracing, para calibrar cuánto detalle dar sobre OpenTelemetry. Sugerido: Valentina. Fuente: MATERIALS_INDEX.md (§3 Día 3, módulo 1), laboratorios/dia2-lab-procode/README.md (Apéndice)."
+  },
+  {
+   "layout": "process",
+   "title": "Cómo viaja una traza en Foundry",
+   "steps": [
+    {
+     "title": "Instrumentación",
+     "body": "El agente (o Agent Framework) emite spans con convenciones OpenTelemetry GenAI"
+    },
+    {
+     "title": "Exportación",
+     "body": "Las trazas salen por OTLP hacia Application Insights u otro backend"
+    },
+    {
+     "title": "Almacenamiento",
+     "body": "Azure Monitor guarda spans anidados: invoke_agent, execute_tool, plan"
+    },
+    {
+     "title": "Análisis",
+     "body": "Portal de Foundry o Application Insights para inspeccionar paso a paso"
+    }
+   ],
+   "notes": "Tracing en Foundry está construido sobre OpenTelemetry y las convenciones semánticas de GenAI, un estándar que también adoptan Agent Framework, LangChain, LangGraph y el SDK de OpenAI Agents, lo que facilita correlacionar trazas entre distintos componentes. Cada ejecución genera spans anidados: invoke_agent envuelve toda la corrida, execute_tool registra cada llamada a una tool con sus argumentos y resultado, y hay spans específicos para workflows y memoria. Todo esto se exporta por OTLP y normalmente se almacena en Application Insights. Sugerido: mostrar en el portal de Foundry una traza real y señalar los distintos niveles de spans. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
+  },
+  {
+   "layout": "bullets",
+   "title": "Qué registrar (y qué nunca registrar) en una traza",
+   "bullets": [
+    "Registra entradas, salidas, llamadas a tools, tokens y latencias de cada paso",
+    "Cada tool call guarda sus argumentos y su resultado como atributos del span",
+    "Redacta secretos, credenciales y datos personales antes de que lleguen a la traza",
+    "Trata los datos de traza con los mismos controles de acceso que un log de producción",
+    "Correlaciona el ID de la corrida de evaluación con la traza para analizar todo junto"
+   ],
+   "notes": "La traza es una herramienta de diagnóstico, pero también un dato sensible: si una tool recibe un número de cuenta o un dato personal como argumento, ese valor puede terminar en el span si no se redacta antes. La recomendación es tratar la telemetría con los mismos controles de acceso que cualquier log de producción, nunca como un espacio 'libre' para depurar sin cuidado. Correlacionar el ID de una corrida de evaluación con su traza permite, por ejemplo, entender por qué un evaluador de groundedness marcó una respuesta como mala, viendo exactamente qué contexto se recuperó. Sugerido: pedir ejemplos de datos que nunca deberían aparecer en una traza en el contexto bancario (números de cuenta, RUT, montos). Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
+  },
+  {
+   "layout": "cards",
+   "title": "Diagnóstico rápido de un hosted agent",
+   "cards": [
+    {
+     "title": "No responde",
+     "body": "Revisa logs del contenedor: eventos de arranque, crashes y reinicios antes de mirar el modelo"
+    },
+    {
+     "title": "Latencia alta",
+     "body": "Separa tiempo de arranque del contenedor, latencia del modelo y tiempo de la tool"
+    },
+    {
+     "title": "Error de autenticación",
+     "body": "Confirma la identidad Entra del agente y los permisos sobre el recurso que falla"
+    },
+    {
+     "title": "No llama a la tool",
+     "body": "Revisa que la tool esté adjunta al agente y que su descripción sea clara"
+    }
+   ],
+   "notes": "Estas cuatro categorías cubren la gran mayoría de los problemas que aparecen al operar un hosted agent en el día a día. Antes de sospechar del modelo conviene descartar lo básico: ¿arrancó bien el contenedor?, ¿hay errores de autenticación por identidad o permisos faltantes?, ¿la tool está realmente adjunta y bien descrita? Separar la latencia por etapa (arranque, modelo, tool) evita optimizar lo que no es el cuello de botella real. Sugerido: relacionar 'no llama a la tool' con el diseño de tools visto el día 2, mostrando que muchos problemas de observabilidad en realidad se originan en un mal diseño previo de la tool. Fuente: docs-oficiales/foundry/agents/how-to/debug-hosted-agent.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
+  },
+  {
+   "layout": "table",
+   "title": "Evaluar la calidad de un agente",
+   "columns": [
+    "Nivel",
+    "Qué mide",
+    "Ejemplos de evaluador"
+   ],
+   "rows": [
+    [
+     "Turn",
+     "Calidad de una respuesta puntual",
+     "Groundedness, Relevance, Coherence"
+    ],
+    [
+     "Conversation",
+     "Resultado de toda la interacción",
+     "Task Completion, Task Adherence"
+    ],
+    [
+     "Tool use",
+     "Si el agente usó bien sus tools",
+     "Tool Call Accuracy, Tool Selection"
+    ]
+   ],
+   "note": "Evalúa durante el desarrollo y de forma recurrente sobre tráfico real.",
+   "notes": "La evaluación no es un paso único, es un proceso continuo con tres niveles distintos. A nivel de turno medimos la calidad de una respuesta individual; a nivel de conversación, si el agente cumplió la tarea completa a lo largo de varios turnos; y a nivel de uso de tools, si eligió y llamó correctamente las herramientas disponibles. Foundry permite correr estos evaluadores durante el desarrollo y también de forma recurrente sobre tráfico real ya en producción. Sugerido: anticipar que más tarde, en seguridad y gobierno, se suman los evaluadores de seguridad, y que ambos conjuntos se combinan para un agente listo para producción. Fuente: docs-oficiales/foundry/concepts/evaluation-overview.md, docs-oficiales/foundry/concepts/built-in-evaluators.md."
+  },
+  {
+   "layout": "process",
+   "title": "Del síntoma al diagnóstico",
+   "steps": [
+    {
+     "title": "Reproducir",
+     "body": "Corre el caso fallido con el mismo prompt y datos para confirmar el síntoma"
+    },
+    {
+     "title": "Abrir la traza",
+     "body": "Ubica la corrida en el portal de Foundry o Application Insights con su Trace ID"
+    },
+    {
+     "title": "Aislar el span",
+     "body": "Compara invoke_agent, retrieval y execute_tool para ver dónde se rompió"
+    },
+    {
+     "title": "Confirmar con datos",
+     "body": "Mide groundedness y uso de tools sobre el caso para validar la causa"
+    },
+    {
+     "title": "Corregir y re-probar",
+     "body": "Ajusta instrucciones, tool o índice y repite el caso con una traza nueva"
+    }
+   ],
+   "notes": "Este es el método que aplicamos en el ejercicio: partimos del síntoma observable, lo reproducimos de forma controlada, abrimos su traza y recorremos los spans hasta aislar el paso donde se rompió el razonamiento, ya sea una recuperación sin los documentos correctos, una tool mal elegida o argumentos mal armados. Después confirmamos la hipótesis con datos usando un evaluador, en lugar de confiar solo en la intuición, y por último corregimos y volvemos a correr el mismo caso para comparar trazas. Es la práctica que separa un agente que 'parece funcionar' de uno que se puede operar. Sugerido: usar este slide como guion mientras los participantes trabajan en el ejercicio práctico. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md; docs-oficiales/foundry/concepts/evaluation-overview.md."
+  },
+  {
+   "layout": "lab",
+   "title": "Ejercicio práctico: inspeccionar tu traza y diagnosticar una falla",
+   "objective": "Retomar tu propio proyecto del laboratorio pro-code de ayer y diagnosticar un caso fallido real usando su traza",
+   "time": "15 min",
+   "steps": [
+    "Volver a abrir tu carpeta dia2-lab-procode (mismo entorno, mismo agente e índice de ayer)",
+    "Correr python src/05_caso_fallido.py --caso 1 y abrir la traza generada en el portal de Foundry",
+    "Ubicar los spans de retrieval y de la tool para encontrar dónde se rompió el razonamiento",
+    "Si sobra tiempo, repetir con --caso 2 y comparar ambos diagnósticos"
+   ],
+   "deliverables": [
+    "Diagnóstico del caso 1 explicado con evidencia concreta de la traza",
+    "Checklist de éxito del laboratorio de ayer validado contra tu propio agente"
+   ],
+   "notes": "Este es el ejercicio práctico del módulo, no una demo del instructor: cada participante retoma su propio proyecto dia2-lab-procode del día 2 y corre el mismo script 05_caso_fallido.py que antes vivía en la Tarea 4 del laboratorio pro-code. El acceso del laboratorio (TAP) se regenera a diario, pero el proyecto y los recursos de Azure persisten los tres días, así que el entorno de cada participante sigue intacto. Sugerido: circular activamente para ayudar a quien no recuerde cómo reactivar su entorno virtual de Python. Si alguien no llega a terminar, lo mínimo esperable es diagnosticar el caso 1; el caso 2 es para quien le sobre tiempo. Fuente: laboratorios/dia2-lab-procode/README.md (Apéndice — Ejercicio de trazas y diagnóstico), laboratorios/dia2-lab-procode/instructores/README.md."
+  },
+  {
+   "layout": "section",
+   "title": "Protocolos y multiagente",
+   "number": "2",
    "subtitle": "MCP, A2A, patrones multiagente y diseño de orchestrator",
    "duration": "40 min",
    "notes": "Este módulo cubre cómo los agentes se conectan con herramientas (MCP), cómo se conectan entre sí (A2A) y cuándo conviene usar más de un agente en lugar de uno solo. Es un módulo denso porque mezcla protocolos de interoperabilidad con decisiones de diseño de orquestación. El objetivo no es memorizar nombres de patrones, sino poder argumentar cuándo NO conviene multiagente: la complejidad adicional tiene un costo en latencia, evaluación y debugging. Sugerido: Pablo y Valentina. Fuente: docs-oficiales/foundry/agents/how-to/tools/model-context-protocol.md; docs-oficiales/agent-framework/workflows/orchestrations.md"
@@ -226,7 +364,7 @@
   {
    "layout": "section",
    "title": "Arquitectura empresarial",
-   "number": "2",
+   "number": "3",
    "subtitle": "Hosted Agents, Session Gateway, AI Gateway y escalabilidad",
    "duration": "35 min",
    "notes": "Este módulo arma el esqueleto de referencia que usaremos en el workshop del cierre de la jornada: desde el canal de entrada hasta el modelo, pasando por un AI Gateway, un Session Gateway opcional y el Hosted Agent con su identidad propia. La pregunta central para arquitectos es cómo escalar de decenas a miles de usuarios concurrentes sin perder aislamiento ni control de costo. Cerramos con una demo de los controles típicos de un AI Gateway. Sugerido: Valentina. Fuente: docs-oficiales/foundry/agents/concepts/{hosted-agents,networking-options}.md"
@@ -343,7 +481,7 @@
   {
    "layout": "section",
    "title": "Seguridad y gobierno",
-   "number": "3",
+   "number": "4",
    "subtitle": "Seguridad de apps, agentes y tools; Responsible AI; red teaming",
    "duration": "40 min",
    "notes": "Este es el módulo más denso del día: amenazas específicas de agentes y herramientas, identidad y mínimo privilegio, guardrails y Content Safety en runtime, y red teaming como validación previa a producción. La idea central es que un agente con acceso a herramientas reales (transferencias, documentos, sistemas core) necesita un modelo de amenazas propio, distinto al de una aplicación web tradicional. Cerramos con threat modeling aplicado. Sugerido: Pablo. Fuente: docs-oficiales/foundry/guardrails/guardrails-overview.md; concepts/ai-red-teaming-agent.md"
@@ -473,149 +611,11 @@
   },
   {
    "layout": "section",
-   "title": "Observabilidad y ciclo de vida",
-   "number": "4",
-   "subtitle": "De trazas a decisiones: depurar, evaluar y pasar a producción",
-   "duration": "30 min",
-   "notes": "Este módulo se trasladó del día 2 al día 3: en vez de verlo ayer, lo cerramos hoy, justo antes del workshop aplicado. Cubrimos cómo saber qué hizo realmente el agente, cómo depurar una falla y cómo decidir con datos si está listo para producción, y cerramos con el ejercicio práctico que antes era la Tarea 4 del laboratorio pro-code del día 2: cada participante retoma su propio proyecto de ayer (mismo entorno, mismo agente, mismo índice) para diagnosticar un caso fallido real con su propia traza. Sugerido: preguntar cómo depuran hoy un agente cuando algo sale mal, si usan logs sueltos o alguna herramienta de tracing, para calibrar cuánto detalle dar sobre OpenTelemetry. Sugerido: Valentina. Fuente: MATERIALS_INDEX.md (§3 Día 3, módulo 4), laboratorios/dia2-lab-procode/README.md (Apéndice)."
-  },
-  {
-   "layout": "process",
-   "title": "Cómo viaja una traza en Foundry",
-   "steps": [
-    {
-     "title": "Instrumentación",
-     "body": "El agente (o Agent Framework) emite spans con convenciones OpenTelemetry GenAI"
-    },
-    {
-     "title": "Exportación",
-     "body": "Las trazas salen por OTLP hacia Application Insights u otro backend"
-    },
-    {
-     "title": "Almacenamiento",
-     "body": "Azure Monitor guarda spans anidados: invoke_agent, execute_tool, plan"
-    },
-    {
-     "title": "Análisis",
-     "body": "Portal de Foundry o Application Insights para inspeccionar paso a paso"
-    }
-   ],
-   "notes": "Tracing en Foundry está construido sobre OpenTelemetry y las convenciones semánticas de GenAI, un estándar que también adoptan Agent Framework, LangChain, LangGraph y el SDK de OpenAI Agents, lo que facilita correlacionar trazas entre distintos componentes. Cada ejecución genera spans anidados: invoke_agent envuelve toda la corrida, execute_tool registra cada llamada a una tool con sus argumentos y resultado, y hay spans específicos para workflows y memoria. Todo esto se exporta por OTLP y normalmente se almacena en Application Insights. Sugerido: mostrar en el portal de Foundry una traza real y señalar los distintos niveles de spans. Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
-  },
-  {
-   "layout": "bullets",
-   "title": "Qué registrar (y qué nunca registrar) en una traza",
-   "bullets": [
-    "Registra entradas, salidas, llamadas a tools, tokens y latencias de cada paso",
-    "Cada tool call guarda sus argumentos y su resultado como atributos del span",
-    "Redacta secretos, credenciales y datos personales antes de que lleguen a la traza",
-    "Trata los datos de traza con los mismos controles de acceso que un log de producción",
-    "Correlaciona el ID de la corrida de evaluación con la traza para analizar todo junto"
-   ],
-   "notes": "La traza es una herramienta de diagnóstico, pero también un dato sensible: si una tool recibe un número de cuenta o un dato personal como argumento, ese valor puede terminar en el span si no se redacta antes. La recomendación es tratar la telemetría con los mismos controles de acceso que cualquier log de producción, nunca como un espacio 'libre' para depurar sin cuidado. Correlacionar el ID de una corrida de evaluación con su traza permite, por ejemplo, entender por qué un evaluador de groundedness marcó una respuesta como mala, viendo exactamente qué contexto se recuperó. Sugerido: pedir ejemplos de datos que nunca deberían aparecer en una traza en el contexto bancario (números de cuenta, RUT, montos). Fuente: docs-oficiales/foundry/observability/concepts/trace-agent-concept.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
-  },
-  {
-   "layout": "lab",
-   "title": "Ejercicio práctico: inspeccionar tu traza y diagnosticar una falla",
-   "objective": "Retomar tu propio proyecto del laboratorio pro-code de ayer y diagnosticar un caso fallido real usando su traza",
-   "time": "15 min",
-   "steps": [
-    "Volver a abrir tu carpeta dia2-lab-procode (mismo entorno, mismo agente e índice de ayer)",
-    "Correr python src/05_caso_fallido.py --caso 1 y abrir la traza generada en el portal de Foundry",
-    "Ubicar los spans de retrieval y de la tool para encontrar dónde se rompió el razonamiento",
-    "Si sobra tiempo, repetir con --caso 2 y comparar ambos diagnósticos"
-   ],
-   "deliverables": [
-    "Diagnóstico del caso 1 explicado con evidencia concreta de la traza",
-    "Checklist de éxito del laboratorio de ayer validado contra tu propio agente"
-   ],
-   "notes": "Este es el ejercicio práctico del módulo, no una demo del instructor: cada participante retoma su propio proyecto dia2-lab-procode del día 2 y corre el mismo script 05_caso_fallido.py que antes vivía en la Tarea 4 del laboratorio pro-code. El acceso del laboratorio (TAP) se regenera a diario, pero el proyecto y los recursos de Azure persisten los tres días, así que el entorno de cada participante sigue intacto. Sugerido: circular activamente para ayudar a quien no recuerde cómo reactivar su entorno virtual de Python. Si alguien no llega a terminar, lo mínimo esperable es diagnosticar el caso 1; el caso 2 es para quien le sobre tiempo. Fuente: laboratorios/dia2-lab-procode/README.md (Apéndice — Ejercicio de trazas y diagnóstico), laboratorios/dia2-lab-procode/instructores/README.md."
-  },
-  {
-   "layout": "cards",
-   "title": "Diagnóstico rápido de un hosted agent",
-   "cards": [
-    {
-     "title": "No responde",
-     "body": "Revisa logs del contenedor: eventos de arranque, crashes y reinicios antes de mirar el modelo"
-    },
-    {
-     "title": "Latencia alta",
-     "body": "Separa tiempo de arranque del contenedor, latencia del modelo y tiempo de la tool"
-    },
-    {
-     "title": "Error de autenticación",
-     "body": "Confirma la identidad Entra del agente y los permisos sobre el recurso que falla"
-    },
-    {
-     "title": "No llama a la tool",
-     "body": "Revisa que la tool esté adjunta al agente y que su descripción sea clara"
-    }
-   ],
-   "notes": "Estas cuatro categorías cubren la gran mayoría de los problemas que aparecen al operar un hosted agent en el día a día. Antes de sospechar del modelo conviene descartar lo básico: ¿arrancó bien el contenedor?, ¿hay errores de autenticación por identidad o permisos faltantes?, ¿la tool está realmente adjunta y bien descrita? Separar la latencia por etapa (arranque, modelo, tool) evita optimizar lo que no es el cuello de botella real. Sugerido: relacionar 'no llama a la tool' con el diseño de tools visto el día 2, mostrando que muchos problemas de observabilidad en realidad se originan en un mal diseño previo de la tool. Fuente: docs-oficiales/foundry/agents/how-to/debug-hosted-agent.md, docs-oficiales/foundry/agents/how-to/configure-hosted-agent-telemetry.md."
-  },
-  {
-   "layout": "table",
-   "title": "Evaluar antes y después de publicar",
-   "columns": [
-    "Nivel",
-    "Qué mide",
-    "Ejemplos de evaluador"
-   ],
-   "rows": [
-    [
-     "Turn",
-     "Calidad de una respuesta puntual",
-     "Groundedness, Relevance, Coherence"
-    ],
-    [
-     "Conversation",
-     "Resultado de toda la interacción",
-     "Task Completion, Task Adherence"
-    ],
-    [
-     "Tool use",
-     "Si el agente usó bien sus tools",
-     "Tool Call Accuracy, Tool Selection"
-    ]
-   ],
-   "note": "Corre evaluaciones en desarrollo, en CI/CD y de forma recurrente sobre tráfico real.",
-   "notes": "La evaluación no es un paso único antes de publicar, es un proceso continuo con tres niveles distintos. A nivel de turno medimos la calidad de una respuesta individual; a nivel de conversación, si el agente cumplió la tarea completa a lo largo de varios turnos; y a nivel de uso de tools, si eligió y llamó correctamente las herramientas disponibles. Foundry permite correr estos evaluadores en desarrollo, integrarlos a CI/CD para detectar regresiones antes de publicar una nueva versión, y también de forma recurrente sobre tráfico real ya en producción. Sugerido: conectar esta tabla con los evaluadores de seguridad y gobierno vistos antes hoy, mostrando que ambos conjuntos se combinan para un agente listo para producción. Fuente: docs-oficiales/foundry/concepts/evaluation-overview.md, docs-oficiales/foundry/concepts/built-in-evaluators.md."
-  },
-  {
-   "layout": "process",
-   "title": "De la idea al agente en producción",
-   "steps": [
-    {
-     "title": "Crear y probar",
-     "body": "Elige el tipo de agente e itera en el playground o en código"
-    },
-    {
-     "title": "Agregar tools y datos",
-     "body": "Conecta retrieval y acciones; valida cada tool antes de guardar"
-    },
-    {
-     "title": "Versionar",
-     "body": "Guarda cambios como versiones inmutables, comparables y reversibles"
-    },
-    {
-     "title": "Trazar y evaluar",
-     "body": "Confirma comportamiento con trazas y evaluaciones repetibles"
-    },
-    {
-     "title": "Publicar y monitorear",
-     "body": "Publica un endpoint estable y sigue la calidad en producción"
-    }
-   ],
-   "notes": "Este es el ciclo de vida completo que cierra el bloque de observabilidad: crear y probar, agregar tools y datos, versionar, trazar y evaluar, publicar y monitorear. La versión es inmutable una vez guardada, lo que permite comparar configuración, salidas y definición YAML entre versiones, y hacer rollback si una nueva versión empeora resultados. El patrón recomendado en código es 'get-or-create': buscar el agente por nombre y crearlo solo si no existe, tratando un 404 posterior como señal de que fue borrado, nunca como motivo para reintentar en loop. Sugerido: usar este slide como puente directo al workshop, donde el grupo va a aplicar varias de estas decisiones a su propio caso. Fuente: docs-oficiales/foundry/agents/concepts/development-lifecycle.md."
-  },
-  {
-   "layout": "section",
    "title": "Workshop BCI: Architecture Decision Workshop",
    "number": "5",
    "subtitle": "Mapear decisiones, amenazas, SLOs y backlog sobre un caso propio",
-   "duration": "35 min",
-   "notes": "Este es el bloque aplicado del día: tomamos todo lo visto en los módulos anteriores y lo convertimos en decisiones concretas sobre un caso bancario ficticio, 'Austral Bank' (sin datos reales de BCI). El resultado esperado no es una arquitectura perfecta, sino un canvas de decisiones, un mapa de riesgos y un backlog priorizado que el equipo pueda seguir trabajando después del training. Facilitamos entre ambos para cubrir tanto arquitectura como seguridad. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md (mapa de módulos Día 3)"
+   "duration": "65 min",
+   "notes": "Este es el bloque aplicado del día: tomamos todo lo visto en los módulos anteriores (observabilidad, protocolos, arquitectura y seguridad) y lo convertimos en decisiones concretas sobre un caso bancario ficticio, 'Austral Bank' (sin datos reales de BCI). El resultado esperado no es una arquitectura perfecta, sino un canvas de decisiones, un mapa de riesgos y un backlog priorizado que el equipo pueda seguir trabajando después del training. Facilitamos entre ambos para cubrir tanto arquitectura como seguridad. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md (mapa de módulos Día 3)"
   },
   {
    "layout": "bullets",
@@ -623,11 +623,11 @@
    "bullets": [
     "Caso ficticio: 'Austral Bank' — Asistente de Tesorería para clientes corporativos (FX, cash management, comex).",
     "Trabajo en grupos de 4 a 6 personas, con un relator por grupo que documenta decisiones.",
-    "35 minutos en 5 pasos con tiempo definido cada uno; el facilitador avisa los cambios de paso.",
+    "65 minutos en 5 pasos con tiempo definido cada uno; el facilitador avisa los cambios de paso.",
     "El foco es la decisión y el supuesto detrás de ella, no un diagrama perfecto ni código.",
     "Todo el contenido generado es ficticio y reutilizable como plantilla para cualquier caso real después del training."
    ],
-   "notes": "Presentamos el caso ficticio que usará todo el workshop: 'Austral Bank', un banco inventado que quiere un asistente de tesorería para clientes corporativos, con necesidades de FX, cash management y comercio exterior, atendido por múltiples canales y con miles de usuarios corporativos potenciales. No se usa ningún dato real de BCI ni de otro cliente. Las reglas son simples: grupos de 4 a 6 personas, un relator que documenta, 35 minutos divididos en 5 pasos con tiempos acotados, y el foco puesto en la decisión y el supuesto detrás, no en un diagrama perfecto. El objetivo es que cada grupo salga con un canvas, un mapa de riesgos y un backlog que puedan adaptar a su propio contexto real después del training. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+   "notes": "Presentamos el caso ficticio que usará todo el workshop: 'Austral Bank', un banco inventado que quiere un asistente de tesorería para clientes corporativos, con necesidades de FX, cash management y comercio exterior, atendido por múltiples canales y con miles de usuarios corporativos potenciales. No se usa ningún dato real de BCI ni de otro cliente. Las reglas son simples: grupos de 4 a 6 personas, un relator que documenta, 65 minutos divididos en 5 pasos con tiempos acotados, y el foco puesto en la decisión y el supuesto detrás, no en un diagrama perfecto. El objetivo es que cada grupo salga con un canvas, un mapa de riesgos y un backlog que puedan adaptar a su propio contexto real después del training. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
   },
   {
    "layout": "table",
@@ -675,7 +675,7 @@
   },
   {
    "layout": "process",
-   "title": "Pasos del workshop (35 min)",
+   "title": "Pasos del workshop (65 min)",
    "steps": [
     {
      "title": "Contexto",
@@ -683,22 +683,22 @@
     },
     {
      "title": "Canvas",
-     "body": "10 min — Completar canal, identidad, sesión, agente y tools/datos."
+     "body": "20 min — Completar canal, identidad, sesión, agente y tools/datos."
     },
     {
      "title": "Amenazas",
-     "body": "8 min — Identificar 3 amenazas principales y su control propuesto."
+     "body": "15 min — Identificar 3 amenazas principales y su control propuesto."
     },
     {
      "title": "SLOs y evaluación",
-     "body": "7 min — Definir SLOs, evaluaciones y señales de observabilidad."
+     "body": "12 min — Definir SLOs, evaluaciones y señales de observabilidad."
     },
     {
      "title": "Backlog",
-     "body": "5 min — Priorizar decisiones y experimentos en un backlog breve."
+     "body": "13 min — Priorizar decisiones y experimentos en un backlog breve."
     }
    ],
-   "notes": "Este es el reloj del workshop: 5 minutos para leer el caso y alinear supuestos del grupo, 10 minutos para completar el canvas de decisiones de arquitectura, 8 minutos para identificar las tres amenazas más relevantes del caso y su control propuesto usando el proceso de threat modeling visto en la mañana, 7 minutos para definir SLOs y señales de observabilidad básicas, y 5 minutos finales para priorizar todo en un backlog corto. El facilitador debe avisar en voz alta cada cambio de paso para mantener el ritmo; es preferible un canvas incompleto pero con las columnas de criterio bien razonadas que uno completo pero superficial. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+   "notes": "Este es el reloj del workshop: 5 minutos para leer el caso y alinear supuestos del grupo, 20 minutos para completar el canvas de decisiones de arquitectura, 15 minutos para identificar las tres amenazas más relevantes del caso y su control propuesto usando el proceso de threat modeling visto en la mañana, 12 minutos para definir SLOs y señales de observabilidad básicas, y 13 minutos finales para priorizar todo en un backlog corto. El facilitador debe avisar en voz alta cada cambio de paso para mantener el ritmo; es preferible un canvas incompleto pero con las columnas de criterio bien razonadas que uno completo pero superficial. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
   },
   {
    "layout": "compare",
@@ -779,7 +779,7 @@
     [
      "Calidad",
      "Evaluadores de groundedness y tool-use",
-     "Evaluación continua en CI/CD"
+     "Evaluaciones programadas sobre tráfico real"
     ],
     [
      "Seguridad",
@@ -835,14 +835,14 @@
      "Seguridad"
     ],
     [
-     "Gate de evaluación en el pipeline de CI/CD",
+     "Panel de trazas y evaluaciones de calidad",
      "Habilitador",
      "Media",
      "Observabilidad"
     ]
    ],
    "note": "Plantilla final: cada grupo prioriza su propio backlog de 3 a 5 ítems antes del cierre.",
-   "notes": "Este backlog es el entregable final y más accionable del workshop: una lista corta de ítems clasificados por tipo (decisión formal tipo ADR, experimento o PoC a correr, o habilitador de plataforma), con prioridad y un dueño sugerido. Los cuatro ejemplos cubren las cuatro áreas del día: arquitectura (Session Gateway), diseño de orquestación (ADR), seguridad (Content Safety) y observabilidad (gate de evaluación en CI/CD). Cada grupo debe producir entre 3 y 5 ítems propios antes de la puesta en común. Este backlog, junto con el canvas y el mapa de riesgos, se retoma explícitamente en la próxima sección de cierre ejecutivo del training. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+   "notes": "Este backlog es el entregable final y más accionable del workshop: una lista corta de ítems clasificados por tipo (decisión formal tipo ADR, experimento o PoC a correr, o habilitador de plataforma), con prioridad y un dueño sugerido. Los cuatro ejemplos cubren las cuatro áreas del día: arquitectura (Session Gateway), diseño de orquestación (ADR), seguridad (Content Safety) y observabilidad (panel de trazas y evaluaciones de calidad). Cada grupo debe producir entre 3 y 5 ítems propios antes de la puesta en común. Este backlog, junto con el canvas y el mapa de riesgos, se retoma explícitamente en la próxima sección de cierre ejecutivo del training. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
   },
   {
    "layout": "section",
@@ -886,14 +886,14 @@
     },
     {
      "title": "60 días",
-     "body": "Habilitar AI Gateway con límites y cache, y evaluaciones como gate en CI/CD."
+     "body": "Habilitar AI Gateway con límites y cache, y evaluaciones programadas sobre tráfico real."
     },
     {
      "title": "90 días",
      "body": "Ampliar red teaming continuo y revisar SLOs de costo y calidad en producción."
     }
    ],
-   "notes": "Proponemos un horizonte de 30/60/90 días como punto de partida, no como plan cerrado: a 30 días, validar formalmente los ADRs más importantes del canvas (por ejemplo, sesión 1:1 vs Session Gateway) y correr el primer PoC priorizado por el backlog; a 60 días, habilitar un AI Gateway con límites por consumidor y cache semántico, además de un primer gate de evaluación automatizado en el pipeline de CI/CD; a 90 días, ampliar la cobertura de red teaming a un esquema continuo post-despliegue y revisar los SLOs de costo y calidad con datos reales de producción, no solo con el dataset inicial. Cada equipo debe ajustar estos plazos a su propia capacidad y gobierno interno. Sugerido: Pablo y Valentina. Fuente: docs-oficiales/foundry/how-to/develop/run-ai-red-teaming-cloud.md; observability/how-to/azure-developer-cli-evaluation.md"
+   "notes": "Proponemos un horizonte de 30/60/90 días como punto de partida, no como plan cerrado: a 30 días, validar formalmente los ADRs más importantes del canvas (por ejemplo, sesión 1:1 vs Session Gateway) y correr el primer PoC priorizado por el backlog; a 60 días, habilitar un AI Gateway con límites por consumidor y cache semántico, además de evaluaciones programadas sobre tráfico real; a 90 días, ampliar la cobertura de red teaming a un esquema continuo post-despliegue y revisar los SLOs de costo y calidad con datos reales de producción, no solo con el dataset inicial. Cada equipo debe ajustar estos plazos a su propia capacidad y gobierno interno. Sugerido: Pablo y Valentina. Fuente: docs-oficiales/foundry/how-to/develop/run-ai-red-teaming-cloud.md; concepts/evaluation-overview.md"
   },
   {
    "layout": "takeaway",

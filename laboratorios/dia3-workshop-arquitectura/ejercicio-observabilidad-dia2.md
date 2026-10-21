@@ -1,10 +1,10 @@
-# Ejercicio de Observabilidad (11:05–11:35) · Guía rápida para el facilitador
+# Ejercicio de Observabilidad (09:00–09:30) · Guía rápida para el facilitador
 
-**Qué es:** el módulo "Observabilidad y ciclo de vida" del Día 3 (30 min, justo antes de este workshop).
-Valentina presenta en 10-12 min la teoría de trazas, qué registrar (y qué nunca registrar) y el ciclo de
-vida de un hosted agent; el resto del tiempo (≈18-20 min) los participantes hacen el ejercicio práctico de
-abajo. Este módulo reemplaza en el horario al antiguo "GenAIOps" y retoma el contenido que antes era la
-**Tarea 4** del laboratorio pro-code del Día 2 (se movió de día, no de proyecto).
+**Qué es:** el módulo "Observabilidad y ciclo de vida" del Día 3 (30 min), la primera sesión del día.
+Valentina presenta en 10-12 min la teoría de trazas, qué registrar (y qué nunca registrar) y cómo pasar
+del síntoma al diagnóstico; el resto del tiempo (≈18-20 min) los participantes hacen el ejercicio práctico
+de abajo. Retoma el contenido que antes era la **Tarea 4** del laboratorio pro-code del Día 2 (se movió de
+día, no de proyecto).
 
 ## Cómo retomar el entorno
 

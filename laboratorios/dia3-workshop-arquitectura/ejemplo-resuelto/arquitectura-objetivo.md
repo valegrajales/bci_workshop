@@ -88,7 +88,7 @@ flowchart LR
 | Gobierno de herramientas | Catálogo MCP aprobado a través de APIM. | Gobierno de herramientas con AI Gateway: preview |
 | Límites de modelos | TPM y cuota por proyecto en el gateway; alertas de costo. | Control Plane y AI Gateway: preview |
 | Observabilidad | Trazas OpenTelemetry hacia Application Insights; el contenido sensible (prompts, respuestas, argumentos) se envía a una tabla protegida con rol privilegiado de lectura. | Trazas de Hosted Agents: GA; protección de contenido sensible según guía de trazas |
-| Calidad continua | Evaluación en CI/CD y escaneos de red teaming programados. | Evaluaciones y red teaming: GA (algunos evaluadores en preview); panel de monitoreo: preview |
+| Calidad continua | Evaluaciones recurrentes sobre tráfico real y escaneos de red teaming programados. | Evaluaciones y red teaming: GA (algunos evaluadores en preview); panel de monitoreo: preview |
 
 ## Fuera de la v1
 
