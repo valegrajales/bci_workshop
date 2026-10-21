@@ -38,17 +38,17 @@
      "detail": "Café y networking"
     },
     {
-     "time": "11:15–12:30",
+     "time": "11:15–12:40",
      "title": "Laboratorio pro-code",
      "detail": "Agente con grounding y herramienta propia"
     },
     {
-     "time": "12:30–13:00",
+     "time": "12:40–13:00",
      "title": "Preguntas y cierre",
      "detail": "Checklist de preparación y adelanto del día 3"
     }
    ],
-   "notes": "Recorrer la agenda en voz alta y anclarla a los resultados del día: una arquitectura de referencia, un patrón RAG con criterios de calidad y seguridad, y un agente con grounding y una tool propia funcionando. Avisar que el laboratorio pro-code es la parte más larga (75 minutos) y que conviene dejar dudas de implementación para ese momento; el diagnóstico profundo de trazas se practica recién mañana, como parte del módulo de Observabilidad que abre el día 3 a las 09:00. La pausa de 10 minutos es corta a propósito: sugerir que los conectados por Teams aprovechen para revisar su entorno de laboratorio. Sugerido: mostrar el checklist de prerequisitos (nivel día 1, Python o .NET básico, APIs, Azure) y confirmar que todos pueden acceder a su proyecto de Foundry antes de seguir. Fuente: MATERIALS_INDEX.md (§2 Día 2), instrucciones del taller."
+   "notes": "Recorrer la agenda en voz alta y anclarla a los resultados del día: una arquitectura de referencia, un patrón RAG con criterios de calidad y seguridad, y un agente con grounding y una tool propia funcionando. Avisar que el laboratorio pro-code es la parte más larga (85 minutos) y que conviene dejar dudas de implementación para ese momento; la lectura de trazas y el diagnóstico de un caso fallido se presentan de forma conceptual mañana, en el módulo de Observabilidad que abre el día 3 a las 09:00. La pausa de 10 minutos es corta a propósito: sugerir que los conectados por Teams aprovechen para revisar su entorno de laboratorio. Sugerido: mostrar el checklist de prerequisitos (nivel día 1, Python o .NET básico, APIs, Azure) y confirmar que todos pueden acceder a su proyecto de Foundry antes de seguir. Fuente: MATERIALS_INDEX.md (§2 Día 2), instrucciones del taller."
   },
   {
    "layout": "compare",
@@ -501,14 +501,14 @@
    "title": "Laboratorio pro-code",
    "number": "4",
    "subtitle": "Agente pro-code con grounding y herramientas",
-   "duration": "75 min · Ambos",
-   "notes": "Llegamos a la parte práctica más larga del día. El objetivo es que cada persona (o pareja) construya, de punta a punta, un agente pro-code en Python que combine grounding con Azure AI Search y una tool propia. El escenario es un asistente de normativa interna ficticio, pensado para no depender de ningún dato real de BCI. Sugerido: explicar la mecánica del laboratorio (starter code provisto, pasos incrementales, ayuda disponible de Pablo y Valentina) y aclarar que quien prefiera .NET tiene una alternativa abierta, aunque el soporte en vivo se va a enfocar en Python. Recordar que mañana, en el módulo de Observabilidad del día 3, van a retomar este mismo proyecto para inspeccionar su traza a fondo. Fuente: MATERIALS_INDEX.md (§2 Día 2, laboratorio), repos/publico-workshops/foundry-hosted-agents-workshop."
+   "duration": "85 min · Ambos",
+   "notes": "Llegamos a la parte práctica más larga del día. El objetivo es que cada persona (o pareja) construya, de punta a punta, un agente pro-code en Python que combine grounding con Azure AI Search y una tool propia. El escenario es un asistente de normativa interna ficticio, pensado para no depender de ningún dato real de BCI. Sugerido: explicar la mecánica del laboratorio (starter code provisto, pasos incrementales, ayuda disponible de Pablo y Valentina) y aclarar que quien prefiera .NET tiene una alternativa abierta, aunque el soporte en vivo se va a enfocar en Python. Recordar que mañana, en el módulo de Observabilidad del día 3, se presenta de forma conceptual cómo leer una traza y diagnosticar un caso fallido, a partir de lo que construyen hoy. Fuente: MATERIALS_INDEX.md (§2 Día 2, laboratorio), repos/publico-workshops/foundry-hosted-agents-workshop."
   },
   {
    "layout": "lab",
    "title": "Visión general del laboratorio",
    "objective": "Construir un agente pro-code en Python que responda con grounding de Azure AI Search y use una tool propia",
-   "time": "75 min",
+   "time": "85 min",
    "steps": [
     "Escenario: asistente de normativa interna ficticio de un banco, sin datos reales de BCI",
     "Partimos de un proyecto inicial con Agent Framework ya configurado",
@@ -520,7 +520,7 @@
     "Checklist de diseño completado para las tareas 1 a 3"
    ],
    "repoUrl": "https://github.com/microsoft-foundry/foundry-samples",
-   "notes": "Este slide da el panorama completo antes de arrancar: qué vamos a construir, cuánto tiempo hay y qué se espera entregar al final. El starter code deriva de los samples públicos de hosted agents con Agent Framework; cada participante trabaja sobre su propia copia. Sugerido: mostrar la estructura de carpetas del proyecto inicial (agente, tools, configuración) antes de que empiecen a escribir código, para que no pierdan tiempo orientándose. Aclarar que la revisión profunda de la traza (diagnóstico de fallas, criterios de éxito) se hace mañana, en el módulo de Observabilidad del día 3, reutilizando este mismo proyecto. Recordar que la alternativa en .NET sigue el mismo flujo de tareas pero con otro starter; mencionarla solo brevemente porque el soporte en vivo del taller está pensado para Python. Fuente: repos/publico-workshops/foundry-hosted-agents-workshop (travel_assistant, adaptado), repos/microsoftlearning-labs/mslearn-ai-agents (Consolidated C0-C4)."
+   "notes": "Este slide da el panorama completo antes de arrancar: qué vamos a construir, cuánto tiempo hay y qué se espera entregar al final. El starter code deriva de los samples públicos de hosted agents con Agent Framework; cada participante trabaja sobre su propia copia. Sugerido: mostrar la estructura de carpetas del proyecto inicial (agente, tools, configuración) antes de que empiecen a escribir código, para que no pierdan tiempo orientándose. Aclarar que el diagnóstico de fallas con trazas y los criterios de éxito no se practican en este laboratorio: se presentan de forma conceptual mañana, en el módulo de Observabilidad del día 3. Recordar que la alternativa en .NET sigue el mismo flujo de tareas pero con otro starter; mencionarla solo brevemente porque el soporte en vivo del taller está pensado para Python. Fuente: repos/publico-workshops/foundry-hosted-agents-workshop (travel_assistant, adaptado), repos/microsoftlearning-labs/mslearn-ai-agents (Consolidated C0-C4)."
   },
   {
    "layout": "lab",
@@ -544,12 +544,13 @@
    "layout": "lab",
    "title": "Tareas 1 y 2: agente pro-code con grounding",
    "objective": "Construir el agente base en Python e integrar Azure AI Search para que responda con grounding de normativa interna",
-   "time": "25 min",
+   "time": "30 min",
    "steps": [
     "Definir el agente con Agent Framework: modelo, instrucciones y sesión",
     "Conectar el índice de Azure AI Search como fuente de grounding",
     "Probar una pregunta simple y una pregunta que requiera dos subconsultas",
-    "Revisar que la respuesta incluya una cita al fragmento usado"
+    "Revisar que la respuesta incluya una cita al fragmento usado",
+    "Probar el security trimming: repetir una pregunta con otro nivel de acceso"
    ],
    "deliverables": [
     "Agente que responde con contexto recuperado del índice",
@@ -561,12 +562,13 @@
    "layout": "lab",
    "title": "Tarea 3: implementar y probar una tool propia",
    "objective": "Agregar una function tool que consulte el estado de una solicitud ficticia y validar que el agente la use correctamente",
-   "time": "20 min",
+   "time": "25 min",
    "steps": [
     "Definir el esquema JSON de la tool: nombre, parámetros y campos obligatorios",
     "Implementar la función que devuelve un estado de solicitud ficticio",
     "Adjuntar la tool al agente junto con el índice de grounding",
-    "Probar una pregunta que debería disparar la tool y otra que no debería"
+    "Probar una pregunta que debería disparar la tool y otra que no debería",
+    "Contraste: volver vaga la descripción de la tool y comparar qué herramienta elige el agente"
    ],
    "deliverables": [
     "Tool implementada y adjunta al agente",
@@ -583,13 +585,13 @@
     "Intercambiar agente con otra pareja y probar dos o tres preguntas cruzadas",
     "Comentar decisiones de diseño: cómo definieron la tool, qué prompt usaron",
     "Levantar con Pablo y Valentina cualquier bloqueo técnico pendiente",
-    "Dejar el proyecto guardado tal como queda: se retoma mañana sin cambios"
+    "Dejar el proyecto guardado y anotar qué dudas llevarás al módulo de Observabilidad del día 3"
    ],
    "deliverables": [
     "Al menos una ronda de feedback cruzado entre parejas",
     "Checklist de diseño completado para las tareas 1 a 3"
    ],
-   "notes": "Cerramos el laboratorio sin la tarea de trazas: ese diagnóstico profundo pasa al día 3, como parte del nuevo módulo de Observabilidad, así que acá el foco es consolidar lo construido y despejar dudas. Sugerido: armar parejas que no hayan trabajado juntas antes, para que vean otra forma de resolver el mismo problema. Insistir en que dejen el proyecto guardado exactamente como queda: mañana lo van a volver a abrir para inspeccionar su traza y diagnosticar un caso fallido, reutilizando el mismo entorno y el mismo agente de hoy (el acceso del laboratorio se regenera a diario, pero el proyecto y los recursos de Azure persisten los tres días). Fuente: MATERIALS_INDEX.md (§2 Día 2, laboratorio)."
+   "notes": "Cerramos el laboratorio sin la tarea de trazas: ese tema se presenta de forma conceptual en el día 3, como parte del nuevo módulo de Observabilidad, así que acá el foco es consolidar lo construido y despejar dudas. Sugerido: armar parejas que no hayan trabajado juntas antes, para que vean otra forma de resolver el mismo problema. Insistir en que dejen el proyecto guardado tal como queda y anoten las dudas que quieran llevar a Observabilidad mañana (el acceso del laboratorio se regenera a diario, pero el proyecto y los recursos de Azure persisten los tres días). Al cierre del laboratorio, a las 12:40, pasamos a preguntas y cierre del día. Fuente: MATERIALS_INDEX.md (§2 Día 2, laboratorio)."
   },
   {
    "layout": "takeaway",
@@ -597,10 +599,10 @@
    "points": [
     "Una arquitectura de referencia para un agente empresarial: hosted agent, Agent Framework, tools y MCP",
     "Un patrón RAG funcionando con criterios de calidad y seguridad definidos, no solo conectado a un índice",
-    "Un agente que emite trazas legibles y una tool propia probada de punta a punta (el diagnóstico profundo es mañana)",
+    "Un agente con grounding y una tool propia probada de punta a punta",
     "Un checklist de diseño y preparación aplicable a tu próximo agente"
    ],
-   "notes": "Resumir el día conectando cada punto con el momento del taller donde se construyó: la arquitectura de referencia viene del módulo 1, el patrón RAG con calidad y seguridad del módulo 3, el agente instrumentado del laboratorio. Sugerido: pedir a dos o tres personas que compartan en una frase qué se llevan del día, para cerrar con la voz del grupo y no solo la del instructor. Aprovechar para recordar que todo el material (starter code, slides, checklist) queda disponible para revisar después del taller. Fuente: contexto del taller (outcomes y deliverables del día 2)."
+   "notes": "Resumir el día conectando cada punto con el momento del taller donde se construyó: la arquitectura de referencia viene del módulo 1, el patrón RAG con calidad y seguridad del módulo 3, el agente con grounding y tool del laboratorio. Sugerido: pedir a dos o tres personas que compartan en una frase qué se llevan del día, para cerrar con la voz del grupo y no solo la del instructor. Aprovechar para recordar que todo el material (starter code, slides, checklist) queda disponible para revisar después del taller. Fuente: contexto del taller (outcomes y deliverables del día 2)."
   },
   {
    "layout": "table",
@@ -640,7 +642,7 @@
    "cards": [
     {
      "title": "Observabilidad (09:00)",
-     "body": "Trazas, diagnóstico y evaluación: abrimos retomando el proyecto de hoy para diagnosticar una falla real"
+     "body": "Trazas, diagnóstico de fallas y evaluación, presentados de forma conceptual a partir del agente de hoy"
     },
     {
      "title": "Multiagente y protocolos",
@@ -656,7 +658,7 @@
     }
    ],
    "footer": "Día 3 es L300: foco en observabilidad, arquitectura empresarial, seguridad y un workshop aplicado de decisiones.",
-   "notes": "Cerramos con un adelanto para generar expectativa sobre el día 3, que sube un nivel desde L200 hacia L300: observabilidad, protocolos y multiagente, arquitectura empresarial y seguridad, con menos foco en construir desde cero y más en operar y gobernar lo que ya se construyó hoy; el día termina con un workshop aplicado más largo. Sugerido: mencionar que mañana a las 09:00 retoman el mismo proyecto del laboratorio para diagnosticar una traza en el módulo de Observabilidad, y que varias de las preguntas abiertas de hoy sobre seguridad y multiagente también se retoman con más profundidad, para que quienes tengan dudas pendientes sepan que no se pierden, solo se postergan. Fuente: contexto del taller (estructura de tres días, nivel L100, L200 y L300)."
+   "notes": "Cerramos con un adelanto para generar expectativa sobre el día 3, que sube un nivel desde L200 hacia L300: observabilidad, protocolos y multiagente, arquitectura empresarial y seguridad, con menos foco en construir desde cero y más en operar y gobernar lo que ya se construyó hoy; el día termina con un workshop aplicado más largo. Sugerido: mencionar que mañana a las 09:00 el módulo de Observabilidad presenta de forma conceptual cómo leer una traza, diagnosticar un caso fallido y aplicar un checklist de éxito, y que varias de las preguntas abiertas de hoy sobre seguridad y multiagente también se retoman con más profundidad, para que quienes tengan dudas pendientes sepan que no se pierden, solo se postergan. Fuente: contexto del taller (estructura de tres días, nivel L100, L200 y L300)."
   },
   {
    "layout": "resources",

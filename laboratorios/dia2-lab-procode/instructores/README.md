@@ -1,17 +1,16 @@
-# Instructores — Caso fallido del ejercicio de Observabilidad (Día 3) (NO distribuir esta carpeta)
+# Instructores — Caso fallido de observabilidad (material opcional de instructor) (NO distribuir esta carpeta)
 
 Esta carpeta es solo para Pablo Braconi y Valentina Grajales. Explica los dos defectos plantados en
 `src\05_caso_fallido.py`, cómo se ven en la traza y cómo corregirlos. Los participantes reciben el script
 **sin** esta guía y deben diagnosticar mirando solo las trazas.
 
-> Este ejercicio (antes la "Tarea 4" del laboratorio pro-code del Día 2) ahora se hace el **Día 3**, como el
-> ejercicio práctico del módulo "Observabilidad y ciclo de vida" (ver
-> `..\..\dia3-workshop-arquitectura\ejercicio-observabilidad-dia2.md`). Los participantes retoman este mismo
-> proyecto `dia2-lab-procode\` (mismo entorno, mismo agente, mismo índice); el contenido técnico de esta guía no
-> cambia, solo el día en que se usa.
+> Este ejercicio (antes la "Tarea 4" del laboratorio pro-code del Día 2) **ya no se practica con código**: el
+> módulo "Observabilidad y ciclo de vida" del Día 3 presenta el diagnóstico de un caso fallido y el checklist de éxito
+> de forma conceptual. Este material se conserva como referencia del instructor y para quien quiera ensayarlo de
+> forma opcional (mismo entorno, mismo agente, mismo índice de `dia2-lab-procode\`); el contenido técnico no cambia.
 
-> Aún no se ha validado contra recursos reales de Azure: ejecuta ambos casos en la suscripción de prueba antes
-> del taller (ver `checklist-validacion.md`, puntos 12–15) y ajusta los textos de "qué debería verse".
+> Aún no se ha validado contra recursos reales de Azure: si decides ensayarlo, ejecuta ambos casos en la suscripción
+> de prueba (ver `checklist-validacion.md`, puntos opcionales 12–15) y ajusta los textos de "qué debería verse".
 
 ## Cómo ejecutar
 
@@ -94,11 +93,20 @@ Si el caso 2 no falla de forma visible en tu ensayo (el modelo infiere el format
 3. "Abre el span `recuperacion-normativa` y mira `busqueda.filtro` y `busqueda.ids`."
 4. "Compara el filtro con el `nivel_acceso` de NOR-001 (en `data\normativa\NOR-001-limites-de-gasto.md`)."
 
+## Dónde abrir la traza (portal y KQL)
+
+| Dónde | Cómo |
+|---|---|
+| **Portal de Foundry** | [ai.azure.com](https://ai.azure.com) → proyecto → **Observability** → **Traces** → abre la traza más reciente (o filtra por el Trace ID). Si un agente local no aparece, usa Application Insights: es la misma telemetría |
+| **Application Insights** | Portal de Azure → el Application Insights conectado al proyecto → **Investigate → Search → Transaction search** → pega el Trace ID → *View all telemetry* |
+| **Logs (KQL)** | `union dependencies, requests \| where operation_Id == "<TRACE_ID>" \| order by timestamp asc` *(verifica los nombres de tabla en tu entorno)*; los atributos `gen_ai.*` están en `customDimensions` |
+| **Consola** (plan B) | En el `.env`: `ENABLE_CONSOLE_EXPORTERS=true` y vuelve a ejecutar: los spans se imprimen como JSON |
+
 ## Si la traza no aparece en el portal / Application Insights (plan B)
 
 - Pasa `ENABLE_CONSOLE_EXPORTERS=true` en el `.env` del participante: los spans se imprimen en la consola
   (busca `name`, `attributes` → `gen_ai.tool.call.arguments`, `busqueda.filtro`).
-- Entrega la **traza pre-capturada** (screenshots/JSON de tu ensayo; ver `guia-facilitador.md`, sección Plan B).
+- Entrega la **traza pre-capturada** (screenshots/JSON de tu ensayo opcional; ya no forma parte de la lista de capturas del Plan B de `guia-facilitador.md`).
 - El script imprime el `Trace ID` para buscarlo; la ingestión puede demorar 2-5 minutos.
 
 ## Restablecer

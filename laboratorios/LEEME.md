@@ -6,7 +6,7 @@ Estado al 2026-10-20. **Casi nada de este material se pudo probar contra un Foun
 |---|---|---|---|
 | `entorno-y-facilitacion\` | Guía para el admin de BCI (recursos, modelos, cuota, roles), scripts de validación, onboarding de participantes, runbook de los 3 días, plan B y borradores de comunicaciones | Antes del Día 1 | `scripts\02_validar_entorno.py` |
 | `dia1-lab-guiado\` | Lab del Día 1 (65 min): **A** preparación del entorno y prerrequisitos con TAP (≈15 min), **B** tu primer agente en el portal + file search (≈25 min), **C** OCR con Document Intelligence (≈25 min). Incluye además la **demo en vivo de Document Intelligence** de los facilitadores (≈10 min, dentro del módulo Azure AI Services; guion en `demo-document-intelligence.md`) y datos ficticios de Austral Bank | Mié 21, lab 11:40–12:45 (demo ≈10:40–10:50; cierre 12:45–13:00) | `checklist-validacion.md` (18 pasos, incluye la demo) |
-| `dia2-lab-procode\` | Lab del Día 2 (55 min): agente Python con grounding en AI Search, herramienta propia, trazas y caso fallido. 107 pruebas locales | Jue 22, 11:45–12:40 | `checklist-validacion.md` (20 puntos) |
+| `dia2-lab-procode\` | Lab del Día 2 (85 min): agente Python con grounding en AI Search y herramienta propia (Tareas 1-3). Incluye material opcional de trazas y caso fallido para instructores y 107 pruebas locales | Jue 22, 11:15–12:40 | `checklist-validacion.md` (20 puntos; 12-16 opcionales) |
 | `dia3-workshop-arquitectura\` | Architecture Decision Workshop: caso ficticio, plantillas Excel/Word, guía del facilitador, ejemplo resuelto, checklist de producción y seguridad | Vie 23, 11:35–12:40 | no requiere nube |
 
 ## Agenda del Día 1 (hora de Chile)
