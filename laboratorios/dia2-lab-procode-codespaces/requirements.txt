@@ -1,0 +1,16 @@
+# Laboratorio Día 2 — Agente pro-code con grounding y herramientas
+# Python 3.10+ (recomendado 3.12 o 3.13). Instala con:  pip install -r requirements.txt
+#
+# Rangos tomados de los samples oficiales (agent-framework/python/samples y
+# foundry-samples/.../hosted-agents/agent-framework): paquetes sin tope estricto, salvo
+# azure-monitor-opentelemetry (>=1.8.10,<2, requisito de FoundryChatClient.configure_azure_monitor).
+# Versiones con las que se probó el kit localmente: ver requirements-probado.txt
+
+agent-framework-foundry>=1.14.1,<2   # Agent, tool, FoundryChatClient, FoundryEmbeddingClient, observabilidad
+azure-search-documents>=12.0.0,<13   # índice, búsqueda híbrida, ranker semántico (versión estable)
+azure-identity>=1.25.3,<2            # DefaultAzureCredential (Microsoft Entra ID, sin llaves)
+azure-monitor-opentelemetry>=1.8.10,<2   # trazas hacia Application Insights (Tarea 4)
+python-dotenv>=1.2.2,<2              # carga tu archivo .env
+
+# Opcional (extensión AzureAISearchContextProvider de guia-facilitador.md; preview / versión beta)
+# agent-framework-azure-ai-search>=1.0.0b261002

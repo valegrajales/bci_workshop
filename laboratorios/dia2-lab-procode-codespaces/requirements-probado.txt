@@ -1,0 +1,14 @@
+# Versiones exactas con las que se verificó la API del kit (importación, firmas, definición de índice y
+# pruebas locales) en Python 3.13.15 / Windows el 2026-10-20. NO se probó contra recursos reales de Azure.
+# Si requirements.txt falla con una versión más nueva, instala estas:  pip install -r requirements-probado.txt
+agent-framework-core==1.21.0
+agent-framework-foundry==1.14.1
+agent-framework-openai==1.16.0
+azure-ai-projects==2.7.0
+azure-search-documents==12.0.0
+azure-identity==1.26.0
+azure-monitor-opentelemetry==1.8.11
+opentelemetry-api==1.45.1
+opentelemetry-sdk==1.45.1
+pydantic==2.14.1
+python-dotenv==1.2.4

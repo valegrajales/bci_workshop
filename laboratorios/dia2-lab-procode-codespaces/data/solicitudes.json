@@ -1,0 +1,72 @@
+[
+  {
+    "id": "SOL-2026-0001",
+    "tipo": "Excepción de límite de gasto",
+    "estado": "Aprobada",
+    "fecha": "2026-10-02",
+    "responsable": "Mesa de Finanzas"
+  },
+  {
+    "id": "SOL-2026-0002",
+    "tipo": "Acceso a sistema de reportes",
+    "estado": "Recibida",
+    "fecha": "2026-10-19",
+    "responsable": "Mesa de Accesos"
+  },
+  {
+    "id": "SOL-2026-0003",
+    "tipo": "Destrucción de documentos",
+    "estado": "En revisión",
+    "fecha": "2026-10-12",
+    "responsable": "Área Legal"
+  },
+  {
+    "id": "SOL-2026-0004",
+    "tipo": "Cambio de proveedor de impresión",
+    "estado": "Pendiente de información",
+    "fecha": "2026-10-05",
+    "responsable": "Gerencia de Compras"
+  },
+  {
+    "id": "SOL-2026-0005",
+    "tipo": "Revalidación de KYC",
+    "estado": "Rechazada",
+    "fecha": "2026-09-28",
+    "responsable": "Equipo de Cumplimiento"
+  },
+  {
+    "id": "SOL-2026-0006",
+    "tipo": "Aumento de límite de tarjeta corporativa",
+    "estado": "En revisión",
+    "fecha": "2026-10-14",
+    "responsable": "Mesa de Finanzas"
+  },
+  {
+    "id": "SOL-2026-0007",
+    "tipo": "Autorización de vuelo en clase premium económica",
+    "estado": "Aprobada",
+    "fecha": "2026-10-09",
+    "responsable": "Gerencia de Operaciones"
+  },
+  {
+    "id": "SOL-2026-0008",
+    "tipo": "Alta de herramienta en el catálogo de IA",
+    "estado": "Pendiente de información",
+    "fecha": "2026-10-01",
+    "responsable": "Comité de IA"
+  },
+  {
+    "id": "SOL-2026-0009",
+    "tipo": "Simulacro de continuidad operacional",
+    "estado": "Cerrada",
+    "fecha": "2026-08-20",
+    "responsable": "Gerencia de Operaciones"
+  },
+  {
+    "id": "SOL-2026-0010",
+    "tipo": "Capacitación externa sobre el tope anual",
+    "estado": "Recibida",
+    "fecha": "2026-10-20",
+    "responsable": "Comité de Talento"
+  }
+]
