@@ -2,7 +2,7 @@
 
 **Microsoft AI Foundry BCI Training Day · Día 2 · Jueves 22 de octubre de 2026 · Nivel L200**
 
-**Laboratorio de 75 minutos (11:15 – 12:30, hora de Chile) · Instructores: Pablo Braconi y Valentina Grajales**
+**Laboratorio de 85 minutos (11:15 – 12:40, hora de Chile) · Instructores: Pablo Braconi y Valentina Grajales**
 
 > Todo el escenario es ficticio: **Austral Bank** no existe y los documentos, estados y cifras de este kit se
 > inventaron para el taller. No hay datos reales de BCI ni llaves o secretos: la autenticación usa
@@ -17,7 +17,7 @@ Al terminar este laboratorio habrás construido, en Python, un **asistente de no
 1. Es un **agente pro-code** creado con Microsoft Agent Framework sobre un modelo desplegado en tu proyecto de Microsoft Foundry.
 2. Responde con **grounding empresarial**: recupera fragmentos de la normativa de Austral Bank desde **Azure AI Search** (búsqueda híbrida con filtro de acceso) y **cita la fuente**.
 3. Usa una **herramienta propia** (`consultar_estado_solicitud`) que devuelve el estado de una solicitud ficticia.
-4. Deja **trazas** (OpenTelemetry) listas para inspeccionar; el diagnóstico a fondo de un caso fallido con esas trazas es el ejercicio práctico del módulo "Observabilidad y ciclo de vida" del Día 3 (reutilizando este mismo proyecto).
+4. Queda listo para observarse y evaluarse: el módulo "Observabilidad y ciclo de vida" del Día 3 presenta de forma conceptual cómo se leen las trazas, se diagnostica una falla y se valida un checklist de éxito sobre un agente como el que construyes hoy.
 
 ```
 Tu máquina (Python 3.10+)                         Azure
@@ -25,20 +25,20 @@ Tu máquina (Python 3.10+)                         Azure
 │  Agent (Agent Framework)     │ ───────────► │ Proyecto de Foundry: modelo de chat│
 │   ├─ tool buscar_normativa ──┼────────────► │ Azure AI Search: índice normativa  │
 │   └─ tool consultar_estado   │              │   (texto + vector + semántico)     │
-│  data\solicitudes.json       │  OpenTelemetry│ Application Insights (trazas)      │
-└──────────────────────────────┘ ───────────► └────────────────────────────────────┘
+│  data\solicitudes.json       │              └────────────────────────────────────┘
+└──────────────────────────────┘
 ```
 
-## 2. Cronograma (75 min)
+## 2. Cronograma (85 min)
 
 | Hora (Chile) | Bloque | Duración | Qué haces | Entregable |
 |---|---|---|---|---|
 | 11:15 – 11:25 | **Preparación del entorno** | 10 min | venv, dependencias, `.env`, verificación de conexión, agente base respondiendo | Entorno listo y `00_verificar_entorno.py` en verde |
-| 11:25 – 11:50 | **Tareas 1 y 2** | 25 min | Agente base (≈10 min) + grounding con Azure AI Search y citas (≈15 min) | Respuesta con contexto del índice y una cita verificable |
-| 11:50 – 12:10 | **Tarea 3** | 20 min | Herramienta propia `consultar_estado_solicitud` adjunta al agente | Al menos una llamada exitosa a la tool |
-| 12:10 – 12:30 | **Revisión en parejas y preguntas técnicas** | 20 min | Comparar tu agente con el de otro participante, resolver dudas con el instructor | Agente con grounding (T1–T2) y tool (T3) funcionando |
+| 11:25 – 11:55 | **Tareas 1 y 2** | 30 min | Agente base (≈10 min) + grounding con Azure AI Search, security trimming y citas (≈20 min) | Respuesta con contexto del índice y una cita verificable |
+| 11:55 – 12:20 | **Tarea 3** | 25 min | Herramienta propia `consultar_estado_solicitud` adjunta al agente, con prueba de cuándo debe y cuándo no debe usarse | Al menos una llamada exitosa a la tool |
+| 12:20 – 12:40 | **Revisión en parejas y preguntas técnicas** | 20 min | Comparar tu agente con el de otro participante, resolver dudas con el instructor | Agente con grounding (T1–T2) y tool (T3) funcionando |
 
-Si te atrasas, **pide ayuda temprano**: lo mínimo esperable al final es *un agente que responde y una tool funcionando*; la traza se revisa a fondo el Día 3.
+Si te atrasas, **pide ayuda temprano**: lo mínimo esperable al final es *un agente que responde con grounding y una tool funcionando*.
 Hay una solución de cada tarea en `solutions\` (úsala solo para comparar) para que no te quedes bloqueado.
 
 ## 3. Qué contiene el kit
@@ -57,10 +57,8 @@ dia2-lab-procode\
 │  ├─ 02_agente_base.py           Tarea 1
 │  ├─ 03_agente_con_search.py     Tarea 2
 │  ├─ 04_herramienta_estado.py    Tarea 3
-│  ├─ 05_trazas.py                (se usa el Día 3, módulo de Observabilidad)
-│  ├─ 05_caso_fallido.py          (ejercicio del Día 3, ver Apéndice; caso fallido de los instructores)
-│  └─ config.py, normativa.py, solicitudes.py, busqueda.py, trazas.py, agente_lab.py ...   Módulos de apoyo
-├─ solutions\                 Versiones completas de las Tareas 1 a 3 y del ejercicio de trazas del Día 3 (úsalas solo si te atascas)
+│  └─ config.py, normativa.py, solicitudes.py, busqueda.py, agente_lab.py ...   Módulos de apoyo (más material de observabilidad de los instructores que no se usa en este laboratorio)
+├─ solutions\                 Versiones completas de las Tareas 1 a 3 (úsalas solo si te atascas)
 └─ tests\                     Pruebas locales (pytest) de las partes que no usan Azure
 ```
 
@@ -76,8 +74,8 @@ dia2-lab-procode\
 | Editor | VS Code (u otro) abierto en la carpeta del laboratorio |
 | Proyecto de Foundry | Endpoint del proyecto y **nombre del deployment** de chat (te los entregan los instructores) |
 | Azure AI Search | Endpoint del servicio y nombre del índice (`normativa-austral`) |
-| Permisos (Entra ID) | Rol **Foundry User** (antes *Azure AI User*) en el proyecto y **Search Index Data Reader** en el servicio de Search. Para ver trazas: acceso de lectura al Application Insights conectado (p. ej. *Log Analytics Reader*); si ese recurso exige Entra ID para enviar trazas, también *Monitoring Metrics Publisher* |
-| Red | Salida a `*.services.ai.azure.com`, `*.search.windows.net`, `*.applicationinsights.azure.com` y PyPI |
+| Permisos (Entra ID) | Rol **Foundry User** (antes *Azure AI User*) en el proyecto y **Search Index Data Reader** en el servicio de Search |
+| Red | Salida a `*.services.ai.azure.com`, `*.search.windows.net` y PyPI |
 
 ## 5. Preparación del entorno (10 min)
 
@@ -196,12 +194,12 @@ No tengo información sobre ese límite. Te sugiero consultar la normativa inter
 ✅ **Checkpoint 1** — responde en español, mantiene el contexto entre preguntas y **no inventa** el límite de Austral Bank
 (no tiene acceso a la normativa; por eso necesitamos grounding).
 
-### Tarea 2 — Grounding con Azure AI Search (≈15 min)
+### Tarea 2 — Grounding con Azure AI Search (≈20 min)
 
 **Objetivo:** que el agente responda **solo** con la normativa del índice y **cite** el fragmento usado.
 
 El grounding se implementa como una **herramienta** (`buscar_normativa`) que el modelo decide invocar. Así, cada
-recuperación queda como un span visible en la traza (ver Apéndice — Ejercicio de trazas, que se hace el Día 3). Para una pregunta con dos partes, el modelo hace
+recuperación queda registrada como una llamada a tool explícita (la línea `búsqueda realizada`). Para una pregunta con dos partes, el modelo hace
 **dos búsquedas** (recuperación agéntica a nivel de agente).
 
 Abre `src\03_agente_con_search.py` y completa:
@@ -277,7 +275,7 @@ python src\01_crear_indice.py --indice normativa-<tu-inicial> # requiere Search 
 Luego cambia `AZURE_SEARCH_INDEX_NAME` en tu `.env`. Si no hay deployment de embeddings, agrega `--sin-vectores`.
 </details>
 
-### Tarea 3 — Implementa y prueba una herramienta propia (20 min)
+### Tarea 3 — Implementa y prueba una herramienta propia (25 min)
 
 **Objetivo:** que el agente use `consultar_estado_solicitud` cuando el usuario da un identificador `SOL-AAAA-NNNN`
 y **no** la use para preguntas sobre normas. Los datos están en `data\solicitudes.json` (ficticios).
@@ -332,6 +330,11 @@ El identificador "12345" no es válido; debe tener el formato SOL-AAAA-NNNN ...
 Preguntas para pensar mientras pruebas: ¿la tool se llamó cuando **no** debía? ¿Qué cambió en la respuesta al
 mejorar la descripción? El error `formato_invalido` vuelve **al modelo** como dato (no como excepción): así puede explicarle al usuario.
 
+**Experimento de contraste (≈5 min):** con la tool ya funcionando, vuelve el docstring (TODO 3.1b) a una frase vaga
+(p. ej. *"Consulta solicitudes"*) y repite las cuatro preguntas de arriba. Anota qué cambió en `tools usadas` (¿se llama de más, de menos o con
+un argumento mal armado?) y restaura la descripción completa. Así compruebas con tu propio agente que
+**el modelo solo decide con lo que dice la descripción**.
+
 ✅ **Checkpoint 3** — evidencia de **al menos una llamada exitosa** a la tool (línea `tools usadas`) y la pregunta sobre
 normas **no** la dispara.
 
@@ -352,10 +355,7 @@ normas **no** la dispara.
 - [ ] El nivel de acceso lo decide el código/la identidad, **no** el modelo.
 - [ ] Las respuestas citan el fragmento recuperado y no inventan cuando no hay información.
 
-> El checklist de observabilidad (trazas, Trace ID, diagnóstico de un caso fallido) se completa el Día 3 — ver el
-> **Apéndice — Ejercicio de trazas y diagnóstico** al final de este documento.
-
-**Mínimo para considerar la sesión lograda:** un agente que responde (Tareas 1–2) y una tool funcionando (Tarea 3); la traza se revisa a fondo el Día 3.
+**Mínimo para considerar la sesión lograda:** un agente que responde con grounding y cita (Tareas 1–2) y una tool funcionando (Tarea 3).
 
 ## 8. Troubleshooting
 
@@ -370,11 +370,9 @@ normas **no** la dispara.
 | Índice no encontrado / `0 fragmentos` | Nombre de índice distinto o índice sin cargar | Revisa `AZURE_SEARCH_INDEX_NAME`; avisa a los instructores |
 | Error de ranker semántico | El servicio de Search no tiene habilitado el ranker semántico | Plan B: `LAB_SIN_SEMANTICO=true` en `.env` (los instructores lo confirmarán) |
 | Error de embeddings (404 en el deployment de embeddings) | `FOUNDRY_EMBEDDING_MODEL` apunta a un deployment que no existe | Déjalo vacío si el índice es "solo texto", o usa el nombre indicado por los instructores |
-| El agente no usa la herramienta | Descripción ambigua, tool no incluida en `tools=[...]` o instrucciones sin la regla | Revisa TODO 2.3/2.4/3.1/3.2; en la traza mira `gen_ai.tool.definitions` |
-| Respuesta sin cita | La instrucción no exige citar o la búsqueda no devolvió resultados | Revisa TODO 2.3 y el resultado de `execute_tool buscar_normativa` |
-| En la traza no hay spans `execute_tool` | La herramienta no está realmente adjunta (`tools=[...]`) o el modelo no la eligió | Revisa TODO 2.4/3.2 y `gen_ai.tool.definitions` en el span `chat`; luego la descripción de la tool |
-| `SIN_RESULTADOS` / "No tengo información" para algo que sí está en la normativa | Filtro de acceso (`LAB_NIVEL_USUARIO`) o consulta demasiado vaga | Revisa `LAB_NIVEL_USUARIO`; en la traza compara `busqueda.filtro` con el `nivel_acceso` del documento |
-| La traza no aparece | Demora de ingestión (2–5 min), proyecto sin Application Insights, sin permiso de lectura, o el Application Insights solo admite Entra ID (autenticación local deshabilitada) | Espera y refresca; pide acceso de lectura; si solo admite Entra ID, pon `LAB_APPINSIGHTS_ENTRA=true` (requiere el rol *Monitoring Metrics Publisher*); o usa `ENABLE_CONSOLE_EXPORTERS=true` |
+| El agente no usa la herramienta | Descripción ambigua, tool no incluida en `tools=[...]` o instrucciones sin la regla | Revisa TODO 2.3/2.4/3.1/3.2 y que la línea `tools usadas` muestre qué herramienta eligió el modelo |
+| Respuesta sin cita | La instrucción no exige citar o la búsqueda no devolvió resultados | Revisa TODO 2.3 y ejecuta `--solo-tool` para ver qué fragmentos devuelve la búsqueda |
+| `SIN_RESULTADOS` / "No tengo información" para algo que sí está en la normativa | Filtro de acceso (`LAB_NIVEL_USUARIO`) o consulta demasiado vaga | Revisa `LAB_NIVEL_USUARIO` frente al `nivel_acceso` del documento (`data\normativa\`) y prueba la consulta con `--solo-tool` |
 | Caracteres raros (`âœ”`) en la consola | Codificación de la terminal | `chcp 65001` o usa Windows Terminal; el kit ya fuerza UTF-8 al imprimir |
 | `NotImplementedError` o `Faltan TODO por completar` | Dejaste un `TODO` sin resolver | Completa el TODO que indica el mensaje (y borra el `raise NotImplementedError`) |
 
@@ -382,7 +380,7 @@ normas **no** la dispara.
 
 1. **Primero el entorno:** `python src\00_verificar_entorno.py --probar-modelo`. Si algo está en ✘, no sigas con código.
 2. **Aísla la capa:** prueba la herramienta sola (`--solo-tool`) antes de probarla con el modelo. Si la tool falla sola, el problema no es el modelo.
-3. **Mira la traza antes de cambiar el prompt:** ¿llamó a la tool?, ¿con qué argumentos?, ¿qué devolvió?, ¿el resultado contiene la respuesta?
+3. **Mira qué hizo el agente antes de cambiar el prompt:** ¿llamó a la tool (`tools usadas` / `búsqueda realizada`)?, ¿con qué consulta?, ¿el resultado de `--solo-tool` contiene la respuesta?
 4. **Un cambio a la vez** y vuelve a ejecutar: así sabes qué lo arregló.
 5. **Los resultados del modelo varían** entre ejecuciones; no busques el texto idéntico a los ejemplos, sino el comportamiento (tool usada, cita, dato correcto).
 6. **Si te atascas más de 3 minutos**, pide ayuda o abre `solutions\` solo para comparar el TODO que falla.
@@ -390,7 +388,7 @@ normas **no** la dispara.
 ## 10. Para ir más allá (si terminas antes)
 
 - Pregunta algo fuera de la normativa y confirma que el agente **no inventa**.
-- Agrega validación extra a la herramienta (p. ej. rechazar un año distinto de 2026) y observa el error en la traza.
+- Agrega validación extra a la herramienta (p. ej. rechazar un año distinto de 2026) y comprueba que el error vuelve al modelo como dato.
 - Prueba `data\preguntas_evaluacion.jsonl` (pregunta + respuesta esperada): ejecútalas con tu agente y cuéntalas a mano; los instructores muestran cómo automatizarlo con evaluación.
 - Pregunta a los instructores por: despliegue como *hosted agent*, una herramienta MCP o recuperación agéntica con una *knowledge base* (**preview**).
 
@@ -412,91 +410,3 @@ Código y documentación oficial en los que se basa el kit (verifica siempre la 
 > Las funcionalidades marcadas **(preview)** (p. ej. *knowledge bases* de Azure AI Search y la síntesis de respuestas) pueden cambiar y no se recomiendan para producción.
 > El escenario, los documentos y los datos de este laboratorio son **ficticios**.
 
----
-
-## Apéndice — Ejercicio de trazas y diagnóstico (se hace el Día 3)
-
-> Esta parte **ya no se hace durante el laboratorio del Día 2**: se mueve al módulo "Observabilidad y ciclo de
-> vida" del Día 3 (09:00–09:30), reutilizando este mismo proyecto (mismo entorno, mismo agente, mismo índice).
-> El Día 3 vuelves a abrir tu carpeta `dia2-lab-procode\` — el TAP de acceso se regenera a diario, pero el
-> proyecto y los recursos de Azure persisten los 3 días.
-
-**Objetivo:** inspeccionar la traza de una ejecución completa, diagnosticar el caso fallido y validar el checklist.
-
-**Paso 1 — Activa las trazas y ejecuta 3 casos de referencia.** Abre `src\05_trazas.py` y completa:
-
-| TODO | Qué hacer |
-|---|---|
-| 4.1 | `destino = await configurar_trazas(client)` (antes de ejecutar el agente) |
-| 4.2 | Ejecutar cada caso dentro de `with traza_con_nombre(f"lab-{caso['id']}") as trace_id:` para obtener el **Trace ID** |
-
-```powershell
-python src\05_trazas.py
-```
-
-Salida esperada (ejemplo):
-
-```
-Trazas activadas -> app-insights
-
-=== C1 · ¿Cuál es el límite mensual de gasto con tarjeta corporativa para el nivel Jefatura?
-Respuesta: El límite mensual para el nivel Jefatura es de 2.500 USD [NOR-001-02].
-Tools llamadas: ['buscar_normativa']
-Trace ID: 4bf92f3577b34da6a3ce929d0e0e4736
-  ✔ Responde con el dato correcto
-  ✔ Cita una fuente válida [NOR-xxx-xx]
-  ✔ Usa la tool esperada
-  ✔ Sin errores en las llamadas a tools
-  => APROBADO
-...
-Casos aprobados: 3/3
-```
-
-(En C2, que usa la tool de estado, el criterio "cita una fuente" aparece como `–`: no aplica.)
-
-**Paso 2 — Abre una traza completa.** Espera 2–5 minutos desde la ejecución y usa **una** de estas rutas:
-
-| Ruta | Pasos |
-|---|---|
-| **Portal de Foundry** | [ai.azure.com](https://ai.azure.com) → tu proyecto → **Observability** → **Traces** → abre la traza más reciente (o filtra por el Trace ID). Si tu agente local no aparece aquí, usa la ruta de Application Insights: es la misma telemetría |
-| **Application Insights** | Portal de Azure → el Application Insights conectado a tu proyecto → **Investigate → Search → Transaction search** → pega el Trace ID → *View all telemetry* (detalle de extremo a extremo). También sirve en **Logs**: `union dependencies, requests \| where operation_Id == "<TRACE_ID>" \| order by timestamp asc` *(verifica los nombres de tabla en tu entorno)* |
-| **Consola** (plan B) | En tu `.env`: `ENABLE_CONSOLE_EXPORTERS=true` y vuelve a ejecutar: los spans se imprimen como JSON en el terminal |
-
-Ubica estos spans (el nombre exacto puede variar levemente según la versión):
-
-| Span | Qué te dice | Atributos que debes mirar |
-|---|---|---|
-| `invoke_agent asistente-normativa` | La ejecución completa del agente, con su duración total | `gen_ai.tool.definitions` (qué herramientas vio el modelo) |
-| `chat <deployment>` | Cada llamada al modelo (normalmente 2: una decide llamar la tool y otra redacta la respuesta) | tokens de entrada/salida, `finish_reason` |
-| `execute_tool buscar_normativa` | La recuperación | `gen_ai.tool.call.arguments` (la consulta) y `gen_ai.tool.call.result` (los fragmentos) |
-| `recuperacion-normativa` (hijo) | Span propio del laboratorio | `busqueda.filtro`, `busqueda.resultados`, `busqueda.ids` |
-| `execute_tool consultar_estado_solicitud` | La herramienta de estado | argumentos y resultado (JSON) |
-
-> Los argumentos y resultados aparecen porque el laboratorio activa la captura de contenido
-> (`enable_sensitive_data=True`). **Solo para desarrollo:** en producción se desactiva (ver Fuentes: *Security and privacy*).
-
-**Paso 3 — Diagnostica el caso fallido.** Los instructores prepararon un agente que **no pasa el checklist**.
-Ejecútalo **sin abrir su código** y usa solo la traza:
-
-```powershell
-python src\05_caso_fallido.py --caso 1
-```
-
-Responde por escrito (1 minuto cada una) y compártelo con tu equipo o con el instructor:
-
-1. ¿Qué respondió el agente y por qué es incorrecto o insuficiente?
-2. ¿Se llamó una herramienta? ¿Con qué argumentos? ¿Hubo errores en la traza?
-3. ¿Qué devolvió la herramienta? ¿Contiene la respuesta a la pregunta?
-4. **Causa raíz** (una frase) y **cómo la corregirías**.
-
-Pista: la falla **no** está en el modelo ni en el prompt. Compara lo que *pidió* la herramienta con lo que *recibió*.
-Si sobra tiempo, prueba `--caso 2` (otro tipo de falla). Al final, los instructores explican el defecto plantado
-(guía confidencial: `instructores\README.md`).
-
-**Paso 4 — Checklist de éxito** — marca cada punto con `✔` en la salida del script `05_trazas.py`:
-
-- [ ] **Responde:** da el dato correcto en español.
-- [ ] **Cita fuente:** incluye un id de fragmento válido `[NOR-xxx-xx]`.
-- [ ] **Usa la tool:** llama a la herramienta correcta para cada tipo de pregunta.
-- [ ] **Sin errores en la traza:** ninguna herramienta devolvió error y no hay spans con excepción.
-- [ ] Sé cómo encontrar una traza por su Trace ID.

@@ -50,8 +50,8 @@ $raiz = ".\laboratorios\entorno-y-facilitacion\plan-b"
 | PB-D1-01 | Demo en vivo de Document Intelligence (Receipt sobre `03-comprobante-compra` + Layout) | Día 1, módulo Azure AI Services, ≈10:40–10:50 (guion: `dia1-lab-guiado\demo-document-intelligence.md`) | **P1** | Acceso a Studio y rol sobre el recurso (*por confirmar*), cookies de terceros, Studio lento | 20 min |
 | PB-D1-02 | Crear prompt agent + file search | Día 1, demo 26 y Bloque B | **P1** | Permisos del proyecto, modelo (`gpt-5.6-luna` + Agent Service + file search aún no probado), vector store | 25 min |
 | PB-D1-03 | OCR con Document Intelligence | Día 1, Bloque C | **P1** | Acceso a Studio/región; F0 vs S0 (límite de 1 TPS en F0 según la guía) | 20 min |
-| PB-D2-01 | Ensayo completo del laboratorio y solución | Día 2, diapositivas 35–39 | **P1** | Variables de entorno, roles, Search, tool, trazas | 60 min |
-| PB-D2-02 | Traza fallida y diagnóstico | Día 3, módulo "Observabilidad y ciclo de vida" (ejercicio de trazas; antes era la demo 30 y la Tarea 4 del laboratorio del Día 2) | **P1** | Trazas en *preview* según tipo de agente; retraso de ingestión | 25 min |
+| PB-D2-01 | Ensayo completo del laboratorio y solución | Día 2, diapositivas 35–39 | **P1** | Variables de entorno, roles, Search, tool | 60 min |
+| PB-D2-02 | Traza fallida y diagnóstico (*opcional*) | Día 3, módulo "Observabilidad y ciclo de vida" (presentado de forma conceptual; antes era la demo 30 y la Tarea 4 del laboratorio del Día 2) | P2 | Trazas en *preview* según tipo de agente; retraso de ingestión | 25 min |
 | PB-D2-03 | Retrieval agéntico con 2 usuarios simulados | Día 2, demo 26 | **P1** | Funciones en *preview*; región de Search; modelo para planificación | 30 min |
 | PB-D2-04 | Agente hospedado con tool propia | Día 2, demo 10 (y logs de demo 30) | **P1** | Requiere ACR, roles de MI y despliegue | 40 min |
 | PB-D3-01 | AI Gateway / APIM (4 escenas) | Día 3, demo 21 | **P1** | Artefacto externo ilustrativo; red privada; sin entorno propio | 40 min |
@@ -113,11 +113,10 @@ $raiz = ".\laboratorios\entorno-y-facilitacion\plan-b"
 1. Con la cuenta de participante de prueba: `git clone` del starter → entorno virtual → instalar dependencias → completar `.env` → `python src\00_verificar_entorno.py --probar-modelo` → agente base.
 2. Tareas 1–2: conectar el índice y probar 2 preguntas (simple y de dos subconsultas).
 3. Tarea 3: implementar la function tool «consultar estado de solicitud» ficticia y verificar que se invoca (y que no se invoca en una pregunta no relacionada). Hazlo con `FOUNDRY_MODEL=gpt-5-mini`; si la herramienta falla, repite con `gpt-4.1-mini` y anota la diferencia en `D2_01_versiones_DOC_v01.txt` (guía, sección 5.2).
-4. (Preparación para el ejercicio del Día 3) abre la traza en el portal (ver PB-D2-02).
-5. Guarda **cada punto de control** en `D2\solucion\` (por ejemplo, ramas `t1-t2`, `t3`, `t4`) y registra cuánto demoró cada paso (sirve para ajustar el reloj del runbook).
-6. Anota la versión de Python y de los paquetes (`pip freeze` sin secretos) en `D2_01_versiones_DOC_v01.txt`.
+4. Guarda **cada punto de control** en `D2\solucion\` (por ejemplo, ramas `t1-t2` y `t3`) y registra cuánto demoró cada paso (sirve para ajustar el reloj del runbook).
+5. Anota la versión de Python y de los paquetes (`pip freeze` sin secretos) en `D2_01_versiones_DOC_v01.txt`.
 
-**PB-D2-02 · Traza fallida y diagnóstico (≈ 25 min) → `D2\D2_02_traza-fallida_VID_v01.mp4` + `IMG_v01_01–06.png`** — *se usa el Día 3, en el módulo "Observabilidad y ciclo de vida" (09:00–09:30): los participantes retoman su propio proyecto `dia2-lab-procode\` del Día 2 (mismo entorno, mismo agente, mismo índice) para diagnosticar con su propia traza; esta grabación es el plan B si algo falla en vivo.*
+**PB-D2-02 · Traza fallida y diagnóstico (≈ 25 min) → `D2\D2_02_traza-fallida_VID_v01.mp4` + `IMG_v01_01–06.png`** — *opcional: el Día 3 presenta este tema de forma conceptual y el laboratorio del Día 2 ya no lo practica con código. Grábalo solo si quieres un ejemplo real de apoyo para el módulo "Observabilidad y ciclo de vida" (09:00–09:30); usa el mismo proyecto `dia2-lab-procode\` (mismo entorno, mismo agente, mismo índice).*
 1. Ejecuta el **caso fallido** diseñado para el ejercicio de trazas (pregunta fuera del índice o tool con parámetro mal formado).
 2. Abre la traza en el portal de Foundry: ubica el *span* de retrieval y el `execute_tool`; muestra argumentos y resultado.
 3. Muestra dónde se identifica la causa (retrieval vs tool vs modelo).

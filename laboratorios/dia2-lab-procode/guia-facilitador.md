@@ -1,7 +1,7 @@
 # Guía del facilitador — Laboratorio Día 2: Agente pro-code con grounding y herramientas
 
 **Evento:** Microsoft AI Foundry BCI Training Day (híbrido) · Día 2, jueves 22 de octubre de 2026 · L200
-**Bloque:** laboratorio de 75 min, 11:15 – 12:30 (hora de Chile) · ~48 participantes (desarrolladores, ingenieros de IA/datos, arquitectos, DevOps)
+**Bloque:** laboratorio de 85 min, 11:15 – 12:40 (hora de Chile); el cierre del día va de 12:40 a 13:00 · ~48 participantes (desarrolladores, ingenieros de IA/datos, arquitectos, DevOps)
 **Instructores:** Pablo Braconi y Valentina Grajales · **Idioma:** español (neutro LatAm)
 
 > **Estado de validación:** el kit se verificó localmente (compilación y 100+ pruebas con `pytest` de las partes que no usan Azure; firmas de API contrastadas con
@@ -14,13 +14,13 @@
 
 | Tema | Detalle |
 |---|---|
-| Escenario | Asistente de normativa interna de **Austral Bank** (banco ficticio) + herramienta `consultar_estado_solicitud`; el caso fallido para diagnosticar con trazas se hace el Día 3 (ver Apéndice del README) |
+| Escenario | Asistente de normativa interna de **Austral Bank** (banco ficticio) + herramienta `consultar_estado_solicitud`. El diagnóstico de un caso fallido con trazas y el checklist de éxito **ya no se practican con código**: el Día 3 los presenta de forma conceptual |
 | Lenguaje | Python 3.10+ (probado en 3.13). Agent Framework (`agent-framework-foundry`), `azure-search-documents`, `azure-monitor-opentelemetry` |
 | Autenticación | Sin llaves: Microsoft Entra ID (`az login` + `DefaultAzureCredential`) |
-| Materiales para participantes | Carpeta `dia2-lab-procode\` **sin** `instructores\` ni `herramientas\` (+ `README.md` y `Guia_del_participante_Dia2.docx`). `solutions\` se comparte durante la sesión. Si editas el README, regenera el Word: `python herramientas\md_a_docx.py README.md Guia_del_participante_Dia2.docx` (necesita `python-docx`, incluido en `requirements-dev.txt`) |
-| Lo que se prepara antes | Servicio de Search + índice `normativa-austral` (lo crean los instructores), deployments, roles y Application Insights |
-| Tiempos | Preparación 10 · Tareas 1-2 25 · Tarea 3 20 · Revisión en parejas y preguntas 20 (total 75; ya no incluye la Tarea 4 de trazas, que se hace el Día 3) |
-| Criterios de éxito | Responde · cita fuente · usa la tool (el criterio "sin errores en la traza" se valida el Día 3, ver README, Apéndice) |
+| Materiales para participantes | Carpeta `dia2-lab-procode\` **sin** `instructores\`, `herramientas\` ni los scripts de observabilidad (`src\05_*`, `solutions\05_trazas.py`), que no se usan en el laboratorio; conserva `src\trazas.py` y `src\checklist.py`, que `agente_lab.py` y `evaluacion.py` importan (+ `README.md` y `Guia_del_participante_Dia2.docx`). `solutions\` se comparte durante la sesión. Si editas el README, regenera el Word: `python herramientas\md_a_docx.py README.md Guia_del_participante_Dia2.docx` (necesita `python-docx`, incluido en `requirements-dev.txt`) |
+| Lo que se prepara antes | Servicio de Search + índice `normativa-austral` (lo crean los instructores), deployments y roles. Application Insights solo es necesario si quieres ensayar el material opcional de trazas |
+| Tiempos | Preparación 10 · Tareas 1-2 30 · Tarea 3 25 · Revisión en parejas y preguntas 20 (total 85, 11:15–12:40; el tiempo liberado por la Tarea 4 se reparte entre las Tareas 1-3) |
+| Criterios de éxito | Responde · cita fuente · usa la tool correcta según el tipo de pregunta (checklist de diseño del README §7) |
 
 **Reparto sugerido (ajústalo entre ustedes):**
 - **Instructor A (Pablo)** — presenta y comparte pantalla; conduce las Tareas 1-3 y la revisión en parejas final.
@@ -39,7 +39,7 @@
 | 2 | Deployment de **chat** con *function calling* | Anota el **nombre del deployment** (`FOUNDRY_MODEL`). Cuota: estimación ≈ 6–7 M tokens en total durante el lab; pico 250–350 K TPM con 48 personas → subir TPM o repartir en 2–4 deployments/proyectos |
 | 3 | Deployment de **embeddings** (p. ej. `text-embedding-3-small`, 1536 dimensiones) | Nombre → `FOUNDRY_EMBEDDING_MODEL`. Si no hay cuota: `01_crear_indice.py --sin-vectores` y deja la variable vacía |
 | 4 | Azure AI Search (Basic o superior) | **Ranker semántico habilitado** (portal: Search service → *Semantic ranker*). **Control de acceso:** *Role-based access control* o *Both* (si solo admite llaves de API, la autenticación con Entra ID devolverá 403). Región cercana al proyecto |
-| 5 | Application Insights **conectado al proyecto** | Foundry portal → proyecto → *Observability/Traces* → *Connect* (o *Manage → Project details → Connected resources*). Anota si tiene la **autenticación local deshabilitada** (típico en bancos): ver fila de roles "Monitoring Metrics Publisher" |
+| 5 | *(Opcional)* Application Insights **conectado al proyecto** | Solo para ensayar el material de trazas (`src\05_trazas.py`), que ya no forma parte del laboratorio. Foundry portal → proyecto → *Observability/Traces* → *Connect*. Anota si tiene la **autenticación local deshabilitada**: ver fila de roles "Monitoring Metrics Publisher" |
 | 6 | Grupo de Entra ID para participantes | Ej.: `grp-lab-dia2-participantes` (nombre ficticio). Más fácil que asignar roles uno a uno |
 
 ### 1.2 Roles (los roles pueden tardar hasta 10 min en propagarse)
@@ -47,9 +47,9 @@
 | Identidad | Alcance | Rol | Para qué |
 |---|---|---|---|
 | Participantes | Recurso de Foundry / proyecto | **Foundry User** (antes *Azure AI User*) | Llamar al modelo y a embeddings desde el código |
-| Participantes | Servicio de Azure AI Search | **Search Index Data Reader** | Consultar el índice (Tareas 2-4) |
-| Participantes | Application Insights / workspace conectado | **Log Analytics Reader** (+ *Privileged Monitoring Data Reader* si las tablas están protegidas) | Ver trazas en el portal o con KQL |
-| Participantes | Application Insights conectado | **Monitoring Metrics Publisher** | **Solo si** la autenticación local está deshabilitada: permite enviar trazas con Entra ID (`LAB_APPINSIGHTS_ENTRA=true`) |
+| Participantes | Servicio de Azure AI Search | **Search Index Data Reader** | Consultar el índice (Tareas 2-3) |
+| Participantes *(opcional)* | Application Insights / workspace conectado | **Log Analytics Reader** (+ *Privileged Monitoring Data Reader* si las tablas están protegidas) | Solo para el material opcional de trazas: no se necesita en el laboratorio |
+| Participantes *(opcional)* | Application Insights conectado | **Monitoring Metrics Publisher** | Solo para el material opcional de trazas, y **solo si** la autenticación local está deshabilitada (`LAB_APPINSIGHTS_ENTRA=true`) |
 | Instructores | Servicio de Search | **Search Service Contributor** + **Search Index Data Contributor** | Crear el índice y cargar documentos (`01_crear_indice.py`) |
 | Instructores | Proyecto de Foundry | **Foundry User** (o *Contributor* para crear deployments) | Embeddings al cargar el índice y pruebas |
 | Instructores (extensión *hosted agent*) | Grupo de recursos / ACR / proyecto | *Contributor* + permiso para asignar roles | `azd`/despliegue; la identidad del agente necesita *Search Index Data Reader* |
@@ -69,31 +69,27 @@ Verifica en el portal de Azure (Search service → *Indexes* → `normativa-aust
 
 Si cambias el modelo de embeddings (dimensiones distintas): `python src\01_crear_indice.py --recrear`.
 
-Ejecuta **todo el flujo con las soluciones**, en este orden, y captura las salidas del Plan B (sección 7). Nota: los
-dos últimos pasos (`05_trazas.py` y `05_caso_fallido.py`) validan el ejercicio que el participante ejecutará el
-**Día 3** (módulo "Observabilidad y ciclo de vida"), no durante la sesión de laboratorio del Día 2 — pero como
-usan el mismo proyecto, conviene ensayarlos ahora junto con el resto:
+Ejecuta **todo el flujo con las soluciones**, en este orden, y captura las salidas del Plan B (sección 7):
 
 ```powershell
 python solutions\02_agente_base.py
 python solutions\03_agente_con_search.py
 python solutions\04_herramienta_estado.py
-python solutions\05_trazas.py
-python src\05_caso_fallido.py --caso 1
-python src\05_caso_fallido.py --caso 2
-python instructores\05_caso_fallido_corregido.py --caso 1
 ```
 
-Anota en `instructores\README.md` lo que realmente viste en la traza del caso 2 (¿el modelo se autocorrigió?).
+*(Opcional)* El diagnóstico con trazas y el caso fallido ya no se practican con código: el Día 3 los presenta de forma
+conceptual. El código sigue en el kit como material de instructor; si quieres ensayarlo con Application Insights
+conectado, ejecuta `python solutions\05_trazas.py`, `python src\05_caso_fallido.py --caso 1|2` y
+`python instructores\05_caso_fallido_corregido.py --caso 1`, y anota en `instructores\README.md` lo que viste.
 
 ### 1.4 T-1 día / T-1 hora
 
 - [ ] Envía a los participantes el prerrequisito: Python 3.10+, Azure CLI, VS Code, acceso a PyPI y los permisos de la sección 1.2 ya asignados.
-- [ ] Prepara el **paquete de entrega** (`dia2-lab-procode` sin `instructores\` ni `salidas\`, con `.env.example` y sin `.env`). Compártelo por SharePoint/Teams o repo privado.
+- [ ] Prepara el **paquete de entrega** (`dia2-lab-procode` sin `instructores\` ni `salidas\`, con `.env.example` y sin `.env`; omite también `src\05_*` y `solutions\05_trazas.py` si no quieres que aparezcan; **conserva** `src\trazas.py` y `src\checklist.py`, porque `agente_lab.py` y `evaluacion.py` los importan). Compártelo por SharePoint/Teams o repo privado.
 - [ ] Publica en el chat de Teams los **valores del `.env`** (endpoint de Foundry, deployment, endpoint de Search, índice). No hay secretos: son nombres y URL.
 - [ ] 60 min antes: `python src\00_verificar_entorno.py --probar-modelo` con una **cuenta de prueba de participante** (no la de instructor) para validar roles reales.
 - [ ] Confirma cuota del deployment (sin throttling 429) y que el índice responde.
-- [ ] Deja abiertas: portal de Foundry (Traces), Application Insights (Transaction search), una traza buena ya ingerida del ensayo, y las capturas del Plan B.
+- [ ] Deja abiertas la terminal con el kit y las capturas del Plan B.
 
 ---
 
@@ -101,24 +97,24 @@ Anota en `instructores\README.md` lo que realmente viste en la traza del caso 2 
 
 | Hora | Min | Bloque | Qué haces tú | Señal de que va bien | Si vas atrasado |
 |---|---|---|---|---|---|
-| 11:15 | 0-2 | Apertura (parte de la Preparación) | Explica qué construirán (diagrama del README §1), dónde está el kit, canal de ayuda (chat de Teams) y los 3 entregables de hoy (el ejercicio de trazas se hace el Día 3). Recuerda: datos 100 % ficticios | Todos abren la carpeta del kit | — |
+| 11:15 | 0-2 | Apertura (parte de la Preparación) | Explica qué construirán (diagrama del README §1), dónde está el kit, canal de ayuda (chat de Teams) y los 3 entregables de hoy. Recuerda: datos 100 % ficticios | Todos abren la carpeta del kit | — |
 | 11:17 | 2-10 | **Preparación del entorno** | Circula; resuelve primero `az login` y `.env`. A los 11:23 pide un ✔ en el chat a quien tenga `Entorno listo ✔`. Ejecuta `--probar-modelo` en pantalla | ≥ 80 % con ✔ a las 11:25 | Quien no esté listo trabaja **en pareja** con un vecino o sigue tu pantalla; un instructor lo atiende en paralelo |
 | 11:25 | 10-20 | **Tarea 1** (≈10) | Muestra en 1 min la forma `Agent(client, instructions)` y `agent.run`. Deja trabajar. Pregunta: "¿inventó el límite de Austral Bank?" | Respuesta en español; el límite **no** se inventa | Comparte `solutions\02_agente_base.py` a los 7 min |
-| 11:35 | 20-35 | **Tarea 2** (≈15) | A los 11:38: checkpoint `--solo-tool`. A los 11:43 corre la pregunta compuesta (dos búsquedas). A los 11:47: **security trimming** en vivo (nivel `restringido`, 2 min) | Cita `[NOR-001-02]`; pregunta compuesta = 2 búsquedas | Cambia 2.3 por las instrucciones de la solución; omite la prueba `restringido` si no alcanza el tiempo (se muestra en pantalla) |
-| 11:50 | 35-55 | **Tarea 3** (20) | 1 min: "el modelo solo ve nombre + descripción + parámetros". A los 11:58 checkpoint `--solo-tool`. A los 12:05 compara **descripciones** entre 2-3 equipos (¿cuál se llama de más/de menos?) | Línea `tools usadas: ['consultar_estado_solicitud']`; la pregunta de normas **no** la usa | Entrega `solutions\04_herramienta_estado.py` a los 12:03 y que solo la ejecuten |
-| 12:10 | 55-70 | **Revisión en parejas y preguntas técnicas** | Forma parejas; que cada una compare su agente/tool con la del compañero (2-3 min) y anote 1 diferencia de diseño. Abre turno de preguntas técnicas | Al menos una pareja comparte una diferencia en el chat | Si faltan parejas, hazlo como pregunta abierta al grupo completo |
-| 12:25 | 70-75 | **Cierre** | Resume: agente con grounding (T1-2) + tool funcionando (T3); anticipa que mañana (Día 3) retoman este mismo proyecto para diagnosticar trazas con el caso fallido (módulo "Observabilidad y ciclo de vida") | Todos saben qué traer mañana | — |
+| 11:35 | 20-40 | **Tarea 2** (≈20) | A los 11:40: checkpoint `--solo-tool`. A los 11:47 corre la pregunta compuesta (dos búsquedas). A los 11:50: **security trimming** en vivo (nivel `restringido`, 3 min) | Cita `[NOR-001-02]`; pregunta compuesta = 2 búsquedas | Cambia 2.3 por las instrucciones de la solución; omite la prueba `restringido` si no alcanza el tiempo (se muestra en pantalla) |
+| 11:55 | 40-65 | **Tarea 3** (25) | 1 min: "el modelo solo ve nombre + descripción + parámetros". A los 12:03 checkpoint `--solo-tool`. A los 12:10 compara **descripciones** entre 2-3 equipos (¿cuál se llama de más/de menos?) y lanza el **experimento de contraste** (descripción vaga, ≈5 min) | Línea `tools usadas: ['consultar_estado_solicitud']`; la pregunta de normas **no** la usa; con la descripción vaga la elección de tool cambia | Entrega `solutions\04_herramienta_estado.py` a los 12:08 y que solo la ejecuten; omite el experimento de contraste y muéstralo tú en pantalla |
+| 12:20 | 65-80 | **Revisión en parejas y preguntas técnicas** | Forma parejas; que cada una compare su agente/tool con la del compañero (3-4 min) y anote 1 diferencia de diseño. Abre turno de preguntas técnicas | Al menos una pareja comparte una diferencia en el chat | Si faltan parejas, hazlo como pregunta abierta al grupo completo |
+| 12:35 | 80-85 | **Cierre del laboratorio** | Resume: agente con grounding (T1-2) + tool funcionando (T3). Anticipa que el Día 3 (módulo "Observabilidad y ciclo de vida") presenta de forma **conceptual** cómo leer trazas, diagnosticar un caso fallido y aplicar un checklist de éxito | Todos saben qué verán el Día 3 | — |
 
-**Regla de oro del tiempo:** a los 11:50 todos deben tener un agente que responde con cita. Quien llegue sin eso, usa la solución y se concentra en la Tarea 3.
+**Regla de oro del tiempo:** a los 11:55 todos deben tener un agente que responde con cita. Quien llegue sin eso, usa la solución y se concentra en la Tarea 3. Después de las 12:40 sigue el cierre del día (12:40–13:00).
 
 ---
 
-## 3. Solución del defecto plantado (ejercicio de trazas del Día 3)
+## 3. Solución del defecto plantado (material opcional de instructor)
 
-> La facilitación detallada de este ejercicio (minuto a minuto, pistas escalonadas) ahora vive también en
-> `laboratorios\dia3-workshop-arquitectura\ejercicio-observabilidad-dia2.md`, porque es ahí donde los participantes
-> lo ejecutan. El contenido técnico de abajo (diffs, pistas) sigue siendo válido tal cual, ya que usa los mismos
-> archivos de este proyecto.
+> **Ya no se practica con código en el laboratorio del Día 2 ni del Día 3**: el Día 3 presenta el diagnóstico de un caso
+> fallido y el checklist de éxito de forma conceptual. Esta sección se conserva como referencia por si un participante
+> pregunta o quieres mostrar un ejemplo real. Los diffs y las pistas siguen siendo válidos, porque usan los mismos
+> archivos de este proyecto (`src\05_caso_fallido.py`, `instructores\`).
 
 Detalle completo, pistas y *diffs* en `instructores\README.md`. Resumen:
 
@@ -136,18 +132,18 @@ Mensaje de cierre: *"el checklist marcó ✔ usa la tool y ✔ sin errores en el
 | # | Extensión | Tiempo | Cómo |
 |---|---|---|---|
 | 1 | **Fuera de alcance y nivel de acceso** | 3-5 min | Preguntas P05-P07 de `data\preguntas_evaluacion.jsonl` con `LAB_NIVEL_USUARIO=interno` y luego `restringido` |
-| 2 | **Validación y errores de la tool** | 5 min | En `consultar_estado_solicitud`, rechazar años distintos de 2026 o devolver un error estructurado (`error`, `mensaje`); observar el span en la traza |
+| 2 | **Validación y errores de la tool** | 5 min | En `consultar_estado_solicitud`, rechazar años distintos de 2026 o devolver un error estructurado (`error`, `mensaje`); observar cómo el modelo explica el error en su respuesta |
 | 3 | **Evaluación por lotes** (estilo *ai-rag-chat-evaluator*) | 10 min | `python solutions\extensiones\ext_evaluar.py` ejecuta las 11 preguntas (`question`/`truth`) y calcula negativa correcta, cita esperada y tool correcta. Para métricas con LLM (groundedness, relevancia, *citation matching*) ver `repos\publico-samples\ai-rag-chat-evaluator`; el SDK trae `LocalEvaluator`, `evaluate_agent`, `tool_calls_present` (`agent-framework\python\samples\02-agents\evaluation\evaluate_with_expected.py`) |
-| 4 | **Recuperación con *context provider*** | 10-15 min | `pip install agent-framework-azure-ai-search` (beta) y, en lugar de la tool, `from agent_framework.azure import AzureAISearchContextProvider`; `AzureAISearchContextProvider(source_id=..., endpoint=..., index_name=..., credential=<aio>, mode="semantic", top_k=3)` y `Agent(..., context_providers=[provider])` dentro de `async with`. Muestra cómo cambia la traza (no hay `execute_tool` de búsqueda). Modo `agentic` con *knowledge base*: **(preview)**, requiere crear la knowledge base en Search (`search-get-started-agentic-retrieval`) |
+| 4 | **Recuperación con *context provider*** | 10-15 min | `pip install agent-framework-azure-ai-search` (beta) y, en lugar de la tool, `from agent_framework.azure import AzureAISearchContextProvider`; `AzureAISearchContextProvider(source_id=..., endpoint=..., index_name=..., credential=<aio>, mode="semantic", top_k=3)` y `Agent(..., context_providers=[provider])` dentro de `async with`. Muestra cómo cambia el flujo (no hay llamada a tool de búsqueda: el contexto se inyecta antes del modelo). Modo `agentic` con *knowledge base*: **(preview)**, requiere crear la knowledge base en Search (`search-get-started-agentic-retrieval`) |
 | 5 | **Herramienta MCP** | 10 min | `from agent_framework import MCPStreamableHTTPTool`; `tools=MCPStreamableHTTPTool(name=..., description=..., url="<url del servidor MCP>")` dentro de `async with Agent(...)` (ver `02-agents\mcp\mcp_api_key_auth.py`). Usa un servidor MCP público/inofensivo (sin datos del banco) |
 | 6 | **Desplegar como hosted agent** | 20+ min (demo del instructor) | Patrón de `foundry-samples\samples\python\hosted-agents\agent-framework\responses\02-tools` (tools) y `11-azure-search-rag` (RAG): `agent-framework-foundry-hosting`, `ResponsesHostServer`, `azd`. Requiere Python ≥ 3.13 y permisos de despliegue. La identidad del agente necesita *Search Index Data Reader*; y *Monitoring Metrics Publisher* si App Insights exige Entra ID. Ver también `repos\publico-workshops\foundry-hosted-agents-workshop` |
-| 7 | **Trazas propias** | 5 min | Agregar atributos a `span_propio(...)` (p. ej. `busqueda.top`) y filtrarlos en KQL |
+| 7 | **Trazas propias** (opcional, requiere Application Insights) | 5 min | Agregar atributos a `span_propio(...)` (p. ej. `busqueda.top`) y filtrarlos en KQL |
 
 ---
 
 ## 5. Alternativa .NET (solo para quien la pida)
 
-El laboratorio está pensado y soportado en vivo **solo en Python**. Quien prefiera .NET puede seguir el mismo flujo (agente → grounding → tool → trazas) con:
+El laboratorio está pensado y soportado en vivo **solo en Python**. Quien prefiera .NET puede seguir el mismo flujo (agente → grounding → tool) con:
 
 - Workshop `repos\publico-workshops\Hosted_Agents_Workshop_dotNET` (hosted agents con Agent Framework en C#).
 - Samples de Agent Framework para .NET: `repos\publico-samples\agent-framework\dotnet\samples\01-get-started`.
@@ -159,14 +155,13 @@ Los datos (`data\`) y el índice son los mismos; no hay un starter .NET en este 
 
 ## 6. Facilitación híbrida
 
-- **Canal único de ayuda:** chat de Teams del evento. Pide que escriban el **mensaje de error exacto** (o captura) y su paso (Prep, T1…T4).
+- **Canal único de ayuda:** chat de Teams del evento. Pide que escriban el **mensaje de error exacto** (o captura) y su paso (Prep, T1…T3).
 - **Reacciones como semáforo:** ✔ = listo, ✋ = necesito ayuda; al final de cada bloque pide un ✔.
 - **Un instructor "pasillo" y otro "chat":** cada pregunta del chat con respuesta reutilizable se copia a un mensaje fijado (troubleshooting del README §8).
 - **Pantalla compartida con fuente grande** y la terminal a ancho completo; evita abrir `.env` con valores en pantalla.
 - **Participantes remotos:** misma carpeta de kit y mismas instrucciones; si no tienen permisos aún, que sigan tu pantalla y ejecuten `--solo-tool` (no requiere Azure) en las Tareas 2-3.
 - **Parejas:** un participante con el entorno listo + uno sin entorno (pair programming) para no frenar el bloque.
-- **Traza en vivo:** ten tu traza ya ingerida; las de los participantes tardan 2-5 min. Usa el adelanto de ingestión del minuto 12:26.
-- **Ritmo:** marca los checkpoints en voz alta ("a los 12:05 todos con `--solo-tool` ✔").
+- **Ritmo:** marca los checkpoints en voz alta ("a los 12:03 todos con `--solo-tool` ✔").
 
 ---
 
@@ -179,12 +174,8 @@ Los datos (`data\`) y el índice son los mismos; no hay un starter .NET en este 
 | 1 | `00_verificar_entorno.py --probar-modelo` completo en verde | Comparar con quien falla |
 | 2 | Salidas de `solutions\02_agente_base.py`, `03_agente_con_search.py` y `04_herramienta_estado.py` | Si el modelo o Search no responden |
 | 3 | Captura del *Search explorer* con el filtro por `nivel_acceso` | Explicar security trimming |
-| 4 | Traza buena completa (portal **y** KQL) del caso C1, con `invoke_agent`/`chat`/`execute_tool`/`recuperacion-normativa` | Si Application Insights tarda o falla |
-| 5 | Traza del **caso fallido 1** (atributo `busqueda.filtro`) y de la versión corregida | Diagnóstico sin ingestión |
-| 6 | Traza del caso fallido 2 (`formato_invalido`) y si hubo autocorrección | Ídem |
-| 7 | Salida de consola con `ENABLE_CONSOLE_EXPORTERS=true` (JSON de los spans) | Plan B de trazas |
-| 8 | Salida de `ext_evaluar.py` (resumen % aprobado) | Extensión sin cuota |
-| 9 | Video corto (≤ 2 min) del flujo completo | Falla general |
+| 4 | Salida de `ext_evaluar.py` (resumen % aprobado) | Extensión sin cuota |
+| 5 | Video corto (≤ 2 min) del flujo completo | Falla general |
 
 **Árbol de decisión:**
 
@@ -195,9 +186,7 @@ Los datos (`data\`) y el índice son los mismos; no hay un starter .NET en este 
 | 429 / cuota del modelo | Reparte entre deployments/proyectos o pide ejecutar de a uno por equipo; usa las salidas pre-capturadas |
 | Embeddings o vectores fallan | Deja `FOUNDRY_EMBEDDING_MODEL=` vacío: la consulta usa texto + semántico (válido aunque el índice tenga campo vectorial) |
 | Ranker semántico no disponible | `LAB_SIN_SEMANTICO=true` en el `.env` |
-| Search no responde | Muestra salidas pre-capturadas; las Tareas 3-4 pueden seguir con la tool de estado (no depende de Search) |
-| Trazas no aparecen | Revisar roles/Entra (`LAB_APPINSIGHTS_ENTRA=true`); usar consola; mostrar traza pre-capturada |
-| Caso fallido 2 no falla (el modelo se autocorrige) | Úsalo como ejemplo de "errores recuperables también quedan en la traza" y vuelve al caso 1 |
+| Search no responde | Muestra salidas pre-capturadas; la Tarea 3 puede seguir con la tool de estado (no depende de Search) |
 
 ---
 
@@ -205,7 +194,7 @@ Los datos (`data\`) y el índice son los mismos; no hay un starter .NET en este 
 
 | Pregunta | Respuesta corta |
 |---|---|
-| ¿Por qué el grounding es una *tool* y no un *context provider*? | Para que cada recuperación sea un span `execute_tool` visible y el modelo decida cuántas búsquedas hacer. El *context provider* (`AzureAISearchContextProvider`) inyecta contexto antes del modelo: es la extensión 4 |
+| ¿Por qué el grounding es una *tool* y no un *context provider*? | Para que cada recuperación sea una llamada a tool explícita y visible (`búsqueda realizada`) y el modelo decida cuántas búsquedas hacer. El *context provider* (`AzureAISearchContextProvider`) inyecta contexto antes del modelo: es la extensión 4 |
 | ¿Cómo pasaría esto a producción? | Identidad administrada, nivel de acceso desde los claims/grupos del usuario (o ACL por documento: `Quickstart-Document-Permissions-Push-API`), contenido de trazas desactivado (`enable_sensitive_data=False`), evaluación continua, red privada |
 | ¿Qué es la recuperación agéntica de Azure AI Search? | *Knowledge base* que descompone la consulta en subconsultas y sintetiza (**preview**). En el lab, "agéntico" es el propio agente haciendo una búsqueda por subpregunta |
 | ¿Dónde están los datos de BCI? | No hay: todo es ficticio (Austral Bank) |
@@ -226,7 +215,7 @@ Los datos (`data\`) y el índice son los mismos; no hay un starter .NET en este 
 ## 10. Cierre post-sesión
 
 - [ ] Reúne el feedback (qué tarea fue más difícil, tiempos reales) y ajusta `README.md`/tiempos.
-- [ ] Comparte `solutions\` completo y el *diff* del caso fallido con todos.
+- [ ] Comparte `solutions\` completo con todos.
 - [ ] Revoca los roles temporales del grupo de participantes y elimina o desactiva el índice y los deployments de la sesión si no se reutilizan.
 - [ ] Registra lo verificado en vivo contra la sección 11 y actualiza el kit.
 
@@ -237,14 +226,14 @@ Se contrastaron con los SDKs instalados (introspección sin llamar a Azure), per
 | # | Supuesto | Dónde se usa | Si falla |
 |---|---|---|---|
 | 1 | `FoundryChatClient` funciona con la credencial **asíncrona** `azure.identity.aio.DefaultAzureCredential` (los samples usan `AzureCliCredential` síncrono) | Todos los scripts | Cambiar a `azure.identity.AzureCliCredential()` sin `async with` (como en los samples oficiales) |
-| 2 | `agent.run(texto)` sin sesión y `agent.run(texto, session=session)` devuelven un objeto con `.text` | Tareas 1-3 y el Apéndice (ejercicio de trazas) | Revisar la salida real (`print(respuesta)`) |
-| 3 | `await client.configure_azure_monitor(enable_sensitive_data=True)` toma la conexión del proyecto y los spans llegan a Application Insights con Entra ID del usuario | `trazas.py` | `APPLICATIONINSIGHTS_CONNECTION_STRING` en `.env`; `LAB_APPINSIGHTS_ENTRA=true`; consola |
-| 4 | Un agente **local** (sin registrar) aparece en *Observability → Traces* del portal de Foundry | Apéndice (ejercicio de trazas, Día 3) | Usar Application Insights (Transaction search/KQL); según el sample, puede requerir registrar el agente con el mismo ID |
-| 5 | KQL `union dependencies, requests \| where operation_Id == "<TRACE_ID>"` muestra los spans (`gen_ai.*` en `customDimensions`) | README, Apéndice — Ejercicio de trazas, paso 2 | Ajustar tabla/columnas según el esquema real |
-| 6 | El span propio `recuperacion-normativa` se anida bajo `execute_tool` y sus atributos `busqueda.*` son visibles | Apéndice (ejercicio de trazas) y caso fallido | Mostrarlos desde `gen_ai.tool.call.arguments/result` |
+| 2 | `agent.run(texto)` sin sesión y `agent.run(texto, session=session)` devuelven un objeto con `.text` | Tareas 1-3 | Revisar la salida real (`print(respuesta)`) |
+| 3 | *(Opcional, material de trazas)* `await client.configure_azure_monitor(enable_sensitive_data=True)` toma la conexión del proyecto y los spans llegan a Application Insights con Entra ID del usuario | `trazas.py` | `APPLICATIONINSIGHTS_CONNECTION_STRING` en `.env`; `LAB_APPINSIGHTS_ENTRA=true`; consola |
+| 4 | *(Opcional, material de trazas)* Un agente **local** (sin registrar) aparece en *Observability → Traces* del portal de Foundry | `05_trazas.py` | Usar Application Insights (Transaction search/KQL); según el sample, puede requerir registrar el agente con el mismo ID |
+| 5 | *(Opcional, material de trazas)* KQL `union dependencies, requests \| where operation_Id == "<TRACE_ID>"` muestra los spans (`gen_ai.*` en `customDimensions`) | `instructores\README.md` | Ajustar tabla/columnas según el esquema real |
+| 6 | *(Opcional, material de trazas)* El span propio `recuperacion-normativa` se anida bajo `execute_tool` y sus atributos `busqueda.*` son visibles | `05_caso_fallido.py` | Mostrarlos desde `gen_ai.tool.call.arguments/result` |
 | 7 | Consulta semántica con `query_type="semantic"` + `semantic_configuration_name`, analizador `es.microsoft` y vector `k_nearest_neighbors = top*3` válidos en la región/SKU | `busqueda.py`, `01_crear_indice.py` | `LAB_SIN_SEMANTICO=true`; `--sin-vectores`; ajustar analizador |
 | 8 | `FoundryEmbeddingClient.get_embeddings` + rol *Foundry User* alcanzan para embeddings; dimensiones coinciden con el deployment | `01_crear_indice.py` | `--recrear` con las dimensiones correctas |
 | 9 | Versiones: `requirements.txt` (rangos) resuelve a versiones compatibles | Instalación | `pip install -r requirements-probado.txt` |
-| 10 | El caso fallido 2 puede **autocorregirse**; el caso 1 falla siempre | Apéndice (ejercicio de trazas, Día 3) | Ver `instructores\README.md` |
+| 10 | *(Opcional, material de trazas)* El caso fallido 2 puede **autocorregirse**; el caso 1 falla siempre | `05_caso_fallido.py` | Ver `instructores\README.md` |
 | 11 | Límites de índices por SKU si los participantes crean el suyo (opcional) | README Tarea 2 (recuadro) | Mantener un solo índice compartido |
-| 12 | Nombres de spans/atributos (`invoke_agent`, `chat`, `execute_tool`, `gen_ai.tool.*`) coinciden con la versión instalada | Apéndice (ejercicio de trazas) | Actualizar la tabla del README, Apéndice, paso 2 |
+| 12 | *(Opcional, material de trazas)* Nombres de spans/atributos (`invoke_agent`, `chat`, `execute_tool`, `gen_ai.tool.*`) coinciden con la versión instalada | `src\trazas.py` | Actualizar las referencias en `instructores\README.md` |
