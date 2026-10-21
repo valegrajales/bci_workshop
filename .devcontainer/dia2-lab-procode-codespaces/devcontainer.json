@@ -1,0 +1,35 @@
+{
+  "name": "BCI Dia 2 - Agente pro-code (Python 3.12)",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/azure-cli:1": {}
+  },
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}/laboratorios/dia2-lab-procode-codespaces",
+  "hostRequirements": {
+    "cpus": 2
+  },
+  "containerEnv": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "AZURE_CORE_COLLECT_TELEMETRY": "false"
+  },
+  "postCreateCommand": "bash scripts/codespaces-setup.sh",
+  "customizations": {
+    "codespaces": {
+      "openFiles": [
+        "laboratorios/dia2-lab-procode-codespaces/README.md"
+      ]
+    },
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": ["tests"],
+        "files.eol": "\n"
+      }
+    }
+  }
+}
