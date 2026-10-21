@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+# Demo Día 2: hosted agent desplegado como CONTENEDOR (sin `codeConfiguration`).
+# `azd deploy` construye el Dockerfile de src\agente-gastos-hosted en Azure Container Registry (build remoto),
+# registra la versión en Foundry Agent Service y crea la identidad Entra del agente.
+requiredVersions:
+  azd: '>=1.27.1'
+  extensions:
+    azure.ai.agents: '>=1.0.0-beta.9'
+name: demo-dia2-agente-hosted
+services:
+  ai-project:
+    host: azure.ai.project
+    deployments:
+      - name: gpt-5.4-mini
+        model:
+          format: OpenAI
+          name: gpt-5.4-mini
+          version: '2026-03-17'
+        sku:
+          name: GlobalStandard
+          capacity: 10
+  agente-gastos-hosted:
+    host: azure.ai.agent
+    metadata:
+      tags:
+        - Agent Framework
+        - AI Agent Hosting
+        - Responses Protocol
+        - Function tool
+    project: src/agente-gastos-hosted
+    language: python
+    # Para construir la imagen con Docker local en vez de ACR, descomenta (requiere Docker Desktop):
+    # docker:
+    #   remoteBuild: false
+    uses:
+      - ai-project
+    kind: hosted
+    name: agente-gastos-hosted
+    description: Asistente de gastos de viaje (ficticio, Austral Bank) con la function tool consultar_limite_gastos.
+    protocols:
+      - protocol: responses
+        version: 2.0.0
+    env:
+      AZURE_AI_MODEL_DEPLOYMENT_NAME: ${AZURE_AI_MODEL_DEPLOYMENT_NAME}
+    container:
+      resources:
+        cpu: '0.5'
+        memory: 1Gi
+infra:
+  provider: microsoft.foundry

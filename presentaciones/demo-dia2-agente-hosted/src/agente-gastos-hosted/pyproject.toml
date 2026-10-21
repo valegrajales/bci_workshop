@@ -1,0 +1,13 @@
+[project]
+name = "agente-gastos-hosted"
+version = "0.1.0"
+description = "Demo Día 2: hosted agent de Microsoft Foundry con Agent Framework y una function tool propia."
+requires-python = ">=3.13"
+dependencies = [
+    "agent-framework-foundry",
+    "agent-framework-foundry-hosting>=1.0.0b260813",
+    "python-dotenv",
+]
+
+[dependency-groups]
+dev = ["pytest"]
