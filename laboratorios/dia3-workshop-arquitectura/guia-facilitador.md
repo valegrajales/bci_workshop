@@ -1,9 +1,14 @@
 # Guía del facilitador · Workshop BCI: Architecture Decision Workshop
 
-**Día 3 · viernes 23-oct-2026 · 12:05–12:40 (35 min) + puestas en común y cierre ejecutivo 12:40–13:00 · híbrido (Microsoft Chile + Teams)**
+**Día 3 · viernes 23-oct-2026 · 11:35–12:10 (35 min) + puestas en común y cierre ejecutivo 12:10–12:30 · híbrido (Microsoft Chile + Teams)**
 Trainers: Pablo Braconi · Valentina Grajales · Caso ficticio «Austral Bank» (Asistente de Tesorería) · Todo en español neutro, tú.
 
 > Esta guía acompaña a `caso-austral-bank.md`, a las plantillas (`plantillas\Workshop_BCI_Plantillas.xlsx`, `Plantillas_Workshop_BCI.docx`, `ADR-plantilla`) y al `ejemplo-resuelto\` (solo para trainers: no lo compartas con los grupos antes del cierre). Material de apoyo: `matriz-referencia-decisiones.md` (criterios) y `checklist-produccion-seguridad-genaiops.md/.docx` (entregable del Día 3 que se comparte al cierre).
+
+> **Antes de empezar (11:05–11:35):** justo antes de este workshop hay un módulo nuevo de 30 min, "Observabilidad y
+> ciclo de vida", donde los participantes retoman su proyecto `..\dia2-lab-procode\` (el mismo del laboratorio
+> pro-code del Día 2) para diagnosticar trazas con el caso fallido. Deben llegar a las 11:35 con ese ejercicio ya
+> hecho. Ver `ejercicio-observabilidad-dia2.md` para la guía de facilitación de ese módulo.
 
 ## 0. Qué debes llevar de este ejercicio
 
@@ -18,8 +23,8 @@ Trainers: Pablo Braconi · Valentina Grajales · Caso ficticio «Austral Bank» 
 | T-7 días | Confirmar con la organización que **ambos trainers serán coorganizadores** de la reunión de Teams (sin ese permiso no podrás abrir ni moverte entre salas) y que las salas de grupo se crean antes de la sesión. | Pablo |
 | T-3 días | Crear la carpeta compartida `Workshop-BCI/Dia3/` (Teams o OneDrive) con una subcarpeta por grupo y una copia de `Workshop_BCI_Plantillas.xlsx` por grupo (ver §6). | Valentina |
 | T-1 día | Imprimir `Plantillas_Workshop_BCI.docx` (1 juego por mesa) y el caso (1 copia por persona), pliegos de papel, marcadores y cronómetro visible. | Equipo en sala |
-| Día D, 10:45–10:55 (break) | Publicar la lista de grupos (ver §2) y abrir salas Teams. | Ambos |
-| 12:00 | Mensaje en el chat con enlace a la carpeta, el caso y las plantillas; probar que se puede editar el archivo. | Valentina |
+| Día D, 10:15–10:25 (break) | Publicar la lista de grupos (ver §2) y abrir salas Teams. | Ambos |
+| 11:30 | Mensaje en el chat con enlace a la carpeta, el caso y las plantillas; probar que se puede editar el archivo. | Valentina |
 
 ## 2. Formación de grupos (híbrido)
 
@@ -45,13 +50,13 @@ Con 4 personas, el relator cumple también el rol de dueño de datos; con 6, sum
 
 | Hora | Min | Paso | Qué ocurre | Qué dices o haces tú |
 |---|---|---|---|---|
-| 12:00–12:05 | 5 | Preparación | Grupos en mesas o salas, archivo abierto, roles asignados. | Muestra la diapositiva de reglas; confirma que cada escriba tiene el archivo abierto. |
-| **12:05–12:10** | **5** | **Contexto** | Lectura del caso (3 min), acuerdo de alcance y 2 supuestos que cambiarían (2 min). | 12:05 «Tienen 35 minutos y 5 pasos; la prioridad es criterio y supuesto, no un diagrama bonito». 12:08 «Marquen los 2 supuestos que cambiarían». |
-| **12:10–12:20** | **10** | **Canvas de arquitectura y decisiones** | Completan Canal, Identidad, Sesión, Agente/modelo y Tools/datos con decisión, opciones, criterio y supuesto. Marcan Estado ADR. | Reloj sugerido: Canal 1,5 · Identidad 2,5 · Sesión 2,5 · Agente 1,5 · Tools/datos 2 min. 12:17 «Quedan 3 min: todas las filas con criterio». |
-| **12:20–12:28** | **8** | **Amenazas** (y mapa de riesgos) | Dibujan el flujo (2 min), enumeran 3 a 5 amenazas con control, punto y dueño (4 min), priorizan y pasan a la hoja de riesgos (2 min). | 12:20 «Miren los cuatro puntos: entrada, herramienta, salida, memoria». 12:26 «¿Cuál amenaza es la más cara si ocurre?». |
-| **12:28–12:35** | **7** | **SLOs y evaluación** | Una métrica por dimensión (Disponibilidad, Calidad, Seguridad, Costo), objetivo marcado como hipótesis, fuente, evaluador/umbral y alerta. | 12:28 «Una métrica por dimensión; si no hay datos, escríbanlo como hipótesis». 12:33 «Elijan qué evaluación bloquea un release». |
-| **12:35–12:40** | **5** | **Backlog** | 3 a 5 ítems con tipo, prioridad, dueño y criterio de éxito; marcan el primer experimento; el relator ensaya su frase. | 12:35 «Empiecen por el supuesto más riesgoso». 12:38 «Elijan el primer experimento y su criterio de éxito». |
-| 12:40–13:00 | 20 | Puesta en común y cierre | Ver §8. | Ver §8. |
+| 11:30–11:35 | 5 | Preparación | Grupos en mesas o salas, archivo abierto, roles asignados. | Muestra la diapositiva de reglas; confirma que cada escriba tiene el archivo abierto. |
+| **11:35–11:40** | **5** | **Contexto** | Lectura del caso (3 min), acuerdo de alcance y 2 supuestos que cambiarían (2 min). | 11:35 «Tienen 35 minutos y 5 pasos; la prioridad es criterio y supuesto, no un diagrama bonito». 11:38 «Marquen los 2 supuestos que cambiarían». |
+| **11:40–11:50** | **10** | **Canvas de arquitectura y decisiones** | Completan Canal, Identidad, Sesión, Agente/modelo y Tools/datos con decisión, opciones, criterio y supuesto. Marcan Estado ADR. | Reloj sugerido: Canal 1,5 · Identidad 2,5 · Sesión 2,5 · Agente 1,5 · Tools/datos 2 min. 11:47 «Quedan 3 min: todas las filas con criterio». |
+| **11:50–11:58** | **8** | **Amenazas** (y mapa de riesgos) | Dibujan el flujo (2 min), enumeran 3 a 5 amenazas con control, punto y dueño (4 min), priorizan y pasan a la hoja de riesgos (2 min). | 11:50 «Miren los cuatro puntos: entrada, herramienta, salida, memoria». 11:56 «¿Cuál amenaza es la más cara si ocurre?». |
+| **11:58–12:05** | **7** | **SLOs y evaluación** | Una métrica por dimensión (Disponibilidad, Calidad, Seguridad, Costo), objetivo marcado como hipótesis, fuente, evaluador/umbral y alerta. | 11:58 «Una métrica por dimensión; si no hay datos, escríbanlo como hipótesis». 12:03 «Elijan qué evaluación bloquea un release». |
+| **12:05–12:10** | **5** | **Backlog** | 3 a 5 ítems con tipo, prioridad, dueño y criterio de éxito; marcan el primer experimento; el relator ensaya su frase. | 12:05 «Empiecen por el supuesto más riesgoso». 12:08 «Elijan el primer experimento y su criterio de éxito». |
+| 12:10–12:30 | 20 | Puesta en común y cierre | Ver §8. | Ver §8. |
 
 **Avisos de tiempo (di en voz alta y escribe en el chat):** cada paso a 3 min del final y a 1 min del final. Si tienes dos salas Teams, el aviso lo mandas por el chat general.
 
@@ -192,14 +197,14 @@ Mientras los grupos presentan, un trainer anota la tabla de recuento y el otro p
 - **Columna 3 · Amenazas y riesgos más citados:** top 3 con su control principal.
 - **Pie · Siguientes pasos:** los 3 a 5 primeros experimentos más repetidos, conectados con el 30/60/90 de la lámina «Próximos pasos: 30 / 60 / 90 días».
 
-## 8. Puesta en común y cierre ejecutivo (12:40–13:00)
+## 8. Puesta en común y cierre ejecutivo (12:10–12:30)
 
 Con unos 9 grupos, 3 minutos por grupo sumarían 27 minutos, más de los 20 disponibles (que además incluyen el cierre ejecutivo). **Decisión pendiente de los trainers:** elijan antes de la sesión uno de estos planes.
 
 | | Plan A (recomendado) | Plan B |
 |---|---|---|
 | Idea | Presentan 4 grupos de 3 min (2 en sala y 2 por Teams, elegidos al azar o por diversidad de enfoques); el resto deja su archivo y una frase en el chat. | Presentan los 9 grupos en 90 segundos: decisión principal, supuesto crítico, primer experimento (una frase cada uno). |
-| Agenda | 12:40 transición (1 min) · 12:41–12:53 cuatro puestas en común (12 min) · 12:53–13:00 síntesis y cierre (7 min) | 12:40 transición (1 min) · 12:41–12:54 nueve puestas en común (≈13,5 min) · 12:54–13:00 cierre (6 min) |
+| Agenda | 12:10 transición (1 min) · 12:11–12:23 cuatro puestas en común (12 min) · 12:23–12:30 síntesis y cierre (7 min) | 12:10 transición (1 min) · 12:11–12:24 nueve puestas en común (≈13,5 min) · 12:24–12:30 cierre (6 min) |
 | Ventaja | Más profundidad y calidad de conversación. | Todos hablan; más justo. |
 | Riesgo | Los grupos que no presentan sienten que su trabajo se pierde: compénsalo leyendo en voz alta sus aportes únicos. | Poca profundidad; el reloj es implacable. |
 
@@ -213,12 +218,12 @@ Revisa el reloj en cada punto de control y aplica el recorte sin discutirlo con 
 
 | Punto de control | Si el grupo está… | Acción inmediata |
 |---|---|---|
-| 12:09 | Todavía leyendo el caso | Pide que anoten solo 2 supuestos y pasen al canvas. |
-| 12:17 | Con menos de 3 filas del canvas | Prioriza **Identidad, Sesión y Tools/datos**; Canal y Agente/modelo quedan como supuesto en una línea. |
-| 12:25 | Sin amenazas definidas | Pide solo 3 amenazas (una por entrada, herramienta, datos) y salta el mapa de riesgos: se completa después. |
-| 12:32 | Sin métricas | Reduce a **Calidad y Seguridad**; sin cifras, solo métrica y fuente. |
-| 12:38 | Sin backlog | Pide 3 ítems con dueño y un primer experimento; el criterio de éxito en una frase. |
-| 12:40 | Fuera de hora | Pasa a Plan B (90 s) o recorta a decisión principal y primer experimento. |
+| 11:39 | Todavía leyendo el caso | Pide que anoten solo 2 supuestos y pasen al canvas. |
+| 11:47 | Con menos de 3 filas del canvas | Prioriza **Identidad, Sesión y Tools/datos**; Canal y Agente/modelo quedan como supuesto en una línea. |
+| 11:55 | Sin amenazas definidas | Pide solo 3 amenazas (una por entrada, herramienta, datos) y salta el mapa de riesgos: se completa después. |
+| 12:02 | Sin métricas | Reduce a **Calidad y Seguridad**; sin cifras, solo métrica y fuente. |
+| 12:08 | Sin backlog | Pide 3 ítems con dueño y un primer experimento; el criterio de éxito en una frase. |
+| 12:10 | Fuera de hora | Pasa a Plan B (90 s) o recorta a decisión principal y primer experimento. |
 
 Si todo el bloque inicia tarde, mantén el cierre ejecutivo (es el entregable de la sesión) y recorta primero las puestas en común.
 
