@@ -132,7 +132,7 @@ $raiz = ".\laboratorios\entorno-y-facilitacion\plan-b"
 *Referencias:* `docs-oficiales\foundry\agents\how-to\foundry-iq-connect.md`; `docs-oficiales\azure-ai-search\get-started-portal-agentic-retrieval.md`; guía, sección 7.
 
 **PB-D2-04 · Agente hospedado con tool propia (≈ 40 min) → `D2\D2_04_agente-hospedado_VID_v01.mp4` + `IMG_v01_01–04.png`**
-1. Despliega el agente hospedado de ejemplo (función `consultar_limite_gastos` ficticia).
+1. Despliega el agente hospedado de ejemplo (función `consultar_limite_gastos` ficticia): código y pasos en `presentaciones\demo-dia2-agente-hosted\README.md`.
 2. Pregunta por el límite de gastos de viaje → muestra la llamada a la tool y la respuesta con su fuente.
 3. Muestra los registros del agente y la traza asociada.
 4. Si el despliegue falla (ACR/permisos): graba lo que llegues a mostrar y anota el error en `D2_04_error_DOC_v01.txt` (útil para el riesgo R15).
