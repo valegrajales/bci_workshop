@@ -16,6 +16,45 @@
 
 ---
 
+## 0. Antes de empezar: qué es GitHub Codespaces y cómo usarlo
+
+**¿Qué es?** GitHub Codespaces es un **entorno de desarrollo en la nube**: GitHub crea para ti una máquina virtual (un contenedor Linux)
+con una copia del repositorio y abre **Visual Studio Code dentro del navegador**. Todo lo que ejecutes (Python, `az`, `pytest`) corre en esa máquina, no en tu equipo.
+Para este laboratorio el contenedor ya trae **Python 3.12, Azure CLI y las dependencias instaladas**, porque así lo define el archivo
+`.devcontainer/dia2-lab-procode-codespaces/devcontainer.json` del repositorio. Por eso tu versión de Python local no importa.
+
+**Qué ves al abrirlo** (es el mismo VS Code que conoces):
+
+| Zona | Para qué la usas en el laboratorio |
+|---|---|
+| Explorador de archivos (izquierda) | Navegar por `src/`, `solutions/`, `data/` y abrir los archivos de cada tarea |
+| Editor (centro) | Completar los `TODO` de los starters y leer este README |
+| Terminal (abajo) | Ejecutar los comandos (`az login`, `python src/...`). Es **bash (Linux)**: rutas con `/` |
+| Barra de estado (esquina inferior izquierda, verde) | Muestra el nombre del Codespace; haz clic para ver opciones (detener, reconstruir, etc.) |
+
+**Cómo usarlo, paso a paso**
+
+1. **Créalo:** en el repositorio, botón verde **Code** → pestaña **Codespaces** → **Create codespace on main** (máquina de 2 núcleos). El detalle está en la sección 5.1.
+2. **Espera** 2–4 min la primera vez: el contenedor se construye e instala las dependencias solo. Cuando termine verás el editor y este README abierto.
+3. **Abre el terminal:** menú **Terminal → Nuevo terminal**. Los comandos de esta guía se **copian y pegan ahí** (si el navegador pide permiso para usar el portapapeles, acéptalo).
+4. **Edita y guarda:** abre el archivo de la tarea en el explorador, modifícalo y guárdalo (**Ctrl+S**, o **Cmd+S** en Mac) antes de ejecutarlo.
+5. **Ejecuta** desde el terminal, por ejemplo `python src/02_agente_base.py`. No necesitas crear un entorno virtual.
+
+**Cómo detenerlo y volver a él**
+
+- Cerrar la pestaña **no** lo detiene: se apaga solo tras 30 min de inactividad (consume tu cuota de 120 core-horas/mes mientras está encendido).
+- Para **retomarlo**, entra a `https://github.com/codespaces` y haz clic en tu Codespace: conserva tus archivos, el `.env` y la sesión de `az login` mientras no lo elimines (si `az` pide iniciar sesión de nuevo, repite el paso 5.2).
+- Al terminar el laboratorio, en `https://github.com/codespaces` abre el menú **…** de tu Codespace y elige **Stop codespace**. **Delete** lo elimina por completo, incluido el `.env` y cualquier cambio que hayas hecho.
+
+**Buenas prácticas**
+
+- Trabaja solo dentro de la carpeta `laboratorios/dia2-lab-procode-codespaces`; los cambios que hagas quedan en **tu** Codespace y no afectan el repositorio original (no necesitas hacer commit ni push).
+- El archivo `.env` está en `.gitignore`: no se sube a GitHub. No pegues en él llaves ni secretos; este laboratorio usa Microsoft Entra ID (`az login`), no llaves.
+- Si el editor queda cargando o el terminal no responde, recarga la pestaña del navegador (**F5**); el Codespace sigue encendido y recupera tu sesión.
+- Si algo se rompe y quieres empezar de cero, elimina el Codespace y crea uno nuevo (volverás a completar `.env` y `az login`).
+
+---
+
 ## 1. Objetivo
 
 Al terminar este laboratorio habrás construido, en Python, un **asistente de normativa interna** que:
