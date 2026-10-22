@@ -18,13 +18,45 @@ NOMBRE_SEMANTICA = "normativa-semantica"
 CAMPO_VECTOR = "vector"
 PERFIL_VECTOR = "perfil-hnsw"
 ALGORITMO_VECTOR = "algoritmo-hnsw"
+VECTORIZADOR = "vectorizador-openai"
+MODELOS_EMBEDDING = ("text-embedding-ada-002", "text-embedding-3-large", "text-embedding-3-small")
 CAMPOS_RESULTADO = ["id", "doc_id", "titulo", "seccion", "area", "nivel_acceso", "contenido"]
 
 
+def vectorizador_desde_settings(settings: Settings) -> tuple[str, str, str] | None:
+    """(url de Azure OpenAI, deployment, modelo) para el vectorizador, o None si no hay vectores.
+
+    El recurso de Foundry expone el mismo nombre en https://<recurso>.openai.azure.com, que es lo que
+    usa el servicio de Search (con su identidad administrada) para vectorizar el texto de las consultas.
+    """
+    if not settings.usa_vectores:
+        return None
+    modelo = settings.embedding_model_name or settings.embedding_model
+    if modelo not in MODELOS_EMBEDDING:
+        raise ValueError(
+            "Define FOUNDRY_EMBEDDING_MODEL_NAME con el modelo real del deployment de embeddings: "
+            + ", ".join(MODELOS_EMBEDDING)
+        )
+    host = settings.project_endpoint.split("//", 1)[-1].split("/", 1)[0].split(".", 1)[0]
+    if not host:
+        raise ValueError("FOUNDRY_PROJECT_ENDPOINT debe indicar el recurso del proyecto de Foundry.")
+    return f"https://{host}.openai.azure.com", settings.embedding_model, modelo
+
+
 # ---------------------------------------------------------------- índice (script de instructores)
-def construir_indice(nombre: str, dimensiones: int | None = None):
-    """Esquema: texto (analizador español) + campo vectorial opcional + configuración semántica."""
+def construir_indice(
+    nombre: str,
+    dimensiones: int | None = None,
+    vectorizador: tuple[str, str] | tuple[str, str, str] | None = None,
+):
+    """Esquema: texto (analizador español) + campo vectorial opcional + configuración semántica.
+
+    Con `vectorizador` el índice sabe convertir texto en vectores por sí mismo: es lo que permite que el
+    retrieval agéntico (knowledge base) haga búsqueda vectorial además de texto + ranker semántico.
+    """
     from azure.search.documents.indexes.models import (
+        AzureOpenAIVectorizer,
+        AzureOpenAIVectorizerParameters,
         HnswAlgorithmConfiguration,
         SearchableField,
         SearchField,
@@ -56,13 +88,37 @@ def construir_indice(nombre: str, dimensiones: int | None = None):
                 name=CAMPO_VECTOR,
                 type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
                 searchable=True,
+                hidden=True,
                 vector_search_dimensions=dimensiones,
                 vector_search_profile_name=PERFIL_VECTOR,
             )
         )
+        vectorizadores = []
+        if vectorizador:
+            url, deployment = vectorizador[:2]
+            modelo = vectorizador[2] if len(vectorizador) == 3 else deployment
+            if modelo not in MODELOS_EMBEDDING:
+                raise ValueError("El vectorizador requiere el nombre real del modelo, además del deployment.")
+            vectorizadores.append(
+                AzureOpenAIVectorizer(
+                    vectorizer_name=VECTORIZADOR,
+                    parameters=AzureOpenAIVectorizerParameters(
+                        resource_url=url,
+                        deployment_name=deployment,
+                        model_name=modelo,
+                    ),
+                )
+            )
         vector_search = VectorSearch(
             algorithms=[HnswAlgorithmConfiguration(name=ALGORITMO_VECTOR)],
-            profiles=[VectorSearchProfile(name=PERFIL_VECTOR, algorithm_configuration_name=ALGORITMO_VECTOR)],
+            profiles=[
+                VectorSearchProfile(
+                    name=PERFIL_VECTOR,
+                    algorithm_configuration_name=ALGORITMO_VECTOR,
+                    vectorizer_name=VECTORIZADOR if vectorizador else None,
+                )
+            ],
+            vectorizers=vectorizadores,
         )
     semantica = SemanticSearch(
         default_configuration_name=NOMBRE_SEMANTICA,
