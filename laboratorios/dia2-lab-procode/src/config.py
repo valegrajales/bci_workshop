@@ -57,6 +57,7 @@ class Settings:
     search_endpoint: str
     search_index: str
     nivel_usuario: str
+    embedding_model_name: str = ""
 
     @property
     def usa_vectores(self) -> bool:
@@ -77,6 +78,7 @@ def cargar_settings(recargar_env: bool = True) -> Settings:
         search_endpoint=obtener("AZURE_SEARCH_ENDPOINT"),
         search_index=obtener("AZURE_SEARCH_INDEX_NAME", "normativa-austral"),
         nivel_usuario=nivel,
+        embedding_model_name=obtener("FOUNDRY_EMBEDDING_MODEL_NAME"),
     )
 
 

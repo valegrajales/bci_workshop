@@ -116,9 +116,105 @@ def test_definicion_del_indice():
     assert campos["id"]["key"] is True and campos["nivel_acceso"]["filterable"] is True
     assert campos["contenido"]["analyzer"] == "es.microsoft"
     assert campos["vector"]["dimensions"] == 1536 and campos["vector"]["vectorSearchProfile"] == busqueda.PERFIL_VECTOR
+    assert campos["vector"]["retrievable"] is False
+    assert "vectorizer" not in d["vectorSearch"]["profiles"][0]
     assert d["semantic"]["configurations"][0]["name"] == busqueda.NOMBRE_SEMANTICA
     sin_vectores = busqueda.construir_indice("prueba", None).as_dict()
     assert "vector" not in {f["name"] for f in sin_vectores["fields"]} and "vectorSearch" not in sin_vectores
+
+
+def test_indice_con_vectorizador_para_retrieval_agentico():
+    pytest.importorskip("azure.search.documents")
+    d = busqueda.construir_indice(
+        "prueba", 3072, ("https://recurso.openai.azure.com", "text-embedding-3-large")
+    ).as_dict()
+    vec = d["vectorSearch"]["vectorizers"][0]
+    assert vec["name"] == busqueda.VECTORIZADOR and vec["kind"] == "azureOpenAI"
+    assert vec["azureOpenAIParameters"]["resourceUri"] == "https://recurso.openai.azure.com"
+    assert vec["azureOpenAIParameters"]["deploymentId"] == "text-embedding-3-large"
+    assert vec["azureOpenAIParameters"]["modelName"] == "text-embedding-3-large"
+    assert d["vectorSearch"]["profiles"][0]["vectorizer"] == busqueda.VECTORIZADOR
+
+
+def test_vectorizador_desde_settings():
+    from config import Settings
+
+    from dataclasses import replace
+
+    s = Settings(
+        project_endpoint="https://bci-demo.services.ai.azure.com/api/projects/p",
+        model="", embedding_model="text-embedding-3-large",
+        search_endpoint="", search_index="", nivel_usuario="interno",
+    )
+    assert busqueda.vectorizador_desde_settings(s) == (
+        "https://bci-demo.openai.azure.com", "text-embedding-3-large", "text-embedding-3-large"
+    )
+    alias = replace(s, embedding_model="emb", embedding_model_name="text-embedding-3-large")
+    vectorizador = busqueda.vectorizador_desde_settings(alias)
+    assert vectorizador == ("https://bci-demo.openai.azure.com", "emb", "text-embedding-3-large")
+    parametros = busqueda.construir_indice("prueba", 3072, vectorizador).as_dict()[
+        "vectorSearch"
+    ]["vectorizers"][0]["azureOpenAIParameters"]
+    assert parametros["deploymentId"] == "emb" and parametros["modelName"] == "text-embedding-3-large"
+    with pytest.raises(ValueError, match="FOUNDRY_EMBEDDING_MODEL_NAME"):
+        busqueda.vectorizador_desde_settings(replace(s, embedding_model="emb"))
+    with pytest.raises(ValueError, match="modelo"):
+        busqueda.construir_indice("prueba", 3072, ("https://recurso.openai.azure.com", "emb"))
+    assert busqueda.vectorizador_desde_settings(replace(s, embedding_model="")) is None
+
+
+@pytest.mark.parametrize("sin_vectores", [True, False])
+def test_creacion_del_indice_sin_azure(monkeypatch, sin_vectores):
+    import importlib.util
+    from types import SimpleNamespace
+
+    from config import Settings
+
+    ruta = Path(__file__).resolve().parent.parent / "src" / "01_crear_indice.py"
+    spec = importlib.util.spec_from_file_location("crear_indice", ruta)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    settings = Settings(
+        project_endpoint="" if sin_vectores else "https://recurso.services.ai.azure.com/api/projects/p",
+        model="", embedding_model="alias", embedding_model_name="" if sin_vectores else "text-embedding-3-large",
+        search_endpoint="https://prueba.search.windows.net", search_index="prueba", nivel_usuario="interno",
+    )
+    recibido = {}
+
+    class Contexto:
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *args):
+            pass
+
+    class ClienteFalso(Contexto):
+        def __init__(self, *args):
+            pass
+
+        async def create_or_update_index(self, indice):
+            recibido["indice"] = indice.as_dict()
+
+        async def upload_documents(self, documentos):
+            recibido["documentos"] = documentos
+            return [SimpleNamespace(succeeded=True) for _ in documentos]
+
+    async def embeddings(textos, *args):
+        assert not sin_vectores, "--sin-vectores no debe invocar embeddings"
+        return [[0.1, 0.2] for _ in textos]
+
+    monkeypatch.setattr(mod, "cargar_settings", lambda: settings)
+    monkeypatch.setattr(busqueda, "credencial", Contexto)
+    monkeypatch.setattr(busqueda, "generar_embeddings", embeddings)
+    monkeypatch.setattr("azure.search.documents.indexes.aio.SearchIndexClient", ClienteFalso)
+    monkeypatch.setattr("azure.search.documents.aio.SearchClient", ClienteFalso)
+    asyncio.run(mod.crear(SimpleNamespace(indice=None, sin_vectores=sin_vectores, recrear=False)))
+    indice = recibido["indice"]
+    assert ("vectorSearch" in indice) is (not sin_vectores)
+    assert all(("vector" in d) is (not sin_vectores) for d in recibido["documentos"])
+    if not sin_vectores:
+        parametros = indice["vectorSearch"]["vectorizers"][0]["azureOpenAIParameters"]
+        assert parametros["deploymentId"] == "alias" and parametros["modelName"] == "text-embedding-3-large"
 
 
 def test_todos_los_campos_del_fragmento_existen_en_el_indice():

@@ -273,6 +273,11 @@ python src\01_crear_indice.py --indice normativa-<tu-inicial> # requiere Search 
 ```
 
 Luego cambia `AZURE_SEARCH_INDEX_NAME` en tu `.env`. Si no hay deployment de embeddings, agrega `--sin-vectores`.
+Al crear un índice con vectores se agrega un vectorizador para consultas de texto vectorizadas por Search
+(el agente del laboratorio sigue generando sus vectores en Python). Si el deployment tiene un alias,
+define también `FOUNDRY_EMBEDDING_MODEL_NAME` con el modelo real (`text-embedding-3-small`,
+`text-embedding-3-large` o `text-embedding-ada-002`). La identidad administrada de Search necesita
+`Cognitive Services OpenAI User` sobre el recurso de embeddings para invocar ese vectorizador.
 </details>
 
 ### Tarea 3 — Implementa y prueba una herramienta propia (25 min)
@@ -409,4 +414,3 @@ Código y documentación oficial en los que se basa el kit (verifica siempre la 
 
 > Las funcionalidades marcadas **(preview)** (p. ej. *knowledge bases* de Azure AI Search y la síntesis de respuestas) pueden cambiar y no se recomiendan para producción.
 > El escenario, los documentos y los datos de este laboratorio son **ficticios**.
-

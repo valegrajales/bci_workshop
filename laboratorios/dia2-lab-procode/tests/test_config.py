@@ -8,7 +8,7 @@ def _limpiar(monkeypatch):
     for nombre in (
         "FOUNDRY_PROJECT_ENDPOINT", "AZURE_AI_PROJECT_ENDPOINT", "FOUNDRY_MODEL",
         "AZURE_AI_MODEL_DEPLOYMENT_NAME", "FOUNDRY_EMBEDDING_MODEL", "AZURE_SEARCH_ENDPOINT",
-        "AZURE_SEARCH_INDEX_NAME", "LAB_NIVEL_USUARIO",
+        "AZURE_SEARCH_INDEX_NAME", "LAB_NIVEL_USUARIO", "FOUNDRY_EMBEDDING_MODEL_NAME",
     ):
         monkeypatch.delenv(nombre, raising=False)
 
@@ -18,6 +18,7 @@ def test_valores_por_defecto(monkeypatch):
     s = c.cargar_settings(recargar_env=False)
     assert s.nivel_usuario == "interno" and s.search_index == "normativa-austral"
     assert s.usa_vectores is False
+    assert s.embedding_model_name == ""
 
 
 def test_alias_del_workshop_y_placeholders(monkeypatch):
@@ -25,8 +26,10 @@ def test_alias_del_workshop_y_placeholders(monkeypatch):
     monkeypatch.setenv("AZURE_AI_PROJECT_ENDPOINT", "https://x.services.ai.azure.com/api/projects/p")
     monkeypatch.setenv("FOUNDRY_MODEL", "<tu-deployment>")  # placeholder de .env.example: se ignora
     monkeypatch.setenv("AZURE_AI_MODEL_DEPLOYMENT_NAME", "gpt-4o")
+    monkeypatch.setenv("FOUNDRY_EMBEDDING_MODEL_NAME", "text-embedding-3-large")
     s = c.cargar_settings(recargar_env=False)
     assert s.project_endpoint.endswith("/projects/p") and s.model == "gpt-4o"
+    assert s.embedding_model_name == "text-embedding-3-large"
 
 
 def test_nivel_invalido_falla(monkeypatch):

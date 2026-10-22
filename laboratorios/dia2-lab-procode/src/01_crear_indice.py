@@ -10,6 +10,8 @@ variante para participantes con permisos: usa un índice propio con --indice nor
 
 Roles (Microsoft Entra ID): Search Service Contributor + Search Index Data Contributor en el servicio de
 Search; Foundry User en el proyecto (embeddings). Requiere el ranker semántico habilitado en el servicio.
+Las consultas vectorizadas por Search requieren además su identidad administrada con el rol
+Cognitive Services OpenAI User sobre el recurso de embeddings.
 """
 from __future__ import annotations
 
@@ -35,6 +37,7 @@ async def crear(args) -> None:
     nombre = args.indice or settings.search_index
     requeridos = ["search_endpoint"] + ([] if args.sin_vectores else ["project_endpoint", "embedding_model"])
     exigir(settings, *requeridos)
+    vectorizador = None if args.sin_vectores else busqueda.vectorizador_desde_settings(settings)
     corpus = cargar_corpus()
     resumen(corpus)
 
@@ -57,8 +60,11 @@ async def crear(args) -> None:
                     print(f"Índice '{nombre}' eliminado.")
                 except Exception:  # noqa: BLE001 - si no existía, seguimos
                     pass
-            await indices.create_or_update_index(busqueda.construir_indice(nombre, dimensiones))
-            print(f"Índice '{nombre}' listo (vectores: {dimensiones or 'no'}; semántico: {busqueda.NOMBRE_SEMANTICA}).")
+            await indices.create_or_update_index(busqueda.construir_indice(nombre, dimensiones, vectorizador))
+            print(
+                f"Índice '{nombre}' listo (vectores: {dimensiones or 'no'}; "
+                f"vectorizador: {vectorizador[1] if vectorizador else 'no'}; semántico: {busqueda.NOMBRE_SEMANTICA})."
+            )
 
         documentos = [
             {**f, **({busqueda.CAMPO_VECTOR: vectores[i]} if vectores else {})} for i, f in enumerate(corpus)
