@@ -26,3 +26,16 @@ python evaluar-groundedness.py
 ```
 
 Ver resultados en el portal: Foundry → proyecto `bci-workshop` → **Build → Evaluations** → `normativa-groundedness` → comparar los dos runs.
+
+## Evaluación del uso de la tool
+
+Evaluación adicional `eval_019f40144dec4ec189af07d0900a4c81` (`normativa-uso-de-tool`), mismo dataset v2, mismo juez `gpt-6.1-sol`, evaluadores `builtin.tool_call_accuracy` y `builtin.tool_selection`. La evaluación de groundedness anterior no se modificó. Script: `evaluar-uso-tool.py`.
+
+| Agente | Preguntas con llamada a la tool | Evaluadas y aprobadas | No evaluables (sin llamada) |
+|---|---|---|---|
+| `normativa-falla` | 4 / 16 (25 %) | 4 / 4 | 12 |
+| `normativa-corregido` | 16 / 16 (100 %) | 16 / 16 | 0 |
+
+- Cuando hay llamada, ambos agentes la hacen bien (`tool_call_accuracy` 5, `tool_selection` aprobado): el problema de `falla` no es cómo usa la tool, sino que **no la usa** en 12 de 16 preguntas.
+- Los evaluadores marcan "Not applicable" si no hay llamadas, así que no penalizan la omisión. Por eso la métrica clave es la **tasa de uso de la tool** (llamadas / preguntas), contada de la salida del agente, y coincide con los "no evaluables".
+- Variabilidad: en esta corrida `falla` llamó a la tool en 4 preguntas (q12-q15); en la de groundedness también en q10 (5). El modelo no es determinista.

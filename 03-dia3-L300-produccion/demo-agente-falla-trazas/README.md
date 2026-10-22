@@ -100,6 +100,8 @@ Mide con el mismo dataset cuántas respuestas de cada agente están respaldadas 
 - **Ejecutar:** `python evaluacion\evaluar-groundedness.py` (requiere `az login`, `pip install azure-ai-projects azure-identity`).
 - **Portal:** Build → Evaluations → `normativa-groundedness` → seleccionar los dos runs → Compare.
 
+- **Uso de la tool:** `python evaluacion\evaluar-uso-tool.py` (`builtin.tool_call_accuracy` + `builtin.tool_selection`): `falla` llama a la tool en 4/16 preguntas, `corregido` en 16/16. Ver `evaluacion\resultados.md`.
+
 ## Notas técnicas
 
 - Esta tool MCP ya instruye al modelo a enviar **una sola pregunta completa** en `query_variants` y el knowledge base hace la descomposición; por eso en las pruebas intentar forzar consultas absurdas (una palabra, en inglés) **no fue efectivo**: el modelo las ignoraba. La falla fiable es la de **alcance**: decir que la tool no cubre el tema.
@@ -114,3 +116,4 @@ Mide con el mismo dataset cuántas respuestas de cada agente están respaldadas 
 | La tool no aparece al agregarla | Falta la conexión `kb-normativa-mcp` | Revisa **Management center → Connected resources** |
 | No hay trazas | Tracing sin App Insights o demora | Conecta `bci-workshop-appinsights-7891`; espera 2–5 min |
 | El agente con falla sí llama a la tool | Variabilidad del modelo | Repite o usa una pregunta de incidentes/KYC |
+
