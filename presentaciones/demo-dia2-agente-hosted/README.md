@@ -34,7 +34,7 @@ azd env new demo-dia2          # nombre del entorno azd
 azd provision                  # crea proyecto Foundry, modelo, ACR y Application Insights
 ```
 
-Si ya tienes un proyecto Foundry, **no** uses `azd provision` ni `azd ai agent init -m .\azure.yaml -p ...` (falla con `project directory ... overlaps with template source` o `a project azure.yaml already exists`, porque esta carpeta ya es un proyecto azd). Sigue la alternativa "Imagen propia en un proyecto Foundry existente" de la sección de despliegue, ejecutando `azd ai agent init --image ...` desde una carpeta de trabajo **fuera** de esta.
+Si ya tienes un proyecto Foundry, **no** uses `azd provision` ni `azd ai agent init -m .\azure.yaml -p ...` (falla con `project directory ... overlaps with template source` o `a project azure.yaml already exists`, porque esta carpeta ya es un proyecto azd). Sigue la alternativa "Proyecto Foundry existente" de la sección de despliegue, ejecutando `azd ai agent init --src ...` desde una carpeta de trabajo **fuera** de esta.
 
 Prueba local (opcional, recomendado el día anterior):
 
@@ -58,14 +58,27 @@ azd deploy
 `azd` construye el `Dockerfile` en ACR (build remoto), registra una **versión** del agente en Foundry Agent Service, crea su **identidad Entra** y asigna los permisos de pull de la imagen. Al terminar muestra el enlace al *playground* y el endpoint del agente. Verifica con `azd ai agent show`.
 
 Alternativas:
-- **Imagen propia en un proyecto Foundry existente** (flujo probado contra `bci-workshop`):
-  1. `.\scripts\construir-contenedor.ps1 -Registro <acr> -Tag v1` (usa `az acr build`).
-  2. Da al *managed identity* del proyecto el rol **AcrPull** sobre el ACR (en registros con ABAC, *Container Registry Repository Reader*). Sin él, el deploy falla con `[ImageError] Container registry authentication failed`.
-  3. En una carpeta de trabajo: `azd ai agent init --no-prompt -e <env> --agent-name agente-gastos-hosted --project-id <id-del-proyecto> --model-deployment <deployment> --image <acr>.azurecr.io/agente-gastos:v1 --protocol responses`.
-  4. Agrega a `azure.yaml`, bajo el servicio, `env: { AZURE_AI_MODEL_DEPLOYMENT_NAME: ${AZURE_AI_MODEL_DEPLOYMENT_NAME} }` y ejecuta `azd env set AZURE_AI_MODEL_DEPLOYMENT_NAME <deployment>`.
-  5. `azd deploy` y `azd ai agent invoke agente-gastos-hosted "<pregunta>"`.
+- **Proyecto Foundry existente, azd construye la imagen desde el código** (flujo probado contra `bci-workshop`). Desde una carpeta de trabajo vacía y **fuera** de esta demo, con el código copiado a una subcarpeta (p. ej. `.\agente-gastos-hosted`):
+  1. `azd ai agent init --no-prompt -e <env> --agent-name <nombre> --src .\agente-gastos-hosted --deploy-mode container --project-id <id-del-proyecto> --model-deployment <deployment> --protocol responses`. Genera `azure.yaml` con `docker.remoteBuild: true` y `env: AZURE_AI_MODEL_DEPLOYMENT_NAME`; no construye ninguna imagen todavía.
+  2. El proyecto necesita un ACR para guardar la imagen. Para usar uno existente (en vez de que `azd provision` cree uno nuevo):
+     ```powershell
+     azd env set AZURE_CONTAINER_REGISTRY_ENDPOINT <acr>.azurecr.io
+     azd env set AZURE_CONTAINER_REGISTRY_RESOURCE_ID <resource-id-del-acr>
+     azd env set AZD_FOUNDRY_ACR_MODE existing
+     azd env set AZD_FOUNDRY_ACR_PULL_ASSIGNED true
+     azd env set AI_AGENT_PENDING_PROVISION ""
+     ```
+  3. Da al *managed identity* del proyecto el rol **AcrPull** sobre ese ACR (en registros con ABAC, *Container Registry Repository Reader*). Sin él el deploy falla con `[ImageError] Container registry authentication failed`.
+  4. `azd deploy` (construye la imagen en el ACR y registra la versión) y luego `azd ai agent invoke <nombre> "<pregunta>"`.
+- **Imagen ya construida** (sin build en `azd`):
+  1. `.\scripts\construir-contenedor.ps1 -Registro <acr> -Tag v1` (usa `az acr build`) y el rol AcrPull del punto 3 anterior.
+  2. En una carpeta de trabajo: `azd ai agent init --no-prompt -e <env> --agent-name agente-gastos-hosted --project-id <id-del-proyecto> --model-deployment <deployment> --image <acr>.azurecr.io/agente-gastos:v1 --protocol responses`.
+  3. Agrega a `azure.yaml`, bajo el servicio, `env: { AZURE_AI_MODEL_DEPLOYMENT_NAME: ${AZURE_AI_MODEL_DEPLOYMENT_NAME} }` y ejecuta `azd env set AZURE_AI_MODEL_DEPLOYMENT_NAME <deployment>`.
+  4. `azd deploy` y `azd ai agent invoke agente-gastos-hosted "<pregunta>"`.
 
-  Si `azd` indica `not logged in` o un token expirado, haz `azd auth login` o `azd config set auth.useAzCliAuth true` para usar la sesión de `az`. Ver [Deploy a hosted agent](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/deploy-hosted-agent).
+  Si `azd deploy` pide `AZURE_CONTAINER_REGISTRY_ENDPOINT`, el entorno no quedó en modo "sin ACR": define `AZD_AGENT_SKIP_ACR=true` y `AZD_FOUNDRY_ACR_MODE=none` con `azd env set`.
+
+Si `azd` indica `not logged in` o un token expirado, haz `azd auth login` o `azd config set auth.useAzCliAuth true` para usar la sesión de `az`. Ver [Deploy a hosted agent](https://learn.microsoft.com/en-us/azure/foundry/agents/how-to/deploy-hosted-agent).
 - **Docker local en vez de ACR**: descomenta `docker.remoteBuild: false` en `azure.yaml`.
 
 ## Guion de la demo (los 4 pasos de la lámina)
