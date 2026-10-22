@@ -34,7 +34,7 @@ azd env new demo-dia2          # nombre del entorno azd
 azd provision                  # crea proyecto Foundry, modelo, ACR y Application Insights
 ```
 
-Si ya tienes un proyecto Foundry, usa `azd ai agent init --help` (opciones `-m .\azure.yaml -p <resource-id del proyecto>`) para enlazarlo en vez de aprovisionar uno nuevo.
+Si ya tienes un proyecto Foundry, **no** uses `azd provision` ni `azd ai agent init -m .\azure.yaml -p ...` (falla con `project directory ... overlaps with template source` o `a project azure.yaml already exists`, porque esta carpeta ya es un proyecto azd). Sigue la alternativa "Imagen propia en un proyecto Foundry existente" de la sección de despliegue, ejecutando `azd ai agent init --image ...` desde una carpeta de trabajo **fuera** de esta.
 
 Prueba local (opcional, recomendado el día anterior):
 
