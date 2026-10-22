@@ -211,7 +211,7 @@ function build(contentPath, outDir) {
         });
       } else if (L === "table") {
         const nc = s.columns.length;
-        const fs = s.rows.length <= 4 ? 17 : s.rows.length <= 5 ? 16 : s.rows.length <= 6 ? 14.5 : 13.5;
+        const fs = s.fs || (s.rows.length <= 4 ? 17 : s.rows.length <= 5 ? 16 : s.rows.length <= 6 ? 14.5 : 13.5);
         const longest = (t) => Math.max(...String(t).split(/\s+/).map(w => w.length));
         const minW = s.columns.map((c, ci) => Math.max(longest(c) * 1.1, ...s.rows.map(r => Math.min(longest(r[ci]), 14))) * fs * 0.58 / 72 + 0.45);
         const wts = s.columns.map((c, ci) => Math.min(40, Math.max(8, c.length, ...s.rows.map(r => String(r[ci]).length))));

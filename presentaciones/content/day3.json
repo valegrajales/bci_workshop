@@ -11,7 +11,7 @@
    "title": "Microsoft AI Foundry BCI Training Day — Día 3",
    "subtitle": "L300 · Arquitecturas avanzadas, seguridad y operación de agentes",
    "meta": "Viernes 23 de octubre de 2026 ·    09:00–13:00 Chile · Microsoft Chile + Teams",
-      "notes": "Bienvenida al tercer y último día del training. Hoy pasamos de construir agentes a operarlos como plataforma empresarial: arrancamos con observabilidad y ciclo de vida usando el proyecto de ayer, seguimos con protocolos de interoperabilidad y patrones multiagente, arquitectura empresarial, y seguridad y gobierno, cerrando con un workshop aplicado a un caso propio. La audiencia de hoy es más técnica y transversal: arquitectos, ingenieros de plataforma, seguridad, SRE/DevOps, gobierno e IA. El objetivo final es dejar una arquitectura objetivo validada y un backlog priorizado de decisiones y pruebas. Recordar que el contenido de hoy asume ya experiencia previa con agentes hospedados, APIM, MCP y evaluaciones vista en los días anteriores. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
+   "notes": "Bienvenida al tercer y último día del training. Hoy pasamos de construir agentes a operarlos como plataforma empresarial: arrancamos con observabilidad y ciclo de vida usando el proyecto de ayer, seguimos con protocolos de interoperabilidad y patrones multiagente, arquitectura empresarial, y seguridad y gobierno, cerrando con un workshop aplicado a un caso propio. La audiencia de hoy es más técnica y transversal: arquitectos, ingenieros de plataforma, seguridad, SRE/DevOps, gobierno e IA. El objetivo final es dejar una arquitectura objetivo validada y un backlog priorizado de decisiones y pruebas. Recordar que el contenido de hoy asume ya experiencia previa con agentes hospedados, APIM, MCP y evaluaciones vista en los días anteriores. Sugerido: Pablo y Valentina. Fuente: 00-agenda-y-contexto/MATERIALS_INDEX.md"
   },
   {
    "layout": "agenda",
@@ -181,6 +181,295 @@
    ],
    "note": "Evalúa durante el desarrollo y de forma recurrente sobre tráfico real.",
    "notes": "La evaluación no es un paso único, es un proceso continuo con tres niveles distintos. A nivel de turno medimos la calidad de una respuesta individual; a nivel de conversación, si el agente cumplió la tarea completa a lo largo de varios turnos; y a nivel de uso de tools, si eligió y llamó correctamente las herramientas disponibles. Foundry permite correr estos evaluadores durante el desarrollo y también de forma recurrente sobre tráfico real ya en producción. Sugerido: anticipar que más tarde, en seguridad y gobierno, se suman los evaluadores de seguridad, y que ambos conjuntos se combinan para un agente listo para producción. Fuente: docs-oficiales/foundry/concepts/evaluation-overview.md, docs-oficiales/foundry/concepts/built-in-evaluators.md."
+  },
+  {
+   "layout": "grid",
+   "title": "Métricas de evaluación: el mapa completo",
+   "cells": [
+    {
+     "title": "Calidad de respuesta",
+     "body": "Coherence, Fluency. Qué tan clara y consistente es la respuesta, sin importar el tema."
+    },
+    {
+     "title": "RAG y retrieval",
+     "body": "Groundedness, Relevance, Retrieval, Response Completeness. ¿Responde con base en lo recuperado?"
+    },
+    {
+     "title": "Agente y tareas",
+     "body": "Intent Resolution, Task Adherence, Task Completion, Navigation Efficiency."
+    },
+    {
+     "title": "Uso de herramientas",
+     "body": "Tool Selection, Tool Call Accuracy, Tool Input Accuracy, Tool Output Utilization, Tool Call Success."
+    },
+    {
+     "title": "Seguridad y riesgo",
+     "body": "Contenido dañino, Protected Materials, Indirect Attack (XPIA), Prohibited Actions, Sensitive Data Leakage."
+    },
+    {
+     "title": "Similitud y operación",
+     "body": "F1, BLEU, ROUGE, METEOR contra una respuesta esperada; latencia, tokens, costo y tasa de error."
+    }
+   ],
+   "notes": "Este slide es el mapa de los siguientes: Foundry agrupa sus evaluadores integrados en familias, y cada familia responde una pregunta distinta. Calidad de respuesta mide la forma; RAG mide si la respuesta se apoya en el contexto recuperado; agente y tareas mide si se cumplió el objetivo del usuario; uso de herramientas mide la mecánica de las llamadas; seguridad mide riesgos; y las métricas de similitud y operacionales cubren comparación contra una referencia y la salud del servicio. En los próximos slides vemos para cada familia cómo funciona la métrica, su ventaja y su desventaja. Sugerido: preguntar a la audiencia cuáles de estas familias miden hoy en sus pruebas. Fuente: docs-oficiales/foundry/concepts/built-in-evaluators.md"
+  },
+  {
+   "layout": "table",
+   "title": "Métricas de calidad de respuesta",
+   "columns": [
+    "Métrica",
+    "Cómo funciona",
+    "Ventaja",
+    "Desventaja"
+   ],
+   "rows": [
+    [
+     "Coherence",
+     "Un LLM juez puntúa de 1 a 5 el flujo lógico entre las ideas de la respuesta",
+     "No requiere respuesta de referencia; detecta respuestas desordenadas",
+     "Una respuesta coherente puede ser falsa; depende del modelo juez"
+    ],
+    [
+     "Fluency",
+     "Un LLM juez puntúa de 1 a 5 la calidad gramatical y la legibilidad",
+     "Barata y rápida de automatizar en volumen",
+     "Poco informativa en modelos actuales, casi todos puntúan alto"
+    ],
+    [
+     "Similarity",
+     "Un LLM juez compara la respuesta con una respuesta esperada (ground truth)",
+     "Tolera paráfrasis; útil con un dataset dorado",
+     "Exige construir y mantener respuestas de referencia"
+    ]
+   ],
+   "note": "Escala 1 a 5 con umbral configurable. Son métricas genéricas: no prueban que el agente sea correcto.",
+   "notes": "Estas métricas evalúan la forma de la respuesta. Coherence y Fluency se calculan con un modelo juez (LLM-as-judge) que recibe la consulta y la respuesta y devuelve una puntuación con su razonamiento; no necesitan referencia, por eso son fáciles de aplicar sobre tráfico real. Su límite es importante para arquitectos: una respuesta puede ser fluida y coherente y a la vez estar equivocada, así que nunca deben ser el único criterio. Similarity sí requiere una respuesta esperada y es la más útil cuando existe un dataset dorado. Sugerido: mostrar un ejemplo de respuesta fluida pero incorrecta. Fuente: docs-oficiales/foundry/concepts/built-in-evaluators.md; evaluation-evaluators/general-purpose-evaluators.md",
+   "fs": 15
+  },
+  {
+   "layout": "table",
+   "title": "Métricas para RAG y recuperación",
+   "columns": [
+    "Métrica",
+    "Cómo funciona",
+    "Ventaja",
+    "Desventaja"
+   ],
+   "rows": [
+    [
+     "Groundedness",
+     "Un LLM juez verifica si cada afirmación se apoya en el contexto recuperado (1 a 5)",
+     "Detecta alucinaciones sin necesitar respuesta de referencia",
+     "Si el contexto es malo pero la respuesta lo respeta, puntúa alto"
+    ],
+    [
+     "Relevance",
+     "Un LLM juez mide si la respuesta atiende la pregunta del usuario",
+     "Detecta respuestas fuera de tema o evasivas",
+     "No verifica que lo dicho sea correcto"
+    ],
+    [
+     "Retrieval",
+     "Un LLM juez puntúa qué tan relevantes y bien ordenados son los fragmentos recuperados",
+     "Aísla fallas del índice o del buscador, no del modelo",
+     "Subjetiva; cuesta una llamada al juez por consulta"
+    ],
+    [
+     "Document Retrieval",
+     "Calcula métricas como NDCG o precisión@k contra documentos etiquetados",
+     "Objetiva y reproducible; ideal para comparar configuraciones de búsqueda",
+     "Requiere etiquetar documentos relevantes a mano"
+    ]
+   ],
+   "note": "Groundedness Pro (preview) ofrece una versión pass/fail basada en Content Safety, sin desplegar un modelo.",
+   "notes": "Esta es la familia clave para el agente de normativa del día 2. Groundedness responde si el agente inventó algo; Relevance si respondió lo preguntado; Retrieval si el buscador trajo los documentos correctos; y Document Retrieval lo mide de forma objetiva contra etiquetas humanas. Juntas permiten separar un problema del índice de un problema del modelo: si Retrieval es bajo hay que arreglar la búsqueda, y si Retrieval es alto pero Groundedness bajo, el problema está en la generación. Sugerido: conectar con el caso fallido del ejercicio. Fuente: docs-oficiales/foundry/concepts/built-in-evaluators.md; evaluation-evaluators/rag-evaluators.md",
+   "fs": 14
+  },
+  {
+   "layout": "table",
+   "title": "Métricas de agente: cumplir la tarea",
+   "columns": [
+    "Métrica",
+    "Cómo funciona",
+    "Ventaja",
+    "Desventaja"
+   ],
+   "rows": [
+    [
+     "Intent Resolution",
+     "Un LLM juez evalúa si el agente identificó y atendió la intención real del usuario",
+     "Mide el resultado percibido por el usuario, no solo el texto",
+     "Intenciones ambiguas generan puntuaciones inconsistentes"
+    ],
+    [
+     "Task Adherence",
+     "Un LLM juez revisa si el agente siguió las instrucciones de sistema y la tarea identificada",
+     "Detecta desvíos de política, por ejemplo salirse del alcance autorizado",
+     "Depende de qué tan claras sean las instrucciones del agente"
+    ],
+    [
+     "Task Completion",
+     "Un LLM juez revisa si la tarea se completó de extremo a extremo",
+     "Es la métrica más cercana al valor de negocio",
+     "Preview; exige trazas completas y puede ser costosa"
+    ],
+    [
+     "Navigation Efficiency",
+     "Compara la secuencia de pasos del agente con una ruta esperada",
+     "Detecta pasos redundantes y loops que suben costo y latencia",
+     "Requiere definir la ruta óptima de antemano"
+    ]
+   ],
+   "note": "Varias son conversation-level: evalúan toda la interacción, no un turno aislado. Algunas están en preview.",
+   "notes": "Aquí medimos si el agente hizo su trabajo. Intent Resolution y Task Adherence miran la comprensión y el respeto de instrucciones; Task Completion mira el resultado final; Navigation Efficiency compara el camino contra uno esperado y es la única de esta familia que no usa un juez libre, sino una comparación contra referencia. Estas métricas necesitan el contexto completo de la conversación y de las llamadas, por eso dependen de la calidad de la traza vista antes. Varias están en preview, conviene validar su estabilidad antes de usarlas como criterio de salida a producción. Sugerido: pedir que definan qué sería completar la tarea en un caso bancario. Fuente: docs-oficiales/foundry/concepts/built-in-evaluators.md; evaluation-evaluators/agent-evaluators.md",
+   "fs": 14
+  },
+  {
+   "layout": "table",
+   "title": "Métricas de uso de herramientas",
+   "columns": [
+    "Métrica",
+    "Cómo funciona",
+    "Ventaja",
+    "Desventaja"
+   ],
+   "rows": [
+    [
+     "Tool Selection",
+     "Revisa si el agente eligió la herramienta más adecuada y eficiente",
+     "Detecta herramientas mal descritas o confundibles",
+     "Puede haber más de una opción válida"
+    ],
+    [
+     "Tool Call Accuracy",
+     "Puntúa la calidad global de la llamada: selección, parámetros y eficiencia",
+     "Una sola métrica resume el uso de tools",
+     "Agrega varios factores; cuesta ver cuál falló"
+    ],
+    [
+     "Tool Input Accuracy",
+     "Valida con criterios estrictos que cada parámetro sea correcto, completo y bien formado",
+     "Encuentra argumentos mal armados, la causa más común",
+     "Estricta: puede penalizar variaciones aceptables"
+    ],
+    [
+     "Tool Output Utilization",
+     "Verifica que el agente interprete y use bien el resultado de la tool",
+     "Detecta resultados ignorados o mal citados",
+     "Requiere acceso al resultado en la traza"
+    ],
+    [
+     "Tool Call Success",
+     "Revisa que las llamadas se ejecuten sin fallas técnicas",
+     "Objetiva y barata; detecta errores de integración",
+     "No dice si la llamada era la correcta"
+    ]
+   ],
+   "note": "Tool Use Quality (preview) agrupa varias de estas métricas en una sola llamada al juez.",
+   "notes": "Cuando un agente falla, muchas veces el problema está en las herramientas y no en el modelo. Estas cinco métricas descomponen el problema: elegir la tool, armar los argumentos, ejecutarla, y usar su resultado. Tool Call Accuracy es el resumen; las demás sirven para diagnosticar cuál de los pasos se rompe. Tool Call Success es la más simple y objetiva porque revisa errores técnicos, pero no sabe si la llamada era la adecuada. Sugerido: relacionar con el diseño de tools del día 2 y con 'No llama a la tool' del diagnóstico rápido. Fuente: docs-oficiales/foundry/concepts/built-in-evaluators.md; evaluation-evaluators/agent-evaluators.md",
+   "fs": 12.5
+  },
+  {
+   "layout": "table",
+   "title": "Métricas de riesgo y seguridad",
+   "columns": [
+    "Métrica",
+    "Cómo funciona",
+    "Ventaja",
+    "Desventaja"
+   ],
+   "rows": [
+    [
+     "Contenido dañino",
+     "Clasifica odio, sexual, violencia y autolesión con severidad por categoría",
+     "Cobertura estándar de responsabilidad en IA, sin armar un juez propio",
+     "Puede dar falsos positivos en contexto legítimo"
+    ],
+    [
+     "Protected Materials",
+     "Detecta texto con derechos de autor o material protegido",
+     "Reduce riesgo legal y reputacional",
+     "No cubre todas las fuentes posibles"
+    ],
+    [
+     "Indirect Attack (XPIA)",
+     "Mide si la respuesta cayó en instrucciones inyectadas en el contexto recuperado",
+     "Prueba un riesgo real de RAG y agentes",
+     "Necesita casos adversariales bien diseñados"
+    ],
+    [
+     "Prohibited Actions y Sensitive Data Leakage",
+     "Evalúan si el agente ejecuta acciones prohibidas o expone datos sensibles",
+     "Conecta la evaluación con políticas propias de BCI",
+     "Exigen definir qué es prohibido y qué es sensible"
+    ]
+   ],
+   "note": "Foundry recomienda sumar siempre estas métricas, sin importar el tipo de aplicación. Se profundizan en el módulo de seguridad.",
+   "notes": "Las métricas de riesgo se aplican a todo agente, no solo a los de cara al cliente. Las de contenido dañino devuelven una severidad por categoría. XPIA es especialmente relevante para agentes con RAG o herramientas, porque el contenido recuperado puede traer instrucciones maliciosas. Prohibited Actions y Sensitive Data Leakage son las más cercanas al contexto bancario, pero requieren que la organización defina sus propias políticas. Se retoman en el módulo de seguridad y red teaming. Sugerido: preguntar qué acciones nunca debería ejecutar un agente en BCI. Fuente: docs-oficiales/foundry/concepts/built-in-evaluators.md; evaluation-evaluators/risk-safety-evaluators.md",
+   "fs": 14
+  },
+  {
+   "layout": "table",
+   "title": "Métricas clásicas y operacionales",
+   "columns": [
+    "Métrica",
+    "Cómo funciona",
+    "Ventaja",
+    "Desventaja"
+   ],
+   "rows": [
+    [
+     "F1, BLEU, ROUGE, METEOR",
+     "Cuentan coincidencias de palabras o n-gramas entre la respuesta y una referencia",
+     "Determinísticas, gratuitas y reproducibles",
+     "Penalizan paráfrasis correctas; poco útiles en respuestas largas o abiertas"
+    ],
+    [
+     "Latencia",
+     "Mide el tiempo por etapa: arranque, modelo y herramientas",
+     "Objetiva; se ve directo en las trazas",
+     "No dice nada sobre la calidad de la respuesta"
+    ],
+    [
+     "Tokens y costo",
+     "Suma tokens de entrada y salida por consulta, sesión o consumidor",
+     "Base para FinOps y para comparar modelos",
+     "Un costo bajo puede esconder una calidad baja"
+    ],
+    [
+     "Tasa de error o éxito",
+     "Porcentaje de sesiones o llamadas completadas sin falla",
+     "Alimenta SLOs de disponibilidad",
+     "Éxito técnico no implica respuesta correcta"
+    ]
+   ],
+   "note": "Las operacionales salen de la telemetría, no de evaluadores: se combinan con las métricas de calidad.",
+   "notes": "Las métricas algorítmicas como F1, BLEU, ROUGE o METEOR comparan texto contra una respuesta esperada. Son baratas y reproducibles, pero en agentes conversacionales castigan paráfrasis válidas, por lo que sirven sobre todo para respuestas cortas y estructuradas, como extracción de campos. Las operacionales no son evaluadores: provienen de la telemetría y se usan para SLOs de latencia, costo y disponibilidad. Son el contrapeso de las métricas de calidad: un agente más preciso pero diez veces más caro puede no ser mejor. Sugerido: conectar con el slide de SLOs del workshop. Fuente: docs-oficiales/foundry/concepts/built-in-evaluators.md; evaluation-evaluators/textual-similarity-evaluators.md; concepts/manage-costs.md",
+   "fs": 14
+  },
+  {
+   "layout": "compare",
+   "title": "LLM como juez vs. métricas determinísticas",
+   "left": {
+    "title": "LLM como juez",
+    "items": [
+     "Ventaja: evalúa significado, tono y razonamiento, no solo texto",
+     "Ventaja: no necesita respuesta de referencia",
+     "Desventaja: tiene costo y latencia por cada evaluación",
+     "Desventaja: puede sesgarse y variar entre corridas"
+    ]
+   },
+   "right": {
+    "title": "Determinísticas y humanas",
+    "items": [
+     "Ventaja: reproducibles y baratas (F1, ROUGE, errores de tool)",
+     "Ventaja: la revisión humana es la referencia de calidad",
+     "Desventaja: no captan paráfrasis ni matices",
+     "Desventaja: la revisión humana no escala"
+    ]
+   },
+   "verdict": "Combina varias: un set mínimo por agente, umbrales propios y una muestra humana para calibrar al juez.",
+   "notes": "Cierre de esta sección: ninguna métrica es suficiente por sí sola. Foundry recomienda combinar evaluadores según el tipo de aplicación: para RAG, Retrieval más Groundedness más Relevance más seguridad; para agentes, calidad de salida, calidad de uso de herramientas y seguridad. Los jueces LLM entienden significado pero cuestan y varían; las métricas determinísticas son estables pero superficiales; la revisión humana es la referencia pero no escala. La práctica recomendada es calibrar el juez con una muestra revisada por personas y fijar umbrales propios con datos reales, tal como se hará en la tabla de SLOs del workshop. Sugerido: pedir que cada grupo elija su set mínimo de cuatro métricas. Fuente: docs-oficiales/foundry/concepts/built-in-evaluators.md (sección Combining evaluators); concepts/evaluation-overview.md"
   },
   {
    "layout": "process",
